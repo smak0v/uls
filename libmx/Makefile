@@ -237,7 +237,7 @@ mx_get_arr_length.o
 
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 
-all: install clean
+all: install
 
 install:
 	@cp $(SRCF) .
@@ -247,7 +247,7 @@ install:
 	@mkdir obj
 	@mv $(OBJ) ./obj
 
-uninstall:
+uninstall: clean
 	@rm -rf $(LIB_NAME)
 
 clean:
@@ -255,4 +255,4 @@ clean:
 	@rm -rf $(SRC)
 	@rm -rf ./obj
 
-reinstall: uninstall all
+reinstall: uninstall install

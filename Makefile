@@ -13,17 +13,29 @@ libmx/inc/libmx.h \
 inc/uls.h
 
 SRC = \
-main.c
+main.c \
+mx_errors_handler.c \
+mx_store_flags.c \
+mx_store_files.c \
+mx_check_flags.c
 
 SRCF = \
-src/main.c
+src/main.c \
+src/mx_errors_handler.c \
+src/mx_store_flags.c \
+src/mx_store_files.c \
+src/mx_check_flags.c \
 
 OBJ = \
-main.o
+main.o \
+mx_errors_handler.o \
+mx_store_flags.o \
+mx_store_files.o \
+mx_check_flags.o
 
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 
-all: install clean
+all: install
 
 install:
 	@make -C $(LIBMXF)
@@ -34,7 +46,7 @@ install:
 	@mkdir ./obj
 	@mv $(OBJ) ./obj
 
-uninstall:
+uninstall: clean
 	@make uninstall -C $(LIBMXF)
 	@rm -rf $(APP_NAME)
 
@@ -45,4 +57,4 @@ clean:
 	@rm -rf ./obj
 	@rm -rf uls.h.gch
 
-reinstall: uninstall all
+reinstall: uninstall install
