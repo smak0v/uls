@@ -40,6 +40,7 @@ int mx_get_arr_length(char **arr);
 void mx_del_intarr(int ***array, int length);
 void mx_intdel(int **arr);
 int mx_get_file_length(const char *file);
+int mx_count_unequal(char **arr);
 
 // String pack
 int mx_strlen(const char *s);
@@ -98,5 +99,9 @@ int mx_list_size(t_list *list);
 t_list *mx_sort_list(t_list *lst, bool (*cmp)(void *, void *));
 void mx_revers_list(t_list **list);
 bool mx_is_equal_lists(t_list *a, t_list *b);
+
+// Set pack
+bool mx_check_set(char **set, char *element, int set_size);
+char **mx_create_set(char **arr);
 
 #endif
