@@ -17,7 +17,7 @@
 #include <uuid/uuid.h>
 
 // Constants
-#define ALLOWED_FLAGS "lR"
+#define ALLOWED_FLAGS "Ral"
 // #define ALLOWED_FLAGS "ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1"
 
 

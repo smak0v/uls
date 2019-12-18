@@ -1,14 +1,9 @@
 #include "uls.h"
+#include <stdio.h>
 
-static void process_R(char **flags, t_list **list, t_list *data, char *path) {
-    t_data *info = (t_data *) data->data;
-    char *tmp = mx_strjoin(path, "/");
-    char *str = mx_strjoin(tmp, info->filename);
-
-    mx_read_data(flags, NULL, list, str);
-    mx_strdel(&tmp);
-    mx_strdel(&str);
-}
+// static void process_R(char **flags, t_list **list, char *path, char *filename) {
+//     // I'm rewriting it
+// }
 
 
 static void process_l(t_dnt *dir, t_st st, t_data *data) {
@@ -26,57 +21,64 @@ static void process_l(t_dnt *dir, t_st st, t_data *data) {
 
 
 static void gather_data(t_list **list, t_list *data, t_dnt *dir, char **flag, t_st st) {
-    t_data *info = malloc(sizeof(t_data));
+    t_data *info = NULL;
+    
+    if (!mx_search_strarr(flag, "a") && dir->d_name[0] == '.') {
+        return;
+    }
+
+    info = malloc(sizeof(t_data));
     info->filename = dir->d_name;
     info->is_dir = S_ISDIR(st.st_mode);
 
     if (mx_search_strarr(flag, "l")) {
         process_l(dir, st, info);
     }
-    else if (mx_search_strarr(flag, "R") && info->is_dir) {
-        process_R(flag, list, data, info->filename);
-    }
+    // else if (mx_search_strarr(flag, "R") && info->is_dir) {
+    //     process_R(flag, list, (char *) data->data, info->filename);
+    // }
 
-    mx_push_back(&data, (void *) data);
+    // Temporary code to avoid unused variable warning
+    t_list *node = *list;
+    node = NULL;
+
+    mx_push_back(&data, (void *) info);
 }
 
-
+// WILL REFACTOR THIS
 t_list *mx_read_data(char **flags, char **files, t_list **list, char *dirname) {
-    mx_printstr("hi1\n");
-    t_list *data = mx_create_node((void *) dirname);
+    t_list *data = NULL;
+    t_list *inner_data = NULL;
     DIR *directory = opendir(dirname);
     struct dirent *dir = NULL;
     struct stat *st = malloc(sizeof(struct stat));
 
-    mx_printstr("hi2\n");
-    mx_push_back(list, (void *) data);
-    mx_printstr("hi3\n");
+    mx_push_back(list, mx_create_node(dirname));
+    data = *list;
+    while (data->next) {
+        data = data->next;
+    }
+    inner_data = (t_list *) data->data;
     while ((dir = readdir(directory)) != NULL) {
-        //printf("ghee\n");
-        if (stat(dir->d_name, st) != 0) {
+        char *tmp = mx_strjoin(dirname, "/");
+        char *path = mx_strjoin(tmp, dir->d_name);
+        if (stat(path, st) != 0) {
             // SOME ERROR HANDLING HERE?
             mx_printstr("error in gather data: stat() != 0\n");
             exit(-1);
         }
-        if (*files == NULL) {
-            mx_printstr("hello\n");
-            gather_data(list, data, dir, flags, *st);
-            mx_printstr("yo\n");
+        if (!files || *files == NULL) {
+            gather_data(&data, inner_data, dir, flags, *st);
         }
         else if (mx_search_strarr(files, dir->d_name)) {
-            mx_printstr("shit\n");
             if (S_ISDIR(st->st_mode)) {
-                mx_printstr("nigga\n");
                 mx_read_data(flags, NULL, list, dir->d_name);
-                mx_printstr("mofo\n");
             }
             else {
-                mx_printstr("hi\n"); 
-                gather_data(list, data, dir, flags, *st);
+                gather_data(&data, inner_data, dir, flags, *st);
             }
         }
     }
-    mx_printstr("wtf?\n");
     free(st);
     return data;
 }
