@@ -21,17 +21,24 @@
 
 // Structures
 typedef struct s_uls {
-    char *filename;
-    char *lm_time;
-    long long file_size;
-    unsigned int group_id;
-    char *owner;
-    unsigned short links_cout;
     char *permissions;
-    char *extended_attrs;
-    char *full_path;
-    long long blocks_count;
-    char *text_acl;
+    bool acl;
+    char *attrs_text;
+    bool attrs;
+    char *acl_text;
+    nlink_t hard_links_count;
+    uid_t owner_id;
+    char *owner_name;
+    git_t group_id;
+    char *group_name;
+    off_t size_in_bytes;
+    struct timespec access_time;
+    struct timespec modification_time;
+    struct timespec status_change_time;
+    char *filename;
+    char *symlink;
+    ino_t serial_number;
+    char *file_flags;
 } t_uls;
 
 // Functions
@@ -41,7 +48,8 @@ void mx_errors_handler(char **flags, char **files);
 char *mx_check_flags(char **flags);
 char *mx_format_time(char *lm_time);
 void mx_print_spaces(int count);
-char *mx_get_permissions(unsigned short mode);
-void mx_print_permissions(unsigned short mode);
+char mx_get_file_type(mode_t mode);
+char *mx_get_permissions(mode_t mode);
+void mx_print_permissions(mode_t mode);
 
 #endif
