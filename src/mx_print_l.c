@@ -21,6 +21,21 @@ void mx_print_l(t_list **list) {
 
 static void print_data(t_data *data) {
     mx_printstr(data->permissions);
-    
+    mx_print_acl_xattr_or_nothing(data);
+    mx_printstr(data->links_count);
+    mx_print_spaces(1);
+    mx_printstr(data->owner);
+    mx_print_spaces(2);
+    mx_printstr(data->group);
+    mx_print_spaces(2);
+    mx_printstr(data->file_size);
+    mx_print_spaces(1);
+    mx_printstr(data->last_modified);
+    mx_print_spaces(1);
+    mx_printstr(data->filename);
+    if (data->symlink) {
+        mx_printstr(" -> ");
+        mx_printstr(data->symlink);
+    }
     mx_printchar('\n');
 }

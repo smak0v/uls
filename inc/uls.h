@@ -41,7 +41,7 @@ typedef struct s_uls {
     struct timespec modification_time;
     struct timespec status_change_time;
     char *filename;
-    
+    char *symlink;
     ino_t serial_number;
     char *file_flags;
 } t_uls;
@@ -55,10 +55,10 @@ typedef struct s_data {
     char *permissions;
     char *acl_text;
     char *xattr_text;
-    nlink_t links_count;
+    char *links_count;
     char *owner;
     char *group;
-    long long file_size;
+    char *file_size;
     char *last_modified;
     char *symlink;
 } t_data;
@@ -75,10 +75,19 @@ void mx_print_spaces(int count);
 char mx_get_file_type(mode_t mode);
 bool mx_search_strarr(char **strarr, char *str);
 
+char *mx_r_align(char *str, int spaces_count);
+char *mx_l_align(char *str, int spaces_count);
+void mx_right_align_links(t_list **list);
+void mx_right_align_size(t_list **list);
+void mx_left_align_owner(t_list **list);
+void mx_left_align_group(t_list **list);
+
 int mx_get_total(t_list **list);
 char *mx_get_permissions(mode_t mode);
 char *mx_get_acl(char *dirname);
 char *mx_get_xattr(char *dirname);
+char *mx_get_group(gid_t st_gid);
+char *mx_get_symlink(char *dirname, off_t st_size);
 
 void mx_print_total(t_list **list);
 void mx_print_acl_xattr_or_nothing(t_data *data);

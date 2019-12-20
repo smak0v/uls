@@ -58,6 +58,12 @@ int main(int argc, char *argv[]) {
     mx_read_data(flags, files, &data, ".");
     //mx_process_output(data, flags);
  
+    // For long output
+    mx_right_align_links(&data);
+    mx_left_align_owner(&data);
+    mx_left_align_group(&data);
+    mx_right_align_size(&data);
+
     mx_print_l(&data);
     // if (data) {
     //     print_list(&data);

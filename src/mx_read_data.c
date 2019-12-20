@@ -13,11 +13,12 @@ static void process_l(t_dnt *dir, t_st st, t_data *data) {
     data->permissions = mx_get_permissions(st.st_mode);
     data->acl_text = mx_get_acl(dir->d_name);
     data->xattr_text = mx_get_xattr(dir->d_name);
-    data->links_count = st.st_nlink;
-    data->owner = passwd_ptr->pw_name;
-    data->group = "GROUP"; // Get group string
-    data->file_size = st.st_size;
+    data->links_count = mx_itoa(st.st_nlink);
+    data->owner = mx_strdup(passwd_ptr->pw_name);
+    data->group = mx_get_group(st.st_gid);
+    data->file_size = mx_itoa(st.st_size);
     data->last_modified = mx_format_time(ctime(&st.st_mtimespec.tv_sec));
+    data->symlink = mx_get_symlink(dir->d_name, st.st_size);
 }
 
 
