@@ -22,7 +22,9 @@ mx_format_time.c \
 mx_print_spaces.c \
 mx_get_file_type.c \
 mx_get_permissions.c \
-mx_print_permissions.c
+mx_print_permissions.c \
+mx_read_data.c \
+utils.c
 
 SRCF = \
 src/main.c \
@@ -34,7 +36,9 @@ src/mx_format_time.c \
 src/mx_print_spaces.c \
 src/mx_get_file_type.c \
 src/mx_get_permissions.c \
-src/mx_print_permissions.c
+src/mx_print_permissions.c \
+src/mx_read_data.c \
+src/utils.c
 
 OBJ = \
 main.o \
@@ -46,7 +50,9 @@ mx_format_time.o \
 mx_print_spaces.o \
 mx_get_file_type.o \
 mx_get_permissions.o \
-mx_print_permissions.o
+mx_print_permissions.o \
+mx_read_data.o \
+utils.o
 
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 
