@@ -22,9 +22,14 @@ mx_format_time.c \
 mx_print_spaces.c \
 mx_get_file_type.c \
 mx_get_permissions.c \
-mx_print_permissions.c \
 mx_read_data.c \
-utils.c
+mx_search_strarr.c \
+mx_print_l.c \
+mx_get_total.c \
+mx_print_total.c \
+mx_get_acl.c \
+mx_get_xattr.c \
+mx_print_acl_xattr_or_nothing.c
 
 SRCF = \
 src/main.c \
@@ -36,9 +41,14 @@ src/mx_format_time.c \
 src/mx_print_spaces.c \
 src/mx_get_file_type.c \
 src/mx_get_permissions.c \
-src/mx_print_permissions.c \
 src/mx_read_data.c \
-src/utils.c
+src/mx_search_strarr.c \
+src/mx_print_l.c \
+src/mx_get_total.c \
+src/mx_print_total.c \
+src/mx_get_acl.c \
+src/mx_get_xattr.c \
+src/mx_print_acl_xattr_or_nothing.c
 
 OBJ = \
 main.o \
@@ -50,9 +60,14 @@ mx_format_time.o \
 mx_print_spaces.o \
 mx_get_file_type.o \
 mx_get_permissions.o \
-mx_print_permissions.o \
 mx_read_data.o \
-utils.o
+mx_search_strarr.o \
+mx_print_l.o \
+mx_get_total.o \
+mx_print_total.o \
+mx_get_acl.o \
+mx_get_xattr.o \
+mx_print_acl_xattr_or_nothing.o
 
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 

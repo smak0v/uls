@@ -9,12 +9,13 @@
 static void process_l(t_dnt *dir, t_st st, t_data *data) {
     struct passwd *passwd_ptr = getpwuid(st.st_uid);
 
+    data->blocks_count = st.st_blocks;
     data->permissions = mx_get_permissions(st.st_mode);
-    data->acl = acl_get_file(dir->d_name, ACL_TYPE_EXTENDED);
-    data->xattr = listxattr(dir->d_name, NULL, 0, XATTR_NOFOLLOW);
+    data->acl_text = mx_get_acl(dir->d_name);
+    data->xattr_text = mx_get_xattr(dir->d_name);
     data->links_count = st.st_nlink;
     data->owner = passwd_ptr->pw_name;
-    data->group = "GROUP"; // How to get string from st.st_gid?
+    data->group = "GROUP"; // Get group string
     data->file_size = st.st_size;
     data->last_modified = mx_format_time(ctime(&st.st_mtimespec.tv_sec));
 }
@@ -62,7 +63,7 @@ t_list *mx_read_data(char **flags, char **files, t_list **list, char *dirname) {
     while ((dir = readdir(directory)) != NULL) {
         char *tmp = mx_strjoin(dirname, "/");
         char *path = mx_strjoin(tmp, dir->d_name);
-        if (stat(path, st) != 0) {
+        if (lstat(path, st) != 0) {
             // SOME ERROR HANDLING HERE?
             mx_printstr("error in gather data: stat() != 0\n");
             exit(-1);
