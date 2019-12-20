@@ -20,6 +20,7 @@ mx_store_files.c \
 mx_check_flags.c \
 mx_format_time.c \
 mx_print_spaces.c \
+mx_get_file_type.c \
 mx_get_permissions.c \
 mx_print_permissions.c \
 mx_read_data.c \
@@ -33,6 +34,7 @@ src/mx_store_files.c \
 src/mx_check_flags.c \
 src/mx_format_time.c \
 src/mx_print_spaces.c \
+src/mx_get_file_type.c \
 src/mx_get_permissions.c \
 src/mx_print_permissions.c \
 src/mx_read_data.c \
@@ -46,6 +48,7 @@ mx_store_files.o \
 mx_check_flags.o \
 mx_format_time.o \
 mx_print_spaces.o \
+mx_get_file_type.o \
 mx_get_permissions.o \
 mx_print_permissions.o \
 mx_read_data.o \
@@ -53,7 +56,7 @@ utils.o
 
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 
-all: install
+all: install clean
 
 install:
 	@make -C $(LIBMXF)
@@ -64,7 +67,7 @@ install:
 	@mkdir ./obj
 	@mv $(OBJ) ./obj
 
-uninstall: clean
+uninstall:
 	@make uninstall -C $(LIBMXF)
 	@rm -rf $(APP_NAME)
 
@@ -75,4 +78,4 @@ clean:
 	@rm -rf ./obj
 	@rm -rf uls.h.gch
 
-reinstall: uninstall install
+reinstall: uninstall all

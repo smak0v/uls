@@ -80,6 +80,9 @@ mx_sort_list.c \
 mx_reverse_list.c \
 mx_is_equal_lists.c \
 mx_get_arr_length.c \
+mx_count_unequal.c \
+mx_check_set.c \
+mx_create_set.c
 
 SRCF = \
 src/mx_binary_search.c \
@@ -156,7 +159,10 @@ src/mx_list_size.c \
 src/mx_sort_list.c \
 src/mx_reverse_list.c \
 src/mx_is_equal_lists.c \
-src/mx_get_arr_length.c
+src/mx_get_arr_length.c \
+src/mx_count_unequal.c \
+src/mx_check_set.c \
+src/mx_create_set.c
 
 OBJ = \
 mx_binary_search.o \
@@ -233,7 +239,10 @@ mx_list_size.o \
 mx_sort_list.o \
 mx_reverse_list.o \
 mx_is_equal_lists.o \
-mx_get_arr_length.o
+mx_get_arr_length.o \
+mx_count_unequal.o \
+mx_check_set.o \
+mx_create_set.o
 
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 

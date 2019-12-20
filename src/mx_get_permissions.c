@@ -1,9 +1,9 @@
 #include "uls.h"
 
-char *mx_get_permissions(unsigned short mode) {
+char *mx_get_permissions(mode_t mode) {
     char *permissions = mx_strnew(10);
 
-    permissions[0] = S_ISDIR(mode) ? 'd' : '-';
+    permissions[0] = mx_get_file_type(mode);
     permissions[1] = (mode & S_IRUSR) ? 'r' : '-';
     permissions[2] = (mode & S_IWUSR) ? 'w' : '-';
     permissions[3] = (mode & S_IXUSR) ? 'x' : '-';

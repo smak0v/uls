@@ -36,12 +36,14 @@ static int count_flags(int separated_flags_count, char **argv) {
 static char **store_flags(int separated_flags_count, char **argv) {
     int flags_count = count_flags(separated_flags_count, argv);
     char **flags = (char **)malloc(sizeof(char *) * (flags_count + 1));
+    char **set = NULL;
     int k = 0;
 
     for (int i = 1; i <= separated_flags_count; i++)
         for (int j = 1; j < mx_strlen(argv[i]); j++)
             flags[k++] = mx_strndup(&argv[i][j], 1);
     flags[k] = NULL;
-
-    return flags;
+    set = mx_create_set(flags);
+    mx_del_strarr(&flags);
+    return set;
 }
