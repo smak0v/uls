@@ -45,5 +45,7 @@ static char **store_flags(int separated_flags_count, char **argv) {
     flags[k] = NULL;
     set = mx_create_set(flags);
     mx_del_strarr(&flags);
+    mx_process_flags_override(set);
+
     return set;
 }

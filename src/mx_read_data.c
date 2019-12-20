@@ -1,9 +1,14 @@
 #include "uls.h"
 #include <stdio.h>
 
-// static void process_R(char **flags, t_list **list, char *path, char *filename) {
-//     // I'm rewriting it
-// }
+static void process_R(char **flags, t_list **list, char *path, char *filename) {
+    char *tmp = mx_strjoin(path, "/");
+    char *str = mx_strjoin(tmp, filename);
+
+    printf("new str: %s\n", str);
+    mx_read_data(flags, (char **) mx_create_node(NULL), list, str); 
+    mx_strdel(&tmp);
+}
 
 
 static void process_l(t_dnt *dir, t_st st, t_data *data) {
@@ -34,9 +39,9 @@ static void gather_data(t_list **list, t_list *data, t_dnt *dir, char **flag, t_
     if (mx_search_strarr(flag, "l")) {
         process_l(dir, st, info);
     }
-    // else if (mx_search_strarr(flag, "R") && info->is_dir) {
-    //     process_R(flag, list, (char *) data->data, info->filename);
-    // }
+    else if (mx_search_strarr(flag, "R") && info->is_dir) {
+        process_R(flag, list, (char *) data->data, info->filename);
+    }
 
     // Temporary code to avoid unused variable warning
     t_list *node = *list;

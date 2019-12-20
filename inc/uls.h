@@ -34,7 +34,7 @@ typedef struct s_uls {
     nlink_t hard_links_count;
     uid_t owner_id;
     char *owner_name;
-    git_t group_id;
+    gid_t group_id;
     char *group_name;
     off_t size_in_bytes;
     struct timespec access_time;
@@ -65,6 +65,7 @@ typedef struct s_data {
 t_list *mx_read_data(char **flags, char **files, t_list **list, char *dirname);
 
 char **mx_store_flags(int argc, char **argv);
+void mx_process_flags_override(char **set);
 char **mx_store_files(int argc, char **argv);
 void mx_errors_handler(char **flags, char **files);
 char *mx_check_flags(char **flags);
@@ -73,5 +74,6 @@ void mx_print_spaces(int count);
 char mx_get_file_type(mode_t mode);
 char *mx_get_permissions(mode_t mode);
 void mx_print_permissions(mode_t mode);
+bool mx_search_strarr(char **strarr, char *str);
 
 #endif

@@ -24,6 +24,7 @@ mx_get_file_type.c \
 mx_get_permissions.c \
 mx_print_permissions.c \
 mx_read_data.c \
+mx_process_flags_override.c \
 utils.c
 
 SRCF = \
@@ -38,6 +39,7 @@ src/mx_get_file_type.c \
 src/mx_get_permissions.c \
 src/mx_print_permissions.c \
 src/mx_read_data.c \
+src/mx_process_flags_override.c \
 src/utils.c
 
 OBJ = \
@@ -52,6 +54,7 @@ mx_get_file_type.o \
 mx_get_permissions.o \
 mx_print_permissions.o \
 mx_read_data.o \
+mx_process_flags_override.o \
 utils.o
 
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
