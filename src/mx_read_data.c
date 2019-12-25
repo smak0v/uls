@@ -30,7 +30,7 @@ static void gather_data(t_list **list, t_list *data, t_dnt *dir, char **flag, t_
     }
 
     info = malloc(sizeof(t_data));
-    info->filename = dir->d_name;
+    info->filename = mx_strdup(dir->d_name);
     info->is_dir = S_ISDIR(st.st_mode);
 
     if (mx_search_strarr(flag, "l")) {
