@@ -23,6 +23,7 @@ void mx_printstr_endl(const char *s);
 void mx_print_error(const char *error);
 void mx_print_error_endl(const char *error);
 void mx_print_strarr(char **arr, const char *delim);
+int mx_strarr_len(char **strarr);
 void mx_printint(int n);
 void mx_printint_endl(int n);
 double mx_pow(double n, unsigned int pow);

@@ -17,11 +17,33 @@
 #include <uuid/uuid.h>
 
 // Constants
-#define ALLOWED_FLAGS "Ral"
+#define ALLOWED_FLAGS "ACRalmx1"
+#define MODE_FLAGS "Clmx1"
+#define SORTING_FLAGS "Cx"
+#define DATA_FLAGS "ARal"
 // #define ALLOWED_FLAGS "ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1"
 
 
 // Structures
+typedef enum e_modes {
+    columns,
+    table,
+    commas,
+    line_break
+} t_mode_enum;
+
+typedef enum e_sorting {
+    standard,
+} t_sorting_enum;
+
+typedef enum e_data {
+    names,
+    l,
+    a,
+    A,
+    R
+} t_data_enum;
+
 typedef struct dirent t_dnt;
 typedef struct stat t_st;
 
@@ -66,8 +88,16 @@ typedef struct s_data {
     ssize_t xattr_value_length;
 } t_data;
 
+typedef struct s_settings {
+    int mode;
+    int sorting;
+    int data;
+} t_settings;
+
 // Functions
+t_settings *mx_setup(char **flags);
 t_list *mx_read_data(char **flags, char **files, t_list **list, char *dirname);
+void mx_process_output(t_list **data, t_settings *settings);
 
 char **mx_store_flags(int argc, char **argv);
 char **mx_store_files(int argc, char **argv);

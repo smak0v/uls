@@ -51,19 +51,14 @@
 int main(int argc, char *argv[]) {
     char **flags = mx_store_flags(argc, argv);
     char **files = mx_store_files(argc, argv);
+    t_settings *settings = NULL;
     t_list *data =  NULL;
 
+    settings = mx_setup(flags);
     mx_errors_handler(flags, files);
     mx_read_data(flags, files, &data, ".");
-    //mx_process_output(data, flags);
+    mx_process_output(&data, settings);
  
-    // For long output
-    mx_right_align_links(&data);
-    mx_left_align_owner(&data);
-    mx_left_align_group(&data);
-    mx_right_align_size(&data);
-    mx_sort_by_name(&data);
-    mx_print_l(&data);
     // if (data) {
     //     print_list(&data);
     // }
