@@ -17,7 +17,7 @@ static void process_l(t_dnt *dir, t_st st, t_data *data) {
     data->owner = mx_strdup(passwd_ptr->pw_name);
     data->group = mx_get_group(st.st_gid);
     data->file_size = mx_itoa(st.st_size);
-    data->last_modified = mx_format_time(ctime(&st.st_mtimespec.tv_sec));
+    data->last_modified = st.st_mtimespec.tv_sec;
     data->symlink = mx_get_symlink(dir->d_name, st.st_size);
 }
 

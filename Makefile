@@ -37,7 +37,9 @@ mx_l_align.c \
 mx_right_align_links.c \
 mx_right_align_size.c \
 mx_left_align_owner.c \
-mx_left_align_group.c
+mx_left_align_group.c \
+mx_print_date.c \
+mx_sort_by_name.c
 
 SRCF = \
 src/main.c \
@@ -64,7 +66,9 @@ src/mx_l_align.c \
 src/mx_right_align_links.c \
 src/mx_right_align_size.c \
 src/mx_left_align_owner.c \
-src/mx_left_align_group.c
+src/mx_left_align_group.c \
+src/mx_print_date.c \
+src/mx_sort_by_name.c
 
 OBJ = \
 main.o \
@@ -91,7 +95,9 @@ mx_l_align.o \
 mx_right_align_links.o \
 mx_right_align_size.o \
 mx_left_align_owner.o \
-mx_left_align_group.o
+mx_left_align_group.o \
+mx_print_date.o \
+mx_sort_by_name.o
 
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 

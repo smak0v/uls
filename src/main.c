@@ -1,5 +1,4 @@
 #include "uls.h"
-#include <stdio.h>
 
 // static void print_list(t_list **list) {
 //     if (!list) {
@@ -63,7 +62,7 @@ int main(int argc, char *argv[]) {
     mx_left_align_owner(&data);
     mx_left_align_group(&data);
     mx_right_align_size(&data);
-
+    mx_sort_by_name(&data);
     mx_print_l(&data);
     // if (data) {
     //     print_list(&data);

@@ -59,7 +59,7 @@ typedef struct s_data {
     char *owner;
     char *group;
     char *file_size;
-    char *last_modified;
+    long last_modified;
     char *symlink;
 } t_data;
 
@@ -89,8 +89,11 @@ char *mx_get_xattr(char *dirname);
 char *mx_get_group(gid_t st_gid);
 char *mx_get_symlink(char *dirname, off_t st_size);
 
+void mx_sort_by_name(t_list **list);
+
 void mx_print_total(t_list **list);
 void mx_print_acl_xattr_or_nothing(t_data *data);
+void mx_print_date(time_t date);
 
 void mx_print_l(t_list **list);
 

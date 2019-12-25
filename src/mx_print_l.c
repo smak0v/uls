@@ -30,7 +30,7 @@ static void print_data(t_data *data) {
     mx_print_spaces(2);
     mx_printstr(data->file_size);
     mx_print_spaces(1);
-    mx_printstr(data->last_modified);
+    mx_print_date(data->last_modified);
     mx_print_spaces(1);
     mx_printstr(data->filename);
     if (data->symlink) {
