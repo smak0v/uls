@@ -1,6 +1,7 @@
 #include "uls.h"
 
 static void print_data(t_data *data);
+static void print_size_or_major_minor(t_data *data);
 
 void mx_print_l(t_list **list) {
     t_list *node = *list;
@@ -28,7 +29,7 @@ static void print_data(t_data *data) {
     mx_print_spaces(2);
     mx_printstr(data->group);
     mx_print_spaces(2);
-    mx_printstr(data->file_size);
+    print_size_or_major_minor(data);
     mx_print_spaces(1);
     mx_print_date(data->last_modified);
     mx_print_spaces(1);
@@ -38,4 +39,19 @@ static void print_data(t_data *data) {
         mx_printstr(data->symlink);
     }
     mx_printchar('\n');
+}
+
+static void print_size_or_major_minor(t_data *data) {
+    if (S_ISCHR(data->mode) || S_ISBLK(data->mode)) {
+        mx_printint(major(data->st_rdev));
+        mx_print_spaces(3);
+        int minor_num = minor(data->st_rdev);
+        if (minor_num > 255) {
+            mx_printstr(mx_nbr_to_hex(minor_num));
+        }
+        else
+            mx_printint(minor_num);
+    }
+    else
+        mx_printstr(data->file_size);
 }

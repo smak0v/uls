@@ -1,5 +1,4 @@
 #include "uls.h"
-#include <stdio.h>
 
 static void process_R(char **flags, t_list **list, char *path, char *filename) {
     char *tmp = mx_strjoin(path, "/");
@@ -23,6 +22,8 @@ static void process_l(t_dnt *dir, t_st st, t_data *data) {
     data->file_size = mx_itoa(st.st_size);
     data->last_modified = st.st_mtimespec.tv_sec;
     data->symlink = mx_get_symlink(dir->d_name, st.st_size);
+    data->mode = st.st_mode;
+    data->st_rdev = st.st_rdev;
 }
 
 
