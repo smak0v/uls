@@ -12,7 +12,7 @@ static void process_l(t_dnt *dir, t_st st, t_data *data) {
     data->blocks_count = st.st_blocks;
     data->permissions = mx_get_permissions(st.st_mode);
     data->acl_text = mx_get_acl(dir->d_name);
-    data->xattr_text = mx_get_xattr(dir->d_name);
+    data->xattr_text = mx_get_xattr(dir->d_name, &data->xattr_value_length);
     data->links_count = mx_itoa(st.st_nlink);
     data->owner = mx_strdup(passwd_ptr->pw_name);
     data->group = mx_get_group(st.st_gid);

@@ -12,6 +12,6 @@ char *mx_get_permissions(mode_t mode) {
     permissions[6] = (mode & S_IXGRP) ? 'x' : '-';
     permissions[7] = (mode & S_IROTH) ? 'r' : '-';
     permissions[8] = (mode & S_IWOTH) ? 'w' : '-';
-    permissions[9] = (mode & S_IXOTH) ? 'x' : '-';
+    permissions[9] = (mode & S_ISVTX) ? 'T' : ((mode & S_IXOTH) ? 'x' : '-');
     return permissions;
 }
