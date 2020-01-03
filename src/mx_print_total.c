@@ -1,6 +1,6 @@
 #include "uls.h"
 
-void mx_print_total(t_list **list) {
+void mx_print_total(t_list *list) {
     char *total = mx_itoa(mx_get_total(list));
 
     mx_printstr("total ");

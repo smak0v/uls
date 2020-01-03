@@ -1,13 +1,5 @@
 #include "uls.h"
 
-static void print_table(t_list **data) {
-    mx_right_align_links(data);
-    mx_left_align_owner(data);
-    mx_left_align_group(data);
-    mx_right_align_size(data);
-    mx_print_l(data);
-}
-
 static void print_names(t_list **list, char *delim) {
     t_list *node = *list;
     t_list *inner_node = NULL;
@@ -36,32 +28,16 @@ static void print_names(t_list **list, char *delim) {
     }
 }
 
-// static void print_columns(t_list **data) {
-//     // to do
-// }
-
-// static void process_sorting(t_list **data, t_settings *settings) {
-//     t_sorting_enum mode;
-// }
-
 void mx_process_output(t_list **data, t_settings *settings) {
     t_mode_enum mode;
 
-    //process_sorting(data, settings); next line is temporary
     mx_sort_by_name(data);
-
-    if ((int) (mode = columns) == settings->mode) {
-        // print_columns(data);
+    if ((int)(mode = columns) == settings->mode)
         return;
-    }
-    else if ((int) (mode = table) == settings->mode) {
-        print_table(data);
-    }
-    else if ((int) (mode = commas) == settings->mode) {
+    else if ((int)(mode = table) == settings->mode)
+        mx_print_l(data);
+    else if ((int)(mode = commas) == settings->mode)
         print_names(data, ", ");
-    }
-    else { // mode = line_break
+    else
         print_names(data, "\n");
-    }
 }
-

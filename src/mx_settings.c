@@ -3,19 +3,14 @@
 static t_mode_enum process_mode(char flag) {
     t_mode_enum mode;
 
-    if (flag == 'C' || flag == 'x') {
+    if (flag == 'C' || flag == 'x')
         mode = columns;
-    }
-    else if (flag == 'l') {
+    else if (flag == 'l')
         mode = table;
-    }
-    else if (flag == 'm') {
+    else if (flag == 'm')
         mode = commas;
-    }
-    else { // flag = '1'
+    else
         mode = line_break;
-    }
-
     return mode;
 }
 
@@ -32,14 +27,11 @@ static int setup_mode(char **flags) {
                 break;
             }
         }
-        if (fish) {
+        if (fish)
             break;
-        }
     }
-    return (int) mode;
+    return (int)mode;
 }
-
-// static int setup_data(flags);
 
 t_settings *mx_setup(char **flags) {
     t_settings *setup = malloc(sizeof(t_settings));

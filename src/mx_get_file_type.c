@@ -1,19 +1,19 @@
 #include "uls.h"
 
 char mx_get_file_type(mode_t mode) {
-    if (S_ISBLK(mode))
+    if (IS_BLK(mode))
         return 'b';
-    if (S_ISCHR(mode))
+    if (IS_CHR(mode))
         return 'c';
-    if (S_ISDIR(mode))
+    if (IS_DIR(mode))
         return 'd';
-    if (S_ISLNK(mode))
+    if (IS_LNK(mode))
         return 'l';
-    if (S_ISSOCK(mode))
+    if (IS_SOCK(mode))
         return 's';
-    if (S_ISFIFO(mode))
+    if (IS_FIFO(mode))
         return 'p';
-    if (S_ISWHT(mode))
+    if (IS_WHT(mode))
         return 'w';
     return '-';
 }

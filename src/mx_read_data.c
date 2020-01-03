@@ -1,87 +1,67 @@
 #include "uls.h"
 
-static void process_R(char **flags, t_list **list, char *path, char *filename) {
-    char *tmp = mx_strjoin(path, "/");
-    char *str = mx_strjoin(tmp, filename);
+static void read_data(t_list **list, char *file, DIR *direct, char **flags);
+static void gather_data(t_list **list, t_list *data, t_dnt *dir, char **flag, t_st st, char *full_filename);
 
-    mx_read_data(flags, (char **) mx_create_node(NULL), list, str);
-    mx_strdel(&tmp);
-}
+void mx_read_data(char **flags, char **files, t_list **list, char *filename) {
+    DIR *directory = NULL;
 
-
-static void process_l(t_dnt *dir, t_st st, t_data *data) {
-    struct passwd *passwd_ptr = getpwuid(st.st_uid);
-
-    data->blocks_count = st.st_blocks;
-    data->permissions = mx_get_permissions(st.st_mode);
-    data->acl_text = mx_get_acl(dir->d_name);
-    data->xattr_text = mx_get_xattr(dir->d_name, &data->xattr_value_length);
-    data->links_count = mx_itoa(st.st_nlink);
-    data->owner = mx_strdup(passwd_ptr->pw_name);
-    data->group = mx_get_group(st.st_gid);
-    data->file_size = mx_itoa(st.st_size);
-    data->last_modified = st.st_mtimespec.tv_sec;
-    data->symlink = mx_get_symlink(dir->d_name, st.st_size);
-    data->mode = st.st_mode;
-    data->st_rdev = st.st_rdev;
-}
-
-
-static void gather_data(t_list **list, t_list *data, t_dnt *dir, char **flag, t_st st) {
-    t_data *info = NULL;
-    
-    if (!mx_search_strarr(flag, "a") && dir->d_name[0] == '.') {
-        return;
+    if (!files || !(*files)) {
+        directory = opendir(filename);
+        read_data(list, filename, directory, flags);
+        closedir(directory);
     }
-
-    info = malloc(sizeof(t_data));
-    info->filename = mx_strdup(dir->d_name);
-    info->is_dir = S_ISDIR(st.st_mode);
-
-    if (mx_search_strarr(flag, "l")) {
-        process_l(dir, st, info);
-    }
-    else if (mx_search_strarr(flag, "R") && info->is_dir) {
-        process_R(flag, list, (char *) data->data, info->filename);
-    }
-
-    mx_push_back(&data, (void *) info);
-}
-
-// WILL REFACTOR THIS
-t_list *mx_read_data(char **flags, char **files, t_list **list, char *dirname) {
-    t_list *data = NULL;
-    t_list *inner_data = NULL;
-    DIR *directory = opendir(dirname);
-    struct dirent *dir = NULL;
-    struct stat *st = malloc(sizeof(struct stat));
-
-    mx_push_back(list, mx_create_node(dirname));
-    data = *list;
-    while (data->next) {
-        data = data->next;
-    }
-    inner_data = (t_list *) data->data;
-    while ((dir = readdir(directory)) != NULL) {
-        char *tmp = mx_strjoin(dirname, "/");
-        char *path = mx_strjoin(tmp, dir->d_name);
-        if (lstat(path, st) != 0) {
-            // SOME ERROR HANDLING HERE?
-            mx_printstr("error in gather data: stat() != 0\n");
-            exit(-1);
-        }
-        if (!files || *files == NULL) {
-            gather_data(&data, inner_data, dir, flags, *st);
-        }
-        else if (mx_search_strarr(files, dir->d_name)) {
-            if (S_ISDIR(st->st_mode)) {
-                mx_read_data(flags, NULL, list, dir->d_name);
+    else
+        for (int i = 0; i < mx_get_arr_length(files); i++){
+            directory = opendir(files[i]);
+            if (directory) {
+                read_data(list, files[i], directory, flags);
+                closedir(directory);
             }
             else {
-                gather_data(&data, inner_data, dir, flags, *st);
+                // TODO gather file data
             }
         }
+}
+
+static void read_data(t_list **list, char *file, DIR *direct, char **flags) {
+    t_list *data = NULL;
+    t_list *inner_data = NULL;
+    struct dirent *dir = NULL;
+    struct stat *st = malloc(sizeof(struct stat));
+    char *full_filename = NULL;
+    char *tmp = NULL;
+
+    mx_push_back(list, mx_create_node(file));
+    data = *list;
+    while (data->next)
+        data = data->next;
+    inner_data = (t_list *)data->data;
+    while ((dir = readdir(direct)) != NULL) {
+        mx_printstr_endl(dir->d_name);
+        tmp = mx_strjoin(file, "/");
+        full_filename = mx_strjoin(tmp, dir->d_name);
+        mx_strdel(&tmp);
+        lstat(full_filename, st);
+        gather_data(&data, inner_data, dir, flags, *st, full_filename);
+        mx_strdel(&full_filename);
     }
     free(st);
-    return data;
+    st = NULL;
+}
+
+static void gather_data(t_list **list, t_list *data, t_dnt *dir, char **flag, t_st st, char *full_filename) {
+    t_data *info = NULL;
+
+    if (!mx_search_strarr(flag, "a") && dir->d_name[0] == '.')
+        return;
+    info = malloc(sizeof(t_data));
+    info->filename = mx_strdup(dir->d_name);
+    info->full_filename = mx_strdup(full_filename);
+    info->is_dir = IS_DIR(st.st_mode);
+    if (mx_search_strarr(flag, "l"))
+        mx_process_l(dir, st, info);
+    else if (mx_search_strarr(flag, "R") && info->is_dir)
+        mx_process_R(flag, list, (char *)data->data, info->filename);
+    mx_push_back(&data, (void *)info);
 }
