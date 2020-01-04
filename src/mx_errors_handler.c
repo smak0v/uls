@@ -1,6 +1,6 @@
 #include "uls.h"
 
-void mx_errors_handler(char **flags, char **files) {
+void mx_check_usage_error(char **flags, char **files) {
     char *error_flag = mx_check_flags(flags);
 
     if (error_flag) {
@@ -13,4 +13,13 @@ void mx_errors_handler(char **flags, char **files) {
         mx_del_strarr(&files);
         exit(-1);
     }
+}
+
+void mx_print_no_such_error(char *file) {
+    char *error = strerror(errno);
+
+    mx_printstr("uls: ");
+    mx_printstr(file);
+    mx_printstr(": ");
+    mx_printstr_endl(error);
 }

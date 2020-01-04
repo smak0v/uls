@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
     t_list *data =  NULL;
 
     settings = mx_setup(flags);
-    mx_errors_handler(flags, files);
+    mx_check_usage_error(flags, files);
     mx_read_data(flags, files, &data, ".");
     mx_process_output(&data, settings);
 
@@ -17,5 +17,6 @@ int main(int argc, char *argv[]) {
     free(settings);
     settings = NULL;
     // TODO free(data)
+    // system("leaks uls");
     return 0;
 }

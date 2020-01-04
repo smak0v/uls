@@ -7,7 +7,7 @@ void mx_process_output(t_list **data, t_settings *settings) {
     if ((int)(mode = columns) == settings->mode)
         mx_print_columns(data);
     else if ((int)(mode = table) == settings->mode)
-        mx_print_l(data);
+        mx_print_long(data);
     else if ((int)(mode = commas) == settings->mode)
         mx_print_names(data, ", ");
     else

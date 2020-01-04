@@ -6,7 +6,8 @@
 #include <dirent.h>
 #include <pwd.h>
 #include <grp.h>
-#include <stdbool.h>
+#include <string.h>
+#include <errno.h>
 
 #include <sys/types.h>
 #include <sys/xattr.h>
@@ -98,19 +99,23 @@ typedef struct s_max_len {
 t_settings *mx_setup(char **flags);
 void mx_read_data(char **flags, char **files, t_list **list, char *dirname);
 void mx_process_output(t_list **data, t_settings *settings);
-
 void mx_process_l(t_dnt *dir, t_st st, t_data *data);
 void mx_process_R(char **flags, t_list **list, char *path, char *filename);
 
+// Errors
+void mx_print_no_such_error(char *file);
+void mx_check_usage_error(char **flags, char **files);
+
+// Utils
 char **mx_store_flags(int argc, char **argv);
 char **mx_store_files(int argc, char **argv);
-void mx_errors_handler(char **flags, char **files);
 char *mx_check_flags(char **flags);
 void mx_print_spaces(int count);
 char mx_get_file_type(mode_t mode);
 bool mx_search_strarr(char **strarr, char *str);
 bool mx_check_chr_or_blk_device(t_list **list);
 
+// Getters
 t_max_len *mx_get_max_len_struct(t_list *list);
 int mx_get_total(t_list *list);
 char *mx_get_permissions(mode_t mode);
@@ -124,14 +129,17 @@ char *mx_get_minor(int st_rdev);
 unsigned short mx_get_terminal_width();
 int mx_get_max_filename_length(t_list **list);
 
+// Sortings
 void mx_sort_by_name(t_list **list);
 
+// Printing data
 void mx_print_total(t_list *list);
 void mx_print_filename_and_total(t_list *node, t_list *inner_node);
 void mx_print_acl_xattr_or_nothing(t_data *data);
 void mx_print_date(time_t date);
 
-void mx_print_l(t_list **list);
+// Printing modes
+void mx_print_long(t_list **list);
 void mx_print_columns(t_list **list);
 void mx_print_names(t_list **list, char *delim);
 

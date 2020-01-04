@@ -23,7 +23,7 @@ mx_get_file_type.c \
 mx_get_permissions.c \
 mx_read_data.c \
 mx_search_strarr.c \
-mx_print_l.c \
+mx_print_long.c \
 mx_get_total.c \
 mx_print_total.c \
 mx_get_acl.c \
@@ -59,7 +59,7 @@ src/mx_get_file_type.c \
 src/mx_get_permissions.c \
 src/mx_read_data.c \
 src/mx_search_strarr.c \
-src/mx_print_l.c \
+src/mx_print_long.c \
 src/mx_get_total.c \
 src/mx_print_total.c \
 src/mx_get_acl.c \
@@ -95,7 +95,7 @@ mx_get_file_type.o \
 mx_get_permissions.o \
 mx_read_data.o \
 mx_search_strarr.o \
-mx_print_l.o \
+mx_print_long.o \
 mx_get_total.o \
 mx_print_total.o \
 mx_get_acl.o \

@@ -19,7 +19,14 @@ void mx_read_data(char **flags, char **files, t_list **list, char *filename) {
                 closedir(directory);
             }
             else {
-                // TODO gather file data
+                if (errno != 20) // 20 == Not a directory error
+                    mx_print_no_such_error(files[i]);
+                else {
+                    directory = opendir(".");
+                    read_data(list, files[i], directory, flags);
+                    // TODO (Yulia) Read only info about needed file
+                    closedir(directory);
+                }
             }
         }
 }
