@@ -18,8 +18,8 @@ void mx_check_usage_error(char **flags, char **files) {
 void mx_print_no_such_error(char *file) {
     char *error = strerror(errno);
 
-    mx_printstr("uls: ");
-    mx_printstr(file);
-    mx_printstr(": ");
-    mx_printstr_endl(error);
+    mx_print_error("uls: ");
+    mx_print_error(file);
+    mx_print_error(": ");
+    mx_print_error_endl(error);
 }
