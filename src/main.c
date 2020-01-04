@@ -10,4 +10,12 @@ int main(int argc, char *argv[]) {
     mx_errors_handler(flags, files);
     mx_read_data(flags, files, &data, ".");
     mx_process_output(&data, settings);
+
+    // Leak cleaning
+    mx_del_strarr(&flags);
+    mx_del_strarr(&files);
+    free(settings);
+    settings = NULL;
+    // TODO free(data)
+    return 0;
 }

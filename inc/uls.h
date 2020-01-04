@@ -121,6 +121,8 @@ char *mx_get_owner(uid_t st_uid);
 char *mx_get_symlink(char *dirname, off_t st_size);
 char *mx_get_major(int st_rdev);
 char *mx_get_minor(int st_rdev);
+unsigned short mx_get_terminal_width();
+int mx_get_max_filename_length(t_list **list);
 
 void mx_sort_by_name(t_list **list);
 
@@ -130,5 +132,7 @@ void mx_print_acl_xattr_or_nothing(t_data *data);
 void mx_print_date(time_t date);
 
 void mx_print_l(t_list **list);
+void mx_print_columns(t_list **list);
+void mx_print_names(t_list **list, char *delim);
 
 #endif

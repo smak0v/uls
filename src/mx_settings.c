@@ -1,17 +1,22 @@
 #include "uls.h"
 
-static t_mode_enum process_mode(char flag) {
-    t_mode_enum mode;
+static int setup_mode(char **flags);
+static t_mode_enum process_mode(char flag);
 
-    if (flag == 'C' || flag == 'x')
-        mode = columns;
-    else if (flag == 'l')
-        mode = table;
-    else if (flag == 'm')
-        mode = commas;
-    else
-        mode = line_break;
-    return mode;
+t_settings *mx_setup(char **flags) {
+    t_settings *setup = malloc(sizeof(t_settings));
+
+    if (*flags == NULL) {
+        setup->mode = 0;
+        setup->sorting = 0;
+        setup->data = 0;
+    }
+    else {
+        setup->mode = setup_mode(flags);
+        // setup->sorting = setup_sorting(flags);
+        // setup->data = setup_data(flags);
+    }
+    return setup;
 }
 
 static int setup_mode(char **flags) {
@@ -33,18 +38,16 @@ static int setup_mode(char **flags) {
     return (int)mode;
 }
 
-t_settings *mx_setup(char **flags) {
-    t_settings *setup = malloc(sizeof(t_settings));
+static t_mode_enum process_mode(char flag) {
+    t_mode_enum mode;
 
-    if (*flags == NULL) {
-        setup->mode = 0;
-        setup->sorting = 0;
-        setup->data = 0;
-    }
-    else {
-        setup->mode = setup_mode(flags);
-        // setup->sorting = setup_sorting(flags);
-        // setup->data = setup_data(flags);
-    }
-    return setup;
+    if (flag == 'C' || flag == 'x')
+        mode = columns;
+    else if (flag == 'l')
+        mode = table;
+    else if (flag == 'm')
+        mode = commas;
+    else
+        mode = line_break;
+    return mode;
 }

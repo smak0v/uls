@@ -42,6 +42,7 @@ void mx_del_intarr(int ***array, int length);
 void mx_intdel(int **arr);
 int mx_get_file_length(const char *file);
 int mx_count_unequal(char **arr);
+int mx_strarr_len(char **strarr);
 
 // String pack
 int mx_strlen(const char *s);

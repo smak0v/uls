@@ -35,14 +35,18 @@ mx_print_acl_xattr_or_nothing.c \
 mx_print_date.c \
 mx_sort_by_name.c \
 mx_settings.c \
-mx_output.c \
+mx_process_output.c \
 mx_get_max_len_struct.c \
 mx_print_filename_and_total.c \
 mx_process_l.c \
 mx_process_R.c \
 mx_get_major.c \
 mx_get_minor.c \
-mx_check_chr_or_blk_device.c
+mx_check_chr_or_blk_device.c \
+mx_print_columns.c \
+mx_get_terminal_width.c \
+mx_print_names.c \
+mx_get_max_filename_length.c
 
 SRCF = \
 src/main.c \
@@ -67,14 +71,18 @@ src/mx_print_acl_xattr_or_nothing.c \
 src/mx_print_date.c \
 src/mx_sort_by_name.c \
 src/mx_settings.c \
-src/mx_output.c \
+src/mx_process_output.c \
 src/mx_get_max_len_struct.c \
 src/mx_print_filename_and_total.c \
 src/mx_process_l.c \
 src/mx_process_R.c \
 src/mx_get_major.c \
 src/mx_get_minor.c \
-src/mx_check_chr_or_blk_device.c
+src/mx_check_chr_or_blk_device.c \
+src/mx_print_columns.c \
+src/mx_get_terminal_width.c \
+src/mx_print_names.c \
+src/mx_get_max_filename_length.c
 
 OBJ = \
 main.o \
@@ -99,14 +107,18 @@ mx_print_acl_xattr_or_nothing.o \
 mx_print_date.o \
 mx_sort_by_name.o \
 mx_settings.o \
-mx_output.o \
+mx_process_output.o \
 mx_get_max_len_struct.o \
 mx_print_filename_and_total.o \
 mx_process_l.o \
 mx_process_R.o \
 mx_get_major.o \
 mx_get_minor.o \
-mx_check_chr_or_blk_device.o
+mx_check_chr_or_blk_device.o \
+mx_print_columns.o \
+mx_get_terminal_width.o \
+mx_print_names.o \
+mx_get_max_filename_length.o
 
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 
