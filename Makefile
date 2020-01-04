@@ -39,7 +39,10 @@ mx_output.c \
 mx_get_max_len_struct.c \
 mx_print_filename_and_total.c \
 mx_process_l.c \
-mx_process_R.c
+mx_process_R.c \
+mx_get_major.c \
+mx_get_minor.c \
+mx_check_chr_or_blk_device.c
 
 SRCF = \
 src/main.c \
@@ -68,7 +71,10 @@ src/mx_output.c \
 src/mx_get_max_len_struct.c \
 src/mx_print_filename_and_total.c \
 src/mx_process_l.c \
-src/mx_process_R.c
+src/mx_process_R.c \
+src/mx_get_major.c \
+src/mx_get_minor.c \
+src/mx_check_chr_or_blk_device.c
 
 OBJ = \
 main.o \
@@ -97,7 +103,10 @@ mx_output.o \
 mx_get_max_len_struct.o \
 mx_print_filename_and_total.o \
 mx_process_l.o \
-mx_process_R.o
+mx_process_R.o \
+mx_get_major.o \
+mx_get_minor.o \
+mx_check_chr_or_blk_device.o
 
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 

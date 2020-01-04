@@ -38,7 +38,6 @@ static void read_data(t_list **list, char *file, DIR *direct, char **flags) {
         data = data->next;
     inner_data = (t_list *)data->data;
     while ((dir = readdir(direct)) != NULL) {
-        mx_printstr_endl(dir->d_name);
         tmp = mx_strjoin(file, "/");
         full_filename = mx_strjoin(tmp, dir->d_name);
         mx_strdel(&tmp);
@@ -58,7 +57,7 @@ static void gather_data(t_list **list, t_list *data, t_dnt *dir, char **flag, t_
     info = malloc(sizeof(t_data));
     info->filename = mx_strdup(dir->d_name);
     info->full_filename = mx_strdup(full_filename);
-    info->is_dir = IS_DIR(st.st_mode);
+    info->is_dir = MX_IS_DIR(st.st_mode);
     if (mx_search_strarr(flag, "l"))
         mx_process_l(dir, st, info);
     else if (mx_search_strarr(flag, "R") && info->is_dir)

@@ -1,6 +1,7 @@
 #include "uls.h"
 
 void mx_print_spaces(int count) {
-    while (count--)
-        mx_printchar(' ');
+    if (count > 0)
+        while (count--)
+            mx_printchar(' ');
 }
