@@ -5,10 +5,10 @@ static void output_with_paths(t_list **list, bool is_atty);
 static void print_columns(t_list **list);
 static int get_spaces(int max_len);
 
-void mx_print_columns(t_list **list) {
+void mx_print_columns(t_list **list, int not_found) {
     bool is_atty = isatty(1);
 
-    if (mx_list_size(*list) == 1)
+    if (mx_list_size(*list) == 1 && !not_found)
         simple_output(list, !is_atty);
     else
         output_with_paths(list, !is_atty);

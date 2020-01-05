@@ -140,8 +140,8 @@ void mx_print_acl_xattr_or_nothing(t_data *data);
 void mx_print_date(time_t date);
 
 // Printing modes
-void mx_print_long(t_list **list);
-void mx_print_columns(t_list **list);
+void mx_print_long(t_list **list, int not_found);
+void mx_print_columns(t_list **list, int not_found);
 void mx_print_names(t_list **list, char *delim);
 
 #endif

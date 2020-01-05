@@ -5,9 +5,9 @@ void mx_process_output(t_list **data, t_settings *settings) {
 
     mx_sort_by_name(data);
     if ((int)(mode = columns) == settings->mode)
-        mx_print_columns(data);
+        mx_print_columns(data, settings->not_found);
     else if ((int)(mode = table) == settings->mode)
-        mx_print_long(data);
+        mx_print_long(data, settings->not_found);
     else if ((int)(mode = commas) == settings->mode)
         mx_print_names(data, ", ");
     else

@@ -5,8 +5,11 @@ static void print_size(t_data *data, t_max_len *max_len, bool is_device_met);
 static void simple_output(t_list **list);
 static void output_with_paths(t_list **list);
 
-void mx_print_long(t_list **list) {
-    mx_list_size(*list) == 1 ? simple_output(list) : output_with_paths(list);
+void mx_print_long(t_list **list, int not_found) {
+    if (mx_list_size(*list) == 1  && !not_found)
+        simple_output(list);
+    else
+        output_with_paths(list);
 }
 
 static void simple_output(t_list **list) {
