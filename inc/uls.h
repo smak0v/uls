@@ -96,6 +96,7 @@ typedef struct s_max_len {
 } t_max_len;
 
 // Functions
+// Core
 t_settings *mx_setup(char **flags);
 void mx_read_data(char **flags, char **files, t_list **list, char *dirname);
 void mx_process_output(t_list **data, t_settings *settings);
