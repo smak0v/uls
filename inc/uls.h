@@ -18,10 +18,11 @@
 #include <uuid/uuid.h>
 
 // Constants
-#define ALLOWED_FLAGS "ACRalmx1"
+#define ALLOWED_FLAGS "CRSaflmtx1"
+//ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1]
 #define MODE_FLAGS "Clmx1"
-#define SORTING_FLAGS "Cx"
-#define DATA_FLAGS "ARal"
+#define SORTING_FLAGS "Stlf"
+#define DATA_FLAGS "Ralf" //ADD f SUPPORT!! -f turns on -a
 
 // Macroses
 #define MX_IS_BLK(mode) (((mode) & S_IFMT) == S_IFBLK)
@@ -46,11 +47,16 @@ typedef enum e_modes {
 } t_mode_enum;
 
 typedef enum e_sorting {
-    standard,
+    unsorted,
+    size,
+    mod_time,
+    acc_time,
+    crt_time,
+    names
 } t_sorting_enum;
 
 typedef enum e_data {
-    names,
+    def,
     l,
     a,
     A,

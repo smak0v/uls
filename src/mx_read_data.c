@@ -59,15 +59,16 @@ static void read_data(t_list **list, char *file, DIR *direct, char **flags) {
 static void gather_data(t_list **list, t_list *data, t_dnt *dir, char **flag, t_st st, char *full_filename) {
     t_data *info = NULL;
 
-    if (!mx_search_strarr(flag, "a") && dir->d_name[0] == '.')
+    if ((!mx_search_strarr(flag, "a") && !mx_search_strarr(flag, "f")) 
+        && dir->d_name[0] == '.')
         return;
     info = malloc(sizeof(t_data));
     info->filename = mx_strdup(dir->d_name);
     info->full_filename = mx_strdup(full_filename);
     info->is_dir = MX_IS_DIR(st.st_mode);
-    if (mx_search_strarr(flag, "l"))
-        mx_process_l(dir, st, info);
-    else if (mx_search_strarr(flag, "R") && info->is_dir)
+    mx_process_l(dir, st, info);
+    
+    if (mx_search_strarr(flag, "R") && info->is_dir)
         mx_process_R(flag, list, (char *)data->data, info->filename);
-    mx_push_back(&data, (void *)info);
+    mx_push_back(&data, (void *) info);
 }
