@@ -23,6 +23,7 @@ mx_isdigit.c \
 mx_toupper.c \
 mx_tolower.c \
 mx_itoa.c \
+mx_lltoa.c \
 mx_atoi.c \
 mx_ctoi.c \
 mx_nbr_to_hex.c \
@@ -48,6 +49,7 @@ mx_intdel.c \
 mx_strdup.c \
 mx_strndup.c \
 mx_strlen.c \
+mx_numlen.c \
 mx_strncmp.c \
 mx_strncpy.c \
 mx_strnew.c \
@@ -104,6 +106,7 @@ src/mx_isdigit.c \
 src/mx_toupper.c \
 src/mx_tolower.c \
 src/mx_itoa.c \
+src/mx_lltoa.c \
 src/mx_atoi.c \
 src/mx_ctoi.c \
 src/mx_nbr_to_hex.c \
@@ -129,6 +132,7 @@ src/mx_intdel.c \
 src/mx_strdup.c \
 src/mx_strndup.c \
 src/mx_strlen.c \
+src/mx_numlen.c \
 src/mx_strncmp.c \
 src/mx_strncpy.c \
 src/mx_strnew.c \
@@ -185,6 +189,7 @@ mx_isdigit.o \
 mx_toupper.o \
 mx_tolower.o \
 mx_itoa.o \
+mx_lltoa.o \
 mx_atoi.o \
 mx_ctoi.o \
 mx_nbr_to_hex.o \
@@ -210,6 +215,7 @@ mx_intdel.o \
 mx_strdup.o \
 mx_strndup.o \
 mx_strlen.o \
+mx_numlen.o \
 mx_strncmp.o \
 mx_strncpy.o \
 mx_strnew.o \

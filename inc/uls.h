@@ -70,8 +70,8 @@ typedef struct s_data {
     char *links_count;
     char *owner;
     char *group;
-    char *file_size;
-    long last_modified;
+    long long file_size;
+    long last_modified; // -t (sorting)
     char *symlink;
     mode_t mode;
     int st_rdev;
@@ -80,12 +80,19 @@ typedef struct s_data {
 
     // -@
     ssize_t xattr_value_length;
+
+    // -U
+    long creation_time;
+
+    // -u
+    long last_access_time;
 } t_data;
 
 typedef struct s_settings {
     int mode;
     int sorting;
     int data;
+    int not_found;
 } t_settings;
 
 typedef struct s_max_len {
@@ -130,18 +137,32 @@ char *mx_get_minor(int st_rdev);
 unsigned short mx_get_terminal_width();
 int mx_get_max_filename_length(t_list **list);
 
+// Comparators
+bool mx_filename_ascending_comparator(void *data_1, void *data_2);
+bool mx_filename_descending_comparator(void *data_1, void *data_2);
+bool mx_creation_time_comparator(void *data_1, void *data_2);
+bool mx_last_access_time_comparator(void *data_1, void *data_2);
+bool mx_last_modification_time_comparator(void *data_1, void *data_2);
+bool mx_size_comparator(void *data_1, void *data_2);
+bool mx_filename_length_comparator(void *data_1, void *data_2);
+
 // Sortings
 void mx_sort_by_name(t_list **list);
+void mx_sort_by_creation_time(t_list **list);
+void mx_sort_by_last_access_time(t_list **list);
+void mx_sort_by_last_modification_time(t_list **list);
+void mx_sort_by_size(t_list **list);
 
 // Printing data
 void mx_print_total(t_list *list);
 void mx_print_filename_and_total(t_list *node, t_list *inner_node);
 void mx_print_acl_xattr_or_nothing(t_data *data);
 void mx_print_date(time_t date);
+void mx_print_size(t_data *data, t_max_len *max_len, bool is_device_met);
 
 // Printing modes
 void mx_print_long(t_list **list, int not_found);
 void mx_print_columns(t_list **list, int not_found);
-void mx_print_names(t_list **list, char *delim);
+void mx_print_names(t_list **list, char *delim, int not_found);
 
 #endif

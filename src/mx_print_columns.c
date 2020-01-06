@@ -1,30 +1,25 @@
 #include "uls.h"
 
-static void simple_output(t_list **list, bool is_atty);
-static void output_with_paths(t_list **list, bool is_atty);
+static void simple_output(t_list **list);
+static void output_with_paths(t_list **list);
 static void print_columns(t_list **list);
 static int get_spaces(int max_len);
 
 void mx_print_columns(t_list **list, int not_found) {
-    bool is_atty = isatty(1);
-
-    if (mx_list_size(*list) == 1 && !not_found)
-        simple_output(list, !is_atty);
+    if (mx_list_size(*list) == 1 && not_found)
+        simple_output(list);
     else
-        output_with_paths(list, !is_atty);
+        output_with_paths(list);
 }
 
-static void simple_output(t_list **list, bool is_atty) {
+static void simple_output(t_list **list) {
     t_list *node = *list;
     t_list *inner_list = ((t_list *)(node->data))->next;
 
-    if (is_atty)
-        mx_print_names(&inner_list, "\n");
-    else
-        print_columns(&inner_list);
+    print_columns(&inner_list);
 }
 
-static void output_with_paths(t_list **list, bool is_atty) {
+static void output_with_paths(t_list **list) {
     t_list *node = *list;
     t_list *inner_list = NULL;
 
@@ -32,10 +27,7 @@ static void output_with_paths(t_list **list, bool is_atty) {
         mx_printstr(((t_list *)(node->data))->data);
         mx_printstr(":\n");
         inner_list = ((t_list *)(node->data))->next;
-        if (is_atty)
-            mx_print_names(&inner_list, "\n");
-        else
-            print_columns(&inner_list);
+        print_columns(&inner_list);
         node = node->next;
         if (node)
             mx_printchar('\n');

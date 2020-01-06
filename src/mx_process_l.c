@@ -11,8 +11,10 @@ void mx_process_l(t_dnt *dir, t_st st, t_data *data) {
     data->links_count = mx_itoa(st.st_nlink);
     data->owner = mx_get_owner(st.st_uid);
     data->group = mx_get_group(st.st_gid);
-    data->file_size = mx_itoa(st.st_size);
+    data->file_size = st.st_size;
     data->last_modified = st.st_mtimespec.tv_sec;
+    data->creation_time = st.st_birthtimespec.tv_sec;
+    data->last_access_time = st.st_atimespec.tv_sec;
     data->symlink = mx_get_symlink(data->full_filename, st.st_size);
     data->mode = st.st_mode;
     data->st_rdev = st.st_rdev;

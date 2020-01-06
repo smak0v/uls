@@ -33,7 +33,14 @@ mx_get_owner.c \
 mx_get_symlink.c \
 mx_print_acl_xattr_or_nothing.c \
 mx_print_date.c \
+mx_time_comparators.c \
+mx_name_comparators.c \
+mx_size_comparators.c \
 mx_sort_by_name.c \
+mx_sort_by_creation_time.c \
+mx_sort_by_last_access_time.c \
+mx_sort_by_last_modification_time.c \
+mx_sort_by_size.c \
 mx_settings.c \
 mx_process_output.c \
 mx_get_max_len_struct.c \
@@ -46,7 +53,8 @@ mx_check_chr_or_blk_device.c \
 mx_print_columns.c \
 mx_get_terminal_width.c \
 mx_print_names.c \
-mx_get_max_filename_length.c
+mx_get_max_filename_length.c \
+mx_print_size.c
 
 SRCF = \
 src/main.c \
@@ -69,7 +77,14 @@ src/mx_get_owner.c \
 src/mx_get_symlink.c \
 src/mx_print_acl_xattr_or_nothing.c \
 src/mx_print_date.c \
-src/mx_sort_by_name.c \
+src/comparators/mx_time_comparators.c \
+src/comparators/mx_name_comparators.c \
+src/comparators/mx_size_comparators.c \
+src/sortings/mx_sort_by_name.c \
+src/sortings/mx_sort_by_creation_time.c \
+src/sortings/mx_sort_by_last_access_time.c \
+src/sortings/mx_sort_by_last_modification_time.c \
+src/sortings/mx_sort_by_size.c \
 src/mx_settings.c \
 src/mx_process_output.c \
 src/mx_get_max_len_struct.c \
@@ -82,7 +97,8 @@ src/mx_check_chr_or_blk_device.c \
 src/mx_print_columns.c \
 src/mx_get_terminal_width.c \
 src/mx_print_names.c \
-src/mx_get_max_filename_length.c
+src/mx_get_max_filename_length.c \
+src/mx_print_size.c
 
 OBJ = \
 main.o \
@@ -105,7 +121,14 @@ mx_get_owner.o \
 mx_get_symlink.o \
 mx_print_acl_xattr_or_nothing.o \
 mx_print_date.o \
+mx_time_comparators.o \
+mx_name_comparators.o \
+mx_size_comparators.o \
 mx_sort_by_name.o \
+mx_sort_by_creation_time.o \
+mx_sort_by_last_access_time.o \
+mx_sort_by_last_modification_time.o \
+mx_sort_by_size.o \
 mx_settings.o \
 mx_process_output.o \
 mx_get_max_len_struct.o \
@@ -118,7 +141,8 @@ mx_check_chr_or_blk_device.o \
 mx_print_columns.o \
 mx_get_terminal_width.o \
 mx_print_names.o \
-mx_get_max_filename_length.o
+mx_get_max_filename_length.o \
+mx_print_size.o
 
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 

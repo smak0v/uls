@@ -65,8 +65,8 @@ static int get_max_len_by_sizes(t_list *list) {
 
     while (node) {
         data = node->data;
-        if (mx_strlen(data->file_size) > max_len)
-            max_len = mx_strlen(data->file_size);
+        if (mx_numlen(data->file_size) > max_len)
+            max_len = mx_numlen(data->file_size);
         node = node->next;
     }
     return max_len;
