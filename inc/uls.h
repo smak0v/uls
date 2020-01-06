@@ -18,7 +18,7 @@
 #include <uuid/uuid.h>
 
 // Constants
-#define ALLOWED_FLAGS "CRSaflmtx1"
+#define ALLOWED_FLAGS "CRSaflmtx1r"
 //ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1]
 #define MODE_FLAGS "Clmx1"
 #define SORTING_FLAGS "Stlf"
@@ -99,6 +99,7 @@ typedef struct s_settings {
     int sorting;
     int data;
     int not_found;
+    int reverse;
 } t_settings;
 
 typedef struct s_max_len {
@@ -128,6 +129,7 @@ void mx_print_spaces(int count);
 char mx_get_file_type(mode_t mode);
 bool mx_search_strarr(char **strarr, char *str);
 bool mx_check_chr_or_blk_device(t_list **list);
+int mx_check_reverse(char **flags);
 
 // Getters
 t_max_len *mx_get_max_len_struct(t_list *list);

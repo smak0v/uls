@@ -12,11 +12,13 @@ t_settings *mx_setup(char **flags) {
         setup->mode = columns;
         setup->sorting = names;
         setup->data = 0;
+        setup->reverse = 0;
     }
     else {
         setup->mode = setup_mode(flags);
         setup->sorting = setup_sorting(flags);
         // setup->data = setup_data(flags);
+        setup->reverse = mx_check_reverse(flags);
     }
     return setup;
 }
@@ -37,7 +39,7 @@ static int setup_mode(char **flags) {
         if (fish)
             break;
     }
-    return (int) mode;
+    return (int)mode;
 }
 
 static t_mode_enum process_mode(char flag) {
@@ -69,7 +71,7 @@ static int setup_sorting(char **flags) {
             }
         }
     }
-    return (int) mode;
+    return (int)mode;
 }
 
 static t_sorting_enum process_sorting(char flag) {

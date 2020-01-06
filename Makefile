@@ -54,7 +54,8 @@ mx_print_columns.c \
 mx_get_terminal_width.c \
 mx_print_names.c \
 mx_get_max_filename_length.c \
-mx_print_size.c
+mx_print_size.c \
+mx_check_reverse.c
 
 SRCF = \
 src/main.c \
@@ -98,7 +99,8 @@ src/mx_print_columns.c \
 src/mx_get_terminal_width.c \
 src/mx_print_names.c \
 src/mx_get_max_filename_length.c \
-src/mx_print_size.c
+src/mx_print_size.c \
+src/mx_check_reverse.c
 
 OBJ = \
 main.o \
@@ -142,7 +144,8 @@ mx_print_columns.o \
 mx_get_terminal_width.o \
 mx_print_names.o \
 mx_get_max_filename_length.o \
-mx_print_size.o
+mx_print_size.o \
+mx_check_reverse.o
 
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 
