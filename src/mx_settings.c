@@ -14,6 +14,7 @@ t_settings *mx_setup(char **flags) {
         setup->data = 0;
         setup->reverse = 0;
         setup->format_size = 0;
+        setup->print_xattr = 0;
     }
     else {
         setup->mode = setup_mode(flags);
@@ -21,6 +22,9 @@ t_settings *mx_setup(char **flags) {
         // setup->data = setup_data(flags);
         setup->reverse = mx_check_reverse(flags);
         // setup->format_size = setup_format_size(flags); TODO (Yulia)
+        // setup->print_xattr = setup_print_xattr(flags); TODO (Yulia)
+        setup->format_size = 0;
+        setup->print_xattr = 1;
     }
     return setup;
 }

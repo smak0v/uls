@@ -71,8 +71,7 @@ typedef struct s_data {
     // -l
     blkcnt_t blocks_count;
     char *permissions;
-    char *acl_text;
-    char *xattr_text;
+    char *acl_text; // -e
     char *links_count;
     char *owner;
     char *group;
@@ -86,6 +85,7 @@ typedef struct s_data {
 
     // -@
     ssize_t xattr_value_length;
+    char *xattr_text;
 
     // -U
     long creation_time;
@@ -104,6 +104,7 @@ typedef struct s_settings {
     int not_found;
     int reverse;
     int format_size;
+    int print_xattr;
 } t_settings;
 
 typedef struct s_max_len {
@@ -111,6 +112,8 @@ typedef struct s_max_len {
     int owners_max_len;
     int groups_max_len;
     int sizes_max_len;
+    int xattrs_value_size_max_len;
+    int xattrs_text_max_len;
 } t_max_len;
 
 typedef struct s_colunms_info {
@@ -189,6 +192,9 @@ void mx_print_acl_xattr_or_nothing(t_data *data);
 void mx_print_date(time_t date);
 void mx_print_size(t_data *data, t_max_len *max_len, bool is_device_met,
 t_settings *settings);
+void mx_print_symlink(t_data *data);
+void mx_print_xattr_acl_text(t_data *data, t_settings *settings,
+t_max_len *max_len);
 
 // Printing modes
 void mx_print_long(t_list **list, t_settings *settings);

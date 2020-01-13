@@ -58,7 +58,9 @@ mx_print_names.c \
 mx_get_max_filename_length.c \
 mx_print_size.c \
 mx_check_reverse.c \
-mx_convert_size.c
+mx_convert_size.c \
+mx_print_symlink.c \
+mx_print_xattr_acl_text.c
 
 SRCF = \
 src/main.c \
@@ -106,7 +108,9 @@ src/mx_print_names.c \
 src/mx_get_max_filename_length.c \
 src/mx_print_size.c \
 src/mx_check_reverse.c \
-src/mx_convert_size.c
+src/mx_convert_size.c \
+src/mx_print_symlink.c \
+src/mx_print_xattr_acl_text.c
 
 OBJ = \
 main.o \
@@ -154,7 +158,9 @@ mx_print_names.o \
 mx_get_max_filename_length.o \
 mx_print_size.o \
 mx_check_reverse.o \
-mx_convert_size.o
+mx_convert_size.o \
+mx_print_symlink.o \
+mx_print_xattr_acl_text.o
 
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 

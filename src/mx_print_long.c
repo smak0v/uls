@@ -74,9 +74,7 @@ t_settings *settings) {
     mx_print_date(data->last_modified);
     mx_print_spaces(1);
     mx_printstr(data->filename);
-    if (data->symlink) {
-        mx_printstr(" -> ");
-        mx_printstr(data->symlink);
-    }
+    mx_print_symlink(data);
     mx_printchar('\n');
+    mx_print_xattr_acl_text(data, settings, max_len);
 }

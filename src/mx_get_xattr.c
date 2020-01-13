@@ -21,12 +21,6 @@ char *mx_get_xattr(char *dirname, ssize_t *length) {
 
 static ssize_t get_xattr_size(char *dirname, char *buffer) {
     ssize_t xattr_len = getxattr(dirname, buffer, NULL, 0, 0, 0);
-    char *xattr_value = NULL;
-    ssize_t xattr_value_len = 0;
 
-    if (xattr_len > 0)
-        xattr_value = mx_strnew(xattr_len);
-    getxattr(dirname, buffer, xattr_value, xattr_len, 0, 0);
-    xattr_value_len = mx_strlen(xattr_value);
-    return xattr_value_len;
+    return xattr_len;
 }

@@ -3,7 +3,7 @@
 static void print_size(long long file_size, int spaces_count, int format);
 
 void mx_print_size(t_data *data, t_max_len *max_len, bool is_device_met,
-                   t_settings *settings) {
+t_settings *settings) {
     int format = settings->format_size;
 
     if (is_device_met)
