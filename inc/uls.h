@@ -91,7 +91,10 @@ typedef struct s_data {
     long creation_time;
 
     // -u
-    long last_access_time;
+    long last_access;
+
+    // -c
+    long last_changed;
 } t_data;
 
 typedef struct s_settings {
@@ -100,6 +103,7 @@ typedef struct s_settings {
     int data;
     int not_found;
     int reverse;
+    int format_size;
 } t_settings;
 
 typedef struct s_max_len {
@@ -109,12 +113,21 @@ typedef struct s_max_len {
     int sizes_max_len;
 } t_max_len;
 
+typedef struct s_colunms_info {
+    int max_len;
+    int list_size;
+    int cols;
+    int rows;
+    int i;
+    int j;
+} t_columns_info;
+
 // Functions
 // Core
 t_settings *mx_setup(char **flags);
 void mx_read_data(char **flags, char **files, t_list **list, char *dirname);
 void mx_process_output(t_list **data, t_settings *settings);
-void mx_process_l(t_dnt *dir, t_st st, t_data *data);
+void mx_process_l(t_st st, t_data *data);
 void mx_process_R(char **flags, t_list **list, char *path, char *filename);
 
 // Errors
@@ -130,6 +143,7 @@ char mx_get_file_type(mode_t mode);
 bool mx_search_strarr(char **strarr, char *str);
 bool mx_check_chr_or_blk_device(t_list **list);
 int mx_check_reverse(char **flags);
+char *mx_convert_size(long long size);
 
 // Getters
 t_max_len *mx_get_max_len_struct(t_list *list);
@@ -146,31 +160,39 @@ unsigned short mx_get_terminal_width();
 int mx_get_max_filename_length(t_list **list);
 
 // Comparators
-bool mx_filename_ascending_comparator(void *data_1, void *data_2);
-bool mx_filename_descending_comparator(void *data_1, void *data_2);
-bool mx_creation_time_comparator(void *data_1, void *data_2);
-bool mx_last_access_time_comparator(void *data_1, void *data_2);
-bool mx_last_modification_time_comparator(void *data_1, void *data_2);
-bool mx_size_comparator(void *data_1, void *data_2);
-bool mx_filename_length_comparator(void *data_1, void *data_2);
+bool mx_filename_asc_comparator(void *data_1, void *data_2);
+bool mx_filename_desc_comparator(void *data_1, void *data_2);
+bool mx_creation_time_asc_comparator(void *data_1, void *data_2);
+bool mx_creation_time_desc_comparator(void *data_1, void *data_2);
+bool mx_last_access_time_asc_comparator(void *data_1, void *data_2);
+bool mx_last_access_time_desc_comparator(void *data_1, void *data_2);
+bool mx_last_modification_time_asc_comparator(void *data_1, void *data_2);
+bool mx_last_modification_time_desc_comparator(void *data_1, void *data_2);
+bool mx_size_asc_comparator(void *data_1, void *data_2);
+bool mx_size_desc_comparator(void *data_1, void *data_2);
+bool mx_filename_length_asc_comparator(void *data_1, void *data_2);
+bool mx_filename_length_desc_comparator(void *data_1, void *data_2);
+bool mx_last_changed_time_asc_comparator(void *data_1, void *data_2);
+bool mx_last_changed_time_desc_comparator(void *data_1, void *data_2);
 
 // Sortings
-void mx_sort_by_name(t_list **list);
-void mx_sort_by_creation_time(t_list **list);
-void mx_sort_by_last_access_time(t_list **list);
-void mx_sort_by_last_modification_time(t_list **list);
-void mx_sort_by_size(t_list **list);
+void mx_sort_by_name(t_list **list, bool reverse);
+void mx_sort_by_creation_time(t_list **list, bool reverse);
+void mx_sort_by_last_access_time(t_list **list, bool reverse);
+void mx_sort_by_last_modification_time(t_list **list, bool reverse);
+void mx_sort_by_size(t_list **list, bool reverse);
 
 // Printing data
 void mx_print_total(t_list *list);
 void mx_print_filename_and_total(t_list *node, t_list *inner_node);
 void mx_print_acl_xattr_or_nothing(t_data *data);
 void mx_print_date(time_t date);
-void mx_print_size(t_data *data, t_max_len *max_len, bool is_device_met);
+void mx_print_size(t_data *data, t_max_len *max_len, bool is_device_met,
+t_settings *settings);
 
 // Printing modes
-void mx_print_long(t_list **list, int not_found);
-void mx_print_columns(t_list **list, int not_found);
-void mx_print_names(t_list **list, char *delim, int not_found);
+void mx_print_long(t_list **list, t_settings *settings);
+void mx_print_columns(t_list **list, t_settings *settings);
+void mx_print_names(t_list **list, char *delim, t_settings *settings);
 
 #endif

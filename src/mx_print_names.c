@@ -3,8 +3,8 @@
 static void simple_output(t_list **list, char *delim);
 static void output_with_paths(t_list **list, char *delim);
 
-void mx_print_names(t_list **list, char *delim, int not_found) {
-     if (mx_list_size(*list) == 1  && not_found)
+void mx_print_names(t_list **list, char *delim, t_settings *settings) {
+     if (mx_list_size(*list) == 1  && settings->not_found)
         simple_output(list, delim);
     else
         output_with_paths(list, delim);

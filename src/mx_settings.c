@@ -13,12 +13,14 @@ t_settings *mx_setup(char **flags) {
         setup->sorting = names;
         setup->data = 0;
         setup->reverse = 0;
+        setup->format_size = 0;
     }
     else {
         setup->mode = setup_mode(flags);
         setup->sorting = setup_sorting(flags);
         // setup->data = setup_data(flags);
         setup->reverse = mx_check_reverse(flags);
+        // setup->format_size = setup_format_size(flags); TODO (Yulia)
     }
     return setup;
 }

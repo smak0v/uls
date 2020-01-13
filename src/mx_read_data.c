@@ -66,8 +66,7 @@ static void gather_data(t_list **list, t_list *data, t_dnt *dir, char **flag, t_
     info->filename = mx_strdup(dir->d_name);
     info->full_filename = mx_strdup(full_filename);
     info->is_dir = MX_IS_DIR(st.st_mode);
-    mx_process_l(dir, st, info);
-    
+    mx_process_l(st, info);
     if (mx_search_strarr(flag, "R") && info->is_dir)
         mx_process_R(flag, list, (char *)data->data, info->filename);
     mx_push_back(&data, (void *) info);
