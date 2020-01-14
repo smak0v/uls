@@ -60,7 +60,10 @@ mx_print_size.c \
 mx_check_reverse.c \
 mx_convert_size.c \
 mx_print_symlink.c \
-mx_print_xattr_acl_text.c
+mx_print_xattr_acl_text.c \
+mx_get_formatted_size.c \
+mx_get_max_len_by_strings.c \
+mx_get_max_len_by_numbers.c
 
 SRCF = \
 src/main.c \
@@ -110,7 +113,10 @@ src/mx_print_size.c \
 src/mx_check_reverse.c \
 src/mx_convert_size.c \
 src/mx_print_symlink.c \
-src/mx_print_xattr_acl_text.c
+src/mx_print_xattr_acl_text.c \
+src/mx_get_formatted_size.c \
+src/utils/mx_get_max_len_by_strings.c \
+src/utils/mx_get_max_len_by_numbers.c
 
 OBJ = \
 main.o \
@@ -160,7 +166,10 @@ mx_print_size.o \
 mx_check_reverse.o \
 mx_convert_size.o \
 mx_print_symlink.o \
-mx_print_xattr_acl_text.o
+mx_print_xattr_acl_text.o \
+mx_get_formatted_size.o \
+mx_get_max_len_by_strings.o \
+mx_get_max_len_by_numbers.o
 
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 

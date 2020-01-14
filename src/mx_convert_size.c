@@ -1,10 +1,12 @@
 #include "uls.h"
 
-static char *convert_float(float number);
-static char *get_result(char sizes, char *number);
+static char *to_float(float number);
+static void format_int_part(int *int_part, int *int_float_part);
+static void format_float_part(int *int_float_part);
+static char *get_result(char size, char *number);
 
-char *mx_convert_size(long long size) {
-    long long mult = 1024LL * 1024LL * 1024LL * 1024LL * 1024LL;
+char *mx_convert_size(uint64_t size) {
+    uint64_t mult = 1024LL * 1024LL * 1024LL * 1024LL * 1024LL;
     char *sizes[] = {"P", "T", "G", "M", "K", "B"};
     char *result = NULL;
 
@@ -13,43 +15,71 @@ char *mx_convert_size(long long size) {
     for (int i = 0; i < 6; i++, mult /= 1024) {
         if (size < mult)
             continue;
-        if (size % mult == 0)
-            result = get_result(*sizes[i], mx_itoa(size / mult));
+        if (size % mult == 0) {
+            if (*sizes[i] != 'B')
+                result = get_result(*sizes[i], to_float((float)size / mult));
+            else
+                result = get_result(*sizes[i], mx_itoa(size / mult));
+        }
         else
-            result = get_result(*sizes[i], convert_float((float)size / mult));
+            result = get_result(*sizes[i], to_float((float)size / mult));
         return result;
     }
     return result;
 }
 
-static char *convert_float(float number) {
+static char *to_float(float number) {
     int int_part = (int)number;
-    char *int_res = NULL;
-    float float_part = 0;
-    char *result = NULL;
-    char *tmp = NULL;
+    float float_part = (number - (float)int_part) * mx_pow(10, 2);
+    int int_float_part = (int)float_part;
+    char *res = NULL;
 
-    if (mx_numlen(int_part) > 1)
-        return mx_itoa(int_part);
-    int_res = mx_itoa(int_part);
-    float_part = number - (float)int_part;
-    float_part = float_part * mx_pow(10, 1);
-    result = mx_strnew(mx_strlen(int_res) + 2);
-    result = mx_strcpy(result, int_res);
-    result[mx_strlen(result)] = '.';
-    tmp = mx_itoa((int)float_part);
-    result[mx_strlen(result)] = tmp[0];
-    mx_strdel(&tmp);
-    mx_strdel(&int_res);
-    return result;
+    format_int_part(&int_part, &int_float_part);
+    format_float_part(&int_float_part);
+    mx_get_formatted_size(int_part, int_float_part, &res);
+    return res;
+}
+
+static void format_int_part(int *int_part, int *int_float_part) {
+    char *str_float_part = mx_itoa(*int_float_part);
+
+    if (mx_numlen(*int_float_part) == 1)
+        *int_float_part = 0;
+    else if (str_float_part[0] > '5' && str_float_part[0] <= '9') {
+        *int_float_part = 0;
+        *int_part += 1;
+    }
+    mx_strdel(&str_float_part);
+}
+
+static void format_float_part(int *int_float_part) {
+    char *str_float_part = NULL;
+
+    if (*int_float_part == 0)
+        return;
+    if (mx_numlen(*int_float_part) == 1) {
+        *int_float_part = 0;
+        return;
+    }
+    str_float_part = mx_itoa(*int_float_part);
+    if (str_float_part[1] >= '5' && str_float_part[1] <= '9') {
+        str_float_part[0] =  str_float_part[0] + 1;
+        *int_float_part = str_float_part[0] - '0';
+        mx_strdel(&str_float_part);
+    }
+    else {
+        *int_float_part = str_float_part[0] - '0';
+        mx_strdel(&str_float_part);
+    }
 }
 
 static char *get_result(char size, char *number) {
-    char *result = NULL;
+    char *result = mx_strnew(mx_strlen(number) + 1);
 
-    result = mx_strnew(mx_strlen(number) + 1);
-    result = mx_strcpy(result, number);
-    result[mx_strlen(result)] = size;
-    mx_strdel(&number);
+    if (number) {
+        result = mx_strcpy(result, number);
+        result[mx_strlen(result)] = size;
+        mx_strdel(&number);
+    }
     return result;
 }

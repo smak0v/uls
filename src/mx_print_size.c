@@ -1,6 +1,6 @@
 #include "uls.h"
 
-static void print_size(long long file_size, int spaces_count, int format);
+static void print_size(uint64_t size, int spaces, int format, int is_device);
 
 void mx_print_size(t_data *data, t_max_len *max_len, bool is_device_met,
 t_settings *settings) {
@@ -15,19 +15,26 @@ t_settings *settings) {
             mx_printstr(data->minor);
         }
         else
-            print_size(data->file_size, 8, format);
+            print_size(data->file_size, 8, format, is_device_met);
     else
-        print_size(data->file_size, max_len->sizes_max_len, format);
+        print_size(data->file_size, max_len->sizes, format, is_device_met);
 }
 
-static void print_size(long long file_size, int spaces_count, int format) {
-    char *size = NULL;
+static void print_size(uint64_t size, int spaces, int format, int is_device) {
+    char *tmp = NULL;
 
-    if (format)
-        size = mx_convert_size(file_size);
-    else
-        size = mx_lltoa(file_size);
-    mx_print_spaces(spaces_count - mx_strlen(size));
-    mx_printstr(size);
-    mx_strdel(&size);
+    if (format && !is_device) {
+        tmp = mx_convert_size(size);
+        mx_print_spaces(4 - mx_strlen(tmp));
+    }
+    else if (format && is_device) {
+        tmp = mx_convert_size(size);
+        mx_print_spaces(spaces - mx_strlen(tmp));
+    }
+    else {
+        tmp = mx_lltoa(size);
+        mx_print_spaces(spaces - mx_strlen(tmp));
+    }
+    mx_printstr(tmp);
+    mx_strdel(&tmp);
 }

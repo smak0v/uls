@@ -105,15 +105,15 @@ typedef struct s_settings {
     int reverse;
     int format_size;
     int print_xattr;
+    int print_acl;
 } t_settings;
 
 typedef struct s_max_len {
-    int links_max_len;
-    int owners_max_len;
-    int groups_max_len;
-    int sizes_max_len;
-    int xattrs_value_size_max_len;
-    int xattrs_text_max_len;
+    int links;
+    int owners;
+    int groups;
+    int sizes;
+    int xattrs_sizes;
 } t_max_len;
 
 typedef struct s_colunms_info {
@@ -146,7 +146,12 @@ char mx_get_file_type(mode_t mode);
 bool mx_search_strarr(char **strarr, char *str);
 bool mx_check_chr_or_blk_device(t_list **list);
 int mx_check_reverse(char **flags);
-char *mx_convert_size(long long size);
+char *mx_convert_size(uint64_t size);
+int mx_get_max_len_by_links(t_list *list);
+int mx_get_max_len_by_owners(t_list *list);
+int mx_get_max_len_by_groups(t_list *list);
+int mx_get_max_len_by_sizes(t_list *list);
+int mx_get_max_len_by_xattr_size(t_list *list);
 
 // Getters
 t_max_len *mx_get_max_len_struct(t_list *list);
@@ -161,6 +166,7 @@ char *mx_get_major(int st_rdev);
 char *mx_get_minor(int st_rdev);
 unsigned short mx_get_terminal_width();
 int mx_get_max_filename_length(t_list **list);
+void mx_get_formatted_size(int int_part, int int_float_part, char **res);
 
 // Comparators
 bool mx_filename_asc_comparator(void *data_1, void *data_2);

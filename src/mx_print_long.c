@@ -61,13 +61,13 @@ static void print_data(t_data *data, t_max_len *max_len, bool is_device_met,
 t_settings *settings) {
     mx_printstr(data->permissions);
     mx_print_acl_xattr_or_nothing(data);
-    mx_print_spaces(max_len->links_max_len - mx_strlen(data->links_count));
+    mx_print_spaces(max_len->links - mx_strlen(data->links_count));
     mx_printstr(data->links_count);
     mx_print_spaces(1);
     mx_printstr(data->owner);
-    mx_print_spaces(max_len->owners_max_len - mx_strlen(data->owner) + 2);
+    mx_print_spaces(max_len->owners - mx_strlen(data->owner) + 2);
     mx_printstr(data->group);
-    mx_print_spaces(max_len->groups_max_len - mx_strlen(data->group));
+    mx_print_spaces(max_len->groups - mx_strlen(data->group));
     settings->format_size == 1 ? mx_print_spaces(3) : mx_print_spaces(2);
     mx_print_size(data, max_len, is_device_met, settings);
     mx_print_spaces(1);
