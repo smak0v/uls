@@ -25,7 +25,7 @@ static void simple_output(t_list **list, t_settings *settings) {
             mx_print_total(inner_node);
         is_device_met = mx_check_chr_or_blk_device(&inner_node);
         while (inner_node) {
-            print_data(inner_node->data, max_len, is_device_met, settings);
+            print_data(inner_node->data, max_len, is_device_met, settings);            
             inner_node = inner_node->next;
         }
         free(max_len);
@@ -65,16 +65,18 @@ t_settings *settings) {
     mx_printstr(data->links_count);
     mx_print_spaces(1);
     mx_printstr(data->owner);
-    mx_print_spaces(max_len->owners - mx_strlen(data->owner) + 2);
-    mx_printstr(data->group);
-    mx_print_spaces(max_len->groups - mx_strlen(data->group));
+    if (!settings->omit_group) {
+        mx_print_spaces(max_len->owners - mx_strlen(data->owner) + 2);
+        mx_printstr(data->group);
+        mx_print_spaces(max_len->groups - mx_strlen(data->group));
+    }
     settings->format_size == 1 ? mx_print_spaces(3) : mx_print_spaces(2);
     mx_print_size(data, max_len, is_device_met, settings);
     mx_print_spaces(1);
-    mx_print_date(data->last_modified);
+    mx_print_date(data->last_modified, settings->full_time);
     mx_print_spaces(1);
     mx_printstr(data->filename);
     mx_print_symlink(data);
     mx_printchar('\n');
-    mx_print_xattr_acl_text(data, settings, max_len);
+    mx_print_xattrs_text(data, settings, max_len);
 }

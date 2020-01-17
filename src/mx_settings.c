@@ -15,7 +15,10 @@ t_settings *mx_setup(char **flags) {
         setup->reverse = 0;
         setup->format_size = 0;
         setup->print_xattr = 0;
-        setup->print_acl = 0;
+        setup->print_xcols = 0;
+        setup->full_time = 0;
+        setup->print_slash = 0;
+        setup->omit_group = 0;
     }
     else {
         setup->mode = setup_mode(flags);
@@ -24,10 +27,16 @@ t_settings *mx_setup(char **flags) {
         setup->reverse = mx_check_reverse(flags);
         // setup->format_size = setup_format_size(flags); TODO (Yulia) -h
         // setup->print_xattr = setup_print_xattr(flags); TODO (Yulia) -@
-        // setup->print_acl = setup_print_acl(flags); TODO (Yulia) -e
+        // setup->print_xcols = setup_print_xcols(flags); TODO (Yulia) -x
+        // setup->full_time = setup_full_time(flags); TODO (Yulia) -T
+        // setup->print_slash = setup_print_slash(flags); TODO (Yulia) -p
+        // setup->omit_group = setup_omit_group(flags); TODO (Yulia) -o
         setup->format_size = 0;
         setup->print_xattr = 0;
-        setup->print_acl = 0;
+        setup->print_xcols = 0;
+        setup->full_time = 0;
+        setup->print_slash = 0;
+        setup->omit_group = 0;
     }
     return setup;
 }

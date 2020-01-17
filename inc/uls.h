@@ -71,7 +71,7 @@ typedef struct s_data {
     // -l
     blkcnt_t blocks_count;
     char *permissions;
-    char *acl_text; // -e
+    char *acl_text;
     char *links_count;
     char *owner;
     char *group;
@@ -102,10 +102,13 @@ typedef struct s_settings {
     int sorting;
     int data;
     int not_found;
-    int reverse;
-    int format_size;
-    int print_xattr;
-    int print_acl;
+    int reverse; // -r
+    int format_size; // -h
+    int print_xattr; // -@
+    int print_xcols; // -x
+    int full_time; // -T
+    int print_slash; // -p
+    int omit_group; // -o
 } t_settings;
 
 typedef struct s_max_len {
@@ -129,7 +132,7 @@ typedef struct s_colunms_info {
 // Core
 t_settings *mx_setup(char **flags);
 void mx_read_data(char **flags, char **files, t_list **list, char *dirname);
-void mx_process_output(t_list **data, t_settings *settings);
+void mx_process_output(t_list **data, t_settings *settings, char **flags);
 void mx_process_l(t_st st, t_data *data);
 void mx_process_R(char **flags, t_list **list, char *path, char *filename);
 
@@ -152,6 +155,7 @@ int mx_get_max_len_by_owners(t_list *list);
 int mx_get_max_len_by_groups(t_list *list);
 int mx_get_max_len_by_sizes(t_list *list);
 int mx_get_max_len_by_xattr_size(t_list *list);
+bool mx_has_output_format_flag(char **flags);
 
 // Getters
 t_max_len *mx_get_max_len_struct(t_list *list);
@@ -167,6 +171,7 @@ char *mx_get_minor(int st_rdev);
 unsigned short mx_get_terminal_width();
 int mx_get_max_filename_length(t_list **list);
 void mx_get_formatted_size(int int_part, int int_float_part, char **res);
+t_columns_info *mx_get_columns_info(t_list **list);
 
 // Comparators
 bool mx_filename_asc_comparator(void *data_1, void *data_2);
@@ -195,16 +200,18 @@ void mx_sort_by_size(t_list **list, bool reverse);
 void mx_print_total(t_list *list);
 void mx_print_filename_and_total(t_list *node, t_list *inner_node);
 void mx_print_acl_xattr_or_nothing(t_data *data);
-void mx_print_date(time_t date);
+void mx_print_date(time_t date, int print_full_time);
 void mx_print_size(t_data *data, t_max_len *max_len, bool is_device_met,
 t_settings *settings);
 void mx_print_symlink(t_data *data);
-void mx_print_xattr_acl_text(t_data *data, t_settings *settings,
+void mx_print_xattrs_text(t_data *data, t_settings *settings,
 t_max_len *max_len);
 
 // Printing modes
-void mx_print_long(t_list **list, t_settings *settings);
-void mx_print_columns(t_list **list, t_settings *settings);
-void mx_print_names(t_list **list, char *delim, t_settings *settings);
+void mx_print_long(t_list **list, t_settings *settings); // -l -g -o
+void mx_print_columns(t_list **list, t_settings *settings); // -C
+void mx_print_x_columns(t_list **list, t_settings *settings); // -x
+void mx_print_force(t_list **list, t_settings *settings); // -1
+void mx_print_stream(t_list **list, t_settings *settings); // -m
 
 #endif

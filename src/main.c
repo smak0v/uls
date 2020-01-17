@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
     settings = mx_setup(flags);
     mx_check_usage_error(flags, files);
     mx_read_data(flags, files, &data, ".");
-    mx_process_output(&data, settings);
+    mx_process_output(&data, settings, flags);
 
     // Leak cleaning
     mx_del_strarr(&flags);

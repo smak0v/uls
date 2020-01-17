@@ -53,17 +53,21 @@ mx_get_major.c \
 mx_get_minor.c \
 mx_check_chr_or_blk_device.c \
 mx_print_columns.c \
+mx_print_x_columns.c \
 mx_get_terminal_width.c \
-mx_print_names.c \
+mx_print_force.c \
+mx_print_stream.c \
 mx_get_max_filename_length.c \
 mx_print_size.c \
 mx_check_reverse.c \
 mx_convert_size.c \
 mx_print_symlink.c \
-mx_print_xattr_acl_text.c \
+mx_print_xattrs_text.c \
 mx_get_formatted_size.c \
 mx_get_max_len_by_strings.c \
-mx_get_max_len_by_numbers.c
+mx_get_max_len_by_numbers.c \
+mx_has_output_format_flag.c \
+mx_get_columns_info.c
 
 SRCF = \
 src/main.c \
@@ -106,17 +110,21 @@ src/mx_get_major.c \
 src/mx_get_minor.c \
 src/mx_check_chr_or_blk_device.c \
 src/mx_print_columns.c \
+src/mx_print_x_columns.c \
 src/mx_get_terminal_width.c \
-src/mx_print_names.c \
+src/mx_print_force.c \
+src/mx_print_stream.c \
 src/mx_get_max_filename_length.c \
 src/mx_print_size.c \
 src/mx_check_reverse.c \
 src/mx_convert_size.c \
 src/mx_print_symlink.c \
-src/mx_print_xattr_acl_text.c \
+src/mx_print_xattrs_text.c \
 src/mx_get_formatted_size.c \
 src/utils/mx_get_max_len_by_strings.c \
-src/utils/mx_get_max_len_by_numbers.c
+src/utils/mx_get_max_len_by_numbers.c \
+src/mx_has_output_format_flag.c \
+src/mx_get_columns_info.c
 
 OBJ = \
 main.o \
@@ -159,17 +167,21 @@ mx_get_major.o \
 mx_get_minor.o \
 mx_check_chr_or_blk_device.o \
 mx_print_columns.o \
+mx_print_x_columns.o \
 mx_get_terminal_width.o \
-mx_print_names.o \
+mx_print_force.o \
+mx_print_stream.o \
 mx_get_max_filename_length.o \
 mx_print_size.o \
 mx_check_reverse.o \
 mx_convert_size.o \
 mx_print_symlink.o \
-mx_print_xattr_acl_text.o \
+mx_print_xattrs_text.o \
 mx_get_formatted_size.o \
 mx_get_max_len_by_strings.o \
-mx_get_max_len_by_numbers.o
+mx_get_max_len_by_numbers.o \
+mx_has_output_format_flag.o \
+mx_get_columns_info.o
 
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 

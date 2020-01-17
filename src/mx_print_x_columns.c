@@ -1,16 +1,16 @@
 #include "uls.h"
 
 static void output_with_paths(t_list **list);
-static void print_columns(t_list **list);
+static void print_x_columns(t_list **list);
 static void print_row(t_list *node1, t_columns_info *info, bool is_first);
 static int get_spaces(int max_len);
 
-void mx_print_columns(t_list **list, t_settings *settings) {
+void mx_print_x_columns(t_list **list, t_settings *settings) {
     t_list *node = *list;
     t_list *inner_list = ((t_list *)(node->data))->next;
 
     if (mx_list_size(*list) == 1 && settings->not_found)
-        print_columns(&inner_list);
+        print_x_columns(&inner_list);
     else
         output_with_paths(list);
 }
@@ -23,14 +23,14 @@ static void output_with_paths(t_list **list) {
         mx_printstr(((t_list *)(node->data))->data);
         mx_printstr(":\n");
         inner_list = ((t_list *)(node->data))->next;
-        print_columns(&inner_list);
+        print_x_columns(&inner_list);
         node = node->next;
         if (node)
             mx_printchar('\n');
     }
 }
 
-static void print_columns(t_list **list) {
+static void print_x_columns(t_list **list) {
     t_columns_info *info = mx_get_columns_info(list);
     bool is_first = true;
 
@@ -39,9 +39,9 @@ static void print_columns(t_list **list) {
         is_first = true;
         print_row(node1, info, is_first);
         info->j = 0;
-        if ((mx_list_size(node1) % info->rows + 1))
+        if ((mx_list_size(node1) % info->cols))
             mx_printchar('\n');
-        if (!(info->i % info->rows))
+        if (info->i % info->cols)
             break;
     }
     free(info);
@@ -53,15 +53,18 @@ static void print_row(t_list *node1, t_columns_info *info, bool is_first) {
     char *file = NULL;
 
     for (t_list *node2 = node1; node2; node2 = node2->next) {
-        if (!(info->j % info->rows)) {
-            file = ((t_data *)(node2->data))->filename;
-            if (!is_first)
-                mx_print_spaces(get_spaces(info->max_len) - mx_strlen(prev));
-            mx_printstr(file);
-            is_first = false;
-            prev = file;
-        }
+        file = ((t_data *)(node2->data))->filename;
+        if (!is_first)
+            mx_print_spaces(get_spaces(info->max_len) - mx_strlen(prev));
+        mx_printstr(file);
         info->j++;
+        is_first = false;
+        prev = file;
+        if (!(info->j % info->cols)) {
+            mx_printchar('\n');
+            info->j = 0;
+            is_first = true;
+        }
     }
 }
 

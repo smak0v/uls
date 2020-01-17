@@ -9,19 +9,23 @@ static void process_sorting(t_list **data, t_settings *settings) {
         mx_sort_by_name(data, settings->reverse);
 }
 
-void mx_process_output(t_list **data, t_settings *settings) {
+void mx_process_output(t_list **data, t_settings *settings, char **flags) {
     t_mode_enum mode;
 
     process_sorting(data, settings);
-    if (isatty(1)) {
-        if ((int)(mode = columns) == settings->mode)
-            mx_print_columns(data, settings);
+    if (isatty(1) || mx_has_output_format_flag(flags)) {
+        if ((int)(mode = columns) == settings->mode) {
+            if (settings->print_xcols)
+                mx_print_x_columns(data, settings);
+            else
+                mx_print_columns(data, settings);
+        }
         else if ((int)(mode = table) == settings->mode)
             mx_print_long(data, settings);
         else if ((int)(mode = commas) == settings->mode)
-            mx_print_names(data, ", ", settings);
+            mx_print_stream(data, settings);
         else
-            mx_print_names(data, "\n", settings);
+            mx_print_force(data, settings);
     } else
-        mx_print_names(data, "\n", settings);
+        mx_print_force(data, settings);
 }
