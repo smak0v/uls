@@ -1,17 +1,18 @@
 #include "uls.h"
 
-static void simple_output(t_list **list);
-static void output_with_paths(t_list **list);
-static void print(t_list *node, int *len, unsigned short width);
+static void simple_output(t_list **list, t_settings *settings);
+static void output_with_paths(t_list **list, t_settings *settings);
+static void print(t_list *node, int *len, unsigned short width,
+t_settings *settings);
 
 void mx_print_stream(t_list **list, t_settings *settings) {
     if (mx_list_size(*list) == 1  && settings->not_found)
-        simple_output(list);
+        simple_output(list, settings);
     else
-        output_with_paths(list);
+        output_with_paths(list, settings);
 }
 
-static void simple_output(t_list **list) {
+static void simple_output(t_list **list, t_settings *settings) {
     t_list *node = *list;
     t_list *inner_node = NULL;
     unsigned short width = mx_get_terminal_width();
@@ -20,14 +21,14 @@ static void simple_output(t_list **list) {
     while (node) {
         inner_node = ((t_list *)node->data)->next;
         while (inner_node) {
-            print(inner_node, &len, width);
+            print(inner_node, &len, width, settings);
             inner_node = inner_node->next;
         }
         node = node->next;
     }
 }
 
-static void output_with_paths(t_list **list) {
+static void output_with_paths(t_list **list, t_settings *settings) {
     t_list *node = *list;
     t_list *inner_node = NULL;
     unsigned short width = mx_get_terminal_width();
@@ -38,7 +39,7 @@ static void output_with_paths(t_list **list) {
         mx_printstr(":\n");
         inner_node = ((t_list *)node->data)->next;
         while (inner_node) {
-            print(inner_node, &len, width);
+            print(inner_node, &len, width, settings);
             inner_node = inner_node->next;
         }
         node = node->next;
@@ -47,14 +48,15 @@ static void output_with_paths(t_list **list) {
     }
 }
 
-static void print(t_list *node, int *len, unsigned short width) {
+static void print(t_list *node, int *len, unsigned short width,
+t_settings *settings) {
     char *file = ((t_data *)(node->data))->filename;
 
     if (*len + mx_strlen(file) + 2 >= width) {
         mx_printchar('\n');
         *len = 0;
     }
-    mx_printstr(file);
+    mx_print_filename((t_data *)node->data, settings);
     node->next ? mx_printstr(", ") : mx_printchar('\n');
     *len += mx_strlen(file) + 2;
 }

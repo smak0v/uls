@@ -1,8 +1,9 @@
 #include "uls.h"
 
-static void output_with_paths(t_list **list);
-static void print_columns(t_list **list);
-static void print_row(t_list *node1, t_columns_info *info, bool is_first);
+static void output_with_paths(t_list **list, t_settings *settings);
+static void print_columns(t_list **list, t_settings *settings);
+static void print_row(t_list *node1, t_columns_info *info, bool is_first,
+t_settings *settings);
 static int get_spaces(int max_len);
 
 void mx_print_columns(t_list **list, t_settings *settings) {
@@ -10,12 +11,12 @@ void mx_print_columns(t_list **list, t_settings *settings) {
     t_list *inner_list = ((t_list *)(node->data))->next;
 
     if (mx_list_size(*list) == 1 && settings->not_found)
-        print_columns(&inner_list);
+        print_columns(&inner_list, settings);
     else
-        output_with_paths(list);
+        output_with_paths(list, settings);
 }
 
-static void output_with_paths(t_list **list) {
+static void output_with_paths(t_list **list, t_settings *settings) {
     t_list *node = *list;
     t_list *inner_list = NULL;
 
@@ -23,21 +24,21 @@ static void output_with_paths(t_list **list) {
         mx_printstr(((t_list *)(node->data))->data);
         mx_printstr(":\n");
         inner_list = ((t_list *)(node->data))->next;
-        print_columns(&inner_list);
+        print_columns(&inner_list, settings);
         node = node->next;
         if (node)
             mx_printchar('\n');
     }
 }
 
-static void print_columns(t_list **list) {
+static void print_columns(t_list **list, t_settings *settings) {
     t_columns_info *info = mx_get_columns_info(list);
     bool is_first = true;
 
     for (t_list *node1 = *list; node1; node1 = node1->next) {
         info->i++;
         is_first = true;
-        print_row(node1, info, is_first);
+        print_row(node1, info, is_first, settings);
         info->j = 0;
         if ((mx_list_size(node1) % info->rows + 1))
             mx_printchar('\n');
@@ -48,18 +49,17 @@ static void print_columns(t_list **list) {
     info = NULL;
 }
 
-static void print_row(t_list *node1, t_columns_info *info, bool is_first) {
+static void print_row(t_list *node1, t_columns_info *info, bool is_first,
+t_settings *settings) {
     char *prev = NULL;
-    char *file = NULL;
 
     for (t_list *node2 = node1; node2; node2 = node2->next) {
         if (!(info->j % info->rows)) {
-            file = ((t_data *)(node2->data))->filename;
             if (!is_first)
                 mx_print_spaces(get_spaces(info->max_len) - mx_strlen(prev));
-            mx_printstr(file);
+            mx_print_filename((t_data *)node2->data, settings);
             is_first = false;
-            prev = file;
+            prev = ((t_data *)(node2->data))->filename;
         }
         info->j++;
     }

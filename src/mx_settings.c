@@ -19,6 +19,7 @@ t_settings *mx_setup(char **flags) {
         setup->full_time = 0;
         setup->print_slash = 0;
         setup->omit_group = 0;
+        setup->colored = 0;
     }
     else {
         setup->mode = setup_mode(flags);
@@ -31,12 +32,14 @@ t_settings *mx_setup(char **flags) {
         // setup->full_time = setup_full_time(flags); TODO (Yulia) -T
         // setup->print_slash = setup_print_slash(flags); TODO (Yulia) -p
         // setup->omit_group = setup_omit_group(flags); TODO (Yulia) -o
+        // setup->colored = setup_colored(flags); TODO (Yulia) -G
         setup->format_size = 0;
         setup->print_xattr = 0;
         setup->print_xcols = 0;
         setup->full_time = 0;
         setup->print_slash = 0;
         setup->omit_group = 0;
+        setup->colored = 1;
     }
     return setup;
 }

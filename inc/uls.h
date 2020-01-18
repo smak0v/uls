@@ -33,6 +33,7 @@
 #define MX_IS_FIFO(mode) (((mode) & S_IFMT) == S_IFIFO)
 #define MX_IS_WHT(mode) (((mode) & S_IFMT) == S_IFWHT)
 #define MX_IS_REG(mode) (((mode) & S_IFMT) == S_IFREG)
+#define MX_IS_EXEC(mode) ((mode) & S_IXUSR)
 
 // Structures
 typedef struct dirent t_dnt;
@@ -109,6 +110,7 @@ typedef struct s_settings {
     int full_time; // -T
     int print_slash; // -p
     int omit_group; // -o
+    int colored; // -G
 } t_settings;
 
 typedef struct s_max_len {
@@ -206,6 +208,8 @@ t_settings *settings);
 void mx_print_symlink(t_data *data);
 void mx_print_xattrs_text(t_data *data, t_settings *settings,
 t_max_len *max_len);
+void mx_print_filename(t_data *data, t_settings *settings);
+void mx_print_colored(t_data *data);
 
 // Printing modes
 void mx_print_long(t_list **list, t_settings *settings); // -l -g -o

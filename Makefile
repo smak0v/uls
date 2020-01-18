@@ -67,7 +67,9 @@ mx_get_formatted_size.c \
 mx_get_max_len_by_strings.c \
 mx_get_max_len_by_numbers.c \
 mx_has_output_format_flag.c \
-mx_get_columns_info.c
+mx_get_columns_info.c \
+mx_print_filename.c \
+mx_print_colored.c
 
 SRCF = \
 src/main.c \
@@ -124,7 +126,9 @@ src/mx_get_formatted_size.c \
 src/utils/mx_get_max_len_by_strings.c \
 src/utils/mx_get_max_len_by_numbers.c \
 src/mx_has_output_format_flag.c \
-src/mx_get_columns_info.c
+src/mx_get_columns_info.c \
+src/mx_print_filename.c \
+src/mx_print_colored.c
 
 OBJ = \
 main.o \
@@ -181,7 +185,9 @@ mx_get_formatted_size.o \
 mx_get_max_len_by_strings.o \
 mx_get_max_len_by_numbers.o \
 mx_has_output_format_flag.o \
-mx_get_columns_info.o
+mx_get_columns_info.o \
+mx_print_filename.o \
+mx_print_colored.o
 
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 

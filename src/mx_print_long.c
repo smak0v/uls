@@ -75,7 +75,7 @@ t_settings *settings) {
     mx_print_spaces(1);
     mx_print_date(data->last_modified, settings->full_time);
     mx_print_spaces(1);
-    mx_printstr(data->filename);
+    mx_print_filename(data, settings);
     mx_print_symlink(data);
     mx_printchar('\n');
     mx_print_xattrs_text(data, settings, max_len);
