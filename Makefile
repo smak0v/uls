@@ -43,6 +43,7 @@ mx_sort_by_last_access_time.c \
 mx_sort_by_last_modification_time.c \
 mx_sort_by_last_changed_time.c \
 mx_sort_by_size.c \
+mx_sort_errors.c \
 mx_settings.c \
 mx_process_output.c \
 mx_get_max_len_struct.c \
@@ -69,7 +70,10 @@ mx_get_max_len_by_numbers.c \
 mx_has_output_format_flag.c \
 mx_get_columns_info.c \
 mx_print_filename.c \
-mx_print_colored.c
+mx_print_colored.c \
+mx_print_errors.c \
+mx_create_error.c \
+mx_print_inode.c
 
 SRCF = \
 src/main.c \
@@ -102,6 +106,7 @@ src/sortings/mx_sort_by_last_access_time.c \
 src/sortings/mx_sort_by_last_modification_time.c \
 src/sortings/mx_sort_by_last_changed_time.c \
 src/sortings/mx_sort_by_size.c \
+src/sortings/mx_sort_errors.c \
 src/mx_settings.c \
 src/mx_process_output.c \
 src/mx_get_max_len_struct.c \
@@ -128,7 +133,10 @@ src/utils/mx_get_max_len_by_numbers.c \
 src/mx_has_output_format_flag.c \
 src/mx_get_columns_info.c \
 src/mx_print_filename.c \
-src/mx_print_colored.c
+src/mx_print_colored.c \
+src/mx_print_errors.c \
+src/mx_create_error.c \
+src/mx_print_inode.c
 
 OBJ = \
 main.o \
@@ -161,6 +169,7 @@ mx_sort_by_last_access_time.o \
 mx_sort_by_last_modification_time.o \
 mx_sort_by_last_changed_time.o \
 mx_sort_by_size.o \
+mx_sort_errors.o \
 mx_settings.o \
 mx_process_output.o \
 mx_get_max_len_struct.o \
@@ -187,7 +196,10 @@ mx_get_max_len_by_numbers.o \
 mx_has_output_format_flag.o \
 mx_get_columns_info.o \
 mx_print_filename.o \
-mx_print_colored.o
+mx_print_colored.o \
+mx_print_errors.o \
+mx_create_error.o \
+mx_print_inode.o
 
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 

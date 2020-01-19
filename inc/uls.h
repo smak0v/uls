@@ -96,6 +96,8 @@ typedef struct s_data {
 
     // -c
     long last_changed;
+
+    ino_t inode;
 } t_data;
 
 typedef struct s_settings {
@@ -110,7 +112,9 @@ typedef struct s_settings {
     int full_time; // -T
     int print_slash; // -p
     int omit_group; // -o
+    int omit_owner; // -g
     int colored; // -G
+    int print_inode; // -i
 } t_settings;
 
 typedef struct s_max_len {
@@ -119,6 +123,7 @@ typedef struct s_max_len {
     int groups;
     int sizes;
     int xattrs_sizes;
+    int inodes;
 } t_max_len;
 
 typedef struct s_colunms_info {
@@ -130,17 +135,24 @@ typedef struct s_colunms_info {
     int j;
 } t_columns_info;
 
+typedef struct s_error {
+    int is_dir;
+    char *filename;
+    char *error;
+} t_error;
+
 // Functions
 // Core
 t_settings *mx_setup(char **flags);
-void mx_read_data(char **flags, char **files, t_list **list, char *dirname);
+t_list *mx_read_data(char **flags, char **files, t_list **list, char *filename);
 void mx_process_output(t_list **data, t_settings *settings, char **flags);
 void mx_process_l(t_st st, t_data *data);
 void mx_process_R(char **flags, t_list **list, char *path, char *filename);
 
 // Errors
-void mx_print_no_such_error(char *file);
 void mx_check_usage_error(char **flags, char **files);
+void mx_print_uls_error(char *filename, char *error);
+t_error *mx_create_error(char *filename, char *error, int is_dir);
 
 // Utils
 char **mx_store_flags(int argc, char **argv);
@@ -157,6 +169,7 @@ int mx_get_max_len_by_owners(t_list *list);
 int mx_get_max_len_by_groups(t_list *list);
 int mx_get_max_len_by_sizes(t_list *list);
 int mx_get_max_len_by_xattr_size(t_list *list);
+int mx_get_max_len_by_inodes(t_list *list);
 bool mx_has_output_format_flag(char **flags);
 
 // Getters
@@ -170,7 +183,7 @@ char *mx_get_owner(uid_t st_uid);
 char *mx_get_symlink(char *dirname, off_t st_size);
 char *mx_get_major(int st_rdev);
 char *mx_get_minor(int st_rdev);
-unsigned short mx_get_terminal_width();
+ushort mx_get_terminal_width();
 int mx_get_max_filename_length(t_list **list);
 void mx_get_formatted_size(int int_part, int int_float_part, char **res);
 t_columns_info *mx_get_columns_info(t_list **list);
@@ -197,6 +210,7 @@ void mx_sort_by_creation_time(t_list **list, bool reverse);
 void mx_sort_by_last_access_time(t_list **list, bool reverse);
 void mx_sort_by_last_modification_time(t_list **list, bool reverse);
 void mx_sort_by_size(t_list **list, bool reverse);
+void mx_sort_errors(t_list **errors);
 
 // Printing data
 void mx_print_total(t_list *list);
@@ -210,12 +224,19 @@ void mx_print_xattrs_text(t_data *data, t_settings *settings,
 t_max_len *max_len);
 void mx_print_filename(t_data *data, t_settings *settings);
 void mx_print_colored(t_data *data);
+void mx_print_errors(t_list *errors);
+void mx_print_inode(t_settings *settings, ino_t inode, t_max_len *max_len);
 
 // Printing modes
-void mx_print_long(t_list **list, t_settings *settings); // -l -g -o
-void mx_print_columns(t_list **list, t_settings *settings); // -C
-void mx_print_x_columns(t_list **list, t_settings *settings); // -x
-void mx_print_force(t_list **list, t_settings *settings); // -1
-void mx_print_stream(t_list **list, t_settings *settings); // -m
+// -l -g -o
+void mx_print_long(t_list **list, t_settings *settings);
+// -C
+void mx_print_columns(t_list **list, t_settings *settings);
+// -x
+void mx_print_x_columns(t_list **list, t_settings *settings);
+// -1
+void mx_print_force(t_list **list, t_settings *settings);
+// -m
+void mx_print_stream(t_list **list, t_settings *settings);
 
 #endif

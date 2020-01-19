@@ -5,10 +5,12 @@ int main(int argc, char *argv[]) {
     char **files = mx_store_files(argc, argv);
     t_settings *settings = NULL;
     t_list *data =  NULL;
+    t_list *errors = NULL;
 
     settings = mx_setup(flags);
     mx_check_usage_error(flags, files);
-    mx_read_data(flags, files, &data, ".");
+    errors = mx_read_data(flags, files, &data, ".");
+    mx_print_errors(errors);
     mx_process_output(&data, settings, flags);
 
     // Leak cleaning

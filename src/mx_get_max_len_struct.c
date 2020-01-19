@@ -9,5 +9,6 @@ t_max_len *mx_get_max_len_struct(t_list *list) {
     max_len->groups = mx_get_max_len_by_groups(inner_node);
     max_len->sizes = mx_get_max_len_by_sizes(inner_node);
     max_len->xattrs_sizes = mx_get_max_len_by_xattr_size(inner_node);
+    max_len->inodes = mx_get_max_len_by_inodes(inner_node);
     return max_len;
 }

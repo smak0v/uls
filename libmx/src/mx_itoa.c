@@ -5,10 +5,7 @@ char *mx_itoa(int number) {
     char *str_integer = NULL;
 
     if ((number != 0) && (number != -2147483648)) {
-        if (number < 0)
-            str_integer = mx_strnew(length + 1);
-        else
-            str_integer = mx_strnew(length);
+        str_integer = mx_strnew(length);
         for (int i = 0; i < length; i++) {
             if (number < 0) {
                 str_integer[length] = '-';

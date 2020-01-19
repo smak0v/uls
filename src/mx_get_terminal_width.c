@@ -1,6 +1,6 @@
 #include "uls.h"
 
-unsigned short mx_get_terminal_width() {
+ushort mx_get_terminal_width() {
     struct winsize w;
 
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);

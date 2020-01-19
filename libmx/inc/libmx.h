@@ -32,6 +32,7 @@ char *mx_nbr_to_hex(unsigned long nbr);
 unsigned long mx_hex_to_nbr(const char *hex);
 char *mx_itoa(int number);
 char *mx_lltoa(long long value);
+char *mx_ulltoa(unsigned long long value);
 int mx_atoi(const char *str);
 int mx_ctoi(char c);
 void mx_foreach(int *arr, int size, void (*f)(int));
@@ -45,6 +46,7 @@ int mx_get_file_length(const char *file);
 int mx_count_unequal(char **arr);
 int mx_strarr_len(char **strarr);
 int mx_numlen(long long value);
+int mx_unumlen(unsigned long long value);
 
 // String pack
 int mx_strlen(const char *s);

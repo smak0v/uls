@@ -15,11 +15,10 @@ void mx_check_usage_error(char **flags, char **files) {
     }
 }
 
-void mx_print_no_such_error(char *file) {
-    char *error = strerror(errno);
+void mx_print_uls_error(char *filename, char *error) {
 
     mx_print_error("uls: ");
-    mx_print_error(file);
+    mx_print_error(filename);
     mx_print_error(": ");
     mx_print_error_endl(error);
 }

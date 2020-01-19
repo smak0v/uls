@@ -21,6 +21,7 @@ void mx_process_l(t_st st, t_data *data) {
     data->symlink = mx_get_symlink(full_name, st.st_size);
     data->mode = st.st_mode;
     data->st_rdev = st.st_rdev;
+    data->inode = st.st_ino;
     check_major_minor(data);
 }
 

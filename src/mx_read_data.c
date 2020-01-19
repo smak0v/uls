@@ -3,8 +3,9 @@
 static void read_data(t_list **list, char *file, DIR *direct, char **flags);
 static void gather_data(t_list **list, t_list *data, t_dnt *dir, char **flag, t_st st, char *full_filename);
 
-void mx_read_data(char **flags, char **files, t_list **list, char *filename) {
+t_list *mx_read_data(char **flags, char **files, t_list **list, char *filename) {
     DIR *directory = NULL;
+    t_list *errors = NULL;
 
     if (!files || !(*files)) {
         directory = opendir(filename);
@@ -19,8 +20,8 @@ void mx_read_data(char **flags, char **files, t_list **list, char *filename) {
                 closedir(directory);
             }
             else {
-                if (errno != 20) // 20 == Not a directory error
-                    mx_print_no_such_error(files[i]);
+                if (errno)
+                    mx_push_front(&errors, mx_create_error(files[i], strerror(errno), 0));
                 else {
                     directory = opendir(".");
                     read_data(list, files[i], directory, flags);
@@ -29,6 +30,7 @@ void mx_read_data(char **flags, char **files, t_list **list, char *filename) {
                 }
             }
         }
+    return errors;
 }
 
 static void read_data(t_list **list, char *file, DIR *direct, char **flags) {

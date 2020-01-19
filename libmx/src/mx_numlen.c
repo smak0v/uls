@@ -8,5 +8,5 @@ int mx_numlen(long long value) {
         length++;
         copy_value /= 10;
     }
-    return length;
+    return value < 0 ? length + 1 : length;
 }

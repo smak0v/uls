@@ -5,10 +5,7 @@ char *mx_lltoa(long long value) {
     char *str_value = NULL;
 
     if ((value != 0) && (value != (-9223372036854775807LL - 1))) {
-        if (value < 0)
-            str_value = mx_strnew(length + 1);
-        else
-            str_value = mx_strnew(length);
+        str_value = mx_strnew(length);
         for (int i = 0; i < length; i++) {
             if (value < 0) {
                 str_value[length] = '-';
