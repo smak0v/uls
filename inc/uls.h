@@ -127,6 +127,7 @@ typedef struct s_max_len {
 } t_max_len;
 
 typedef struct s_colunms_info {
+    t_max_len *max;
     int max_len;
     int list_size;
     int cols;
@@ -183,10 +184,11 @@ char *mx_get_owner(uid_t st_uid);
 char *mx_get_symlink(char *dirname, off_t st_size);
 char *mx_get_major(int st_rdev);
 char *mx_get_minor(int st_rdev);
-ushort mx_get_terminal_width();
+ushort mx_get_terminal_width(t_settings *settings);
 int mx_get_max_filename_length(t_list **list);
 void mx_get_formatted_size(int int_part, int int_float_part, char **res);
-t_columns_info *mx_get_columns_info(t_list **list);
+t_columns_info *mx_get_columns_info(t_list **list, t_settings *settings,
+t_max_len *max);
 
 // Comparators
 bool mx_filename_asc_comparator(void *data_1, void *data_2);

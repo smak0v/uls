@@ -57,22 +57,20 @@ static void output_with_paths(t_list **list, t_settings *settings) {
 static void print(t_list *node, int *len, t_max_len *max_len,
 t_settings *settings) {
     char *file = ((t_data *)(node->data))->filename;
-    ushort width = mx_get_terminal_width();
+    ushort width = mx_get_terminal_width(settings);
 
     if (settings->print_inode) {
-        if (*len + max_len->inodes + 1 + mx_strlen(file) + 2 >= width) {
+        if (*len + max_len->inodes + mx_strlen(file) + 3 >= width) {
             mx_printchar('\n');
             *len = 0;
         }
-        else
-            *len += max_len->inodes + 1 + mx_strlen(file) + 2;
+        *len +=  max_len->inodes + mx_strlen(file) + 3;
     } else {
         if (*len + mx_strlen(file) + 2 >= width) {
             mx_printchar('\n');
             *len = 0;
         }
-        else
-            *len += mx_strlen(file) + 2;
+        *len += mx_strlen(file) + 2;
     }
     mx_print_inode(settings, ((t_data *)node->data)->inode, max_len);
     mx_print_filename((t_data *)node->data, settings);

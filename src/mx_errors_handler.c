@@ -11,7 +11,7 @@ void mx_check_usage_error(char **flags, char **files) {
         mx_print_error_endl("] [file ...]");
         mx_del_strarr(&flags);
         mx_del_strarr(&files);
-        exit(-1);
+        exit(1);
     }
 }
 

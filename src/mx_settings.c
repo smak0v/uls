@@ -45,7 +45,7 @@ t_settings *mx_setup(char **flags) {
         setup->omit_group = 0;
         setup->omit_owner = 0;
         setup->colored = 0;
-        setup->print_inode = 0;
+        setup->print_inode = 1;
     }
     return setup;
 }
