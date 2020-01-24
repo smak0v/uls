@@ -23,14 +23,11 @@ int mx_count_unique(char **arr, char *str) {
     return unequal_count - count;
 }
 
-static bool check_set(char **set, char *element, int set_size, char *str) {
+static bool check_set(char **set, char *element) {
     int i = 0;
 
-    while (i <= set_size) {
-        if (set[i] == NULL)
-            return false;
-        if (mx_strcmp(set[i], element) == 0 
-            && mx_get_char_index(str, set[i][0]) < 0)
+    while (set[i]) {
+        if (mx_strcmp(set[i], element) == 0)
             return true;
         i++;
     }
@@ -44,9 +41,12 @@ char **mx_create_custom_set(char **arr, char *str) {
 
     for (int i = 0; i < count; i++)
         set[i] = NULL;
-    for (int i = 0; i < mx_get_arr_length(arr); i++)
-        if (!check_set(set, arr[i], count, str))
+    for (int i = 0; i < mx_get_arr_length(arr); i++) {
+        if (!check_set(set, arr[i])
+            && mx_get_char_index(DATA_FLAGS, *arr[i]) != -1) {
             set[j++] = mx_strdup(arr[i]);
+        }
+    }       
     set[j] = NULL;
     return set;
 }
