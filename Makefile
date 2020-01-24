@@ -49,7 +49,6 @@ mx_process_output.c \
 mx_get_max_len_struct.c \
 mx_print_filename_and_total.c \
 mx_process_l.c \
-mx_process_R.c \
 mx_get_major.c \
 mx_get_minor.c \
 mx_check_chr_or_blk_device.c \
@@ -73,7 +72,10 @@ mx_print_filename.c \
 mx_print_colored.c \
 mx_print_errors.c \
 mx_create_error.c \
-mx_print_inode.c
+mx_print_inode.c \
+mx_set.c \
+mx_get_full_filename.c \
+mx_search_arr.c \
 
 SRCF = \
 src/main.c \
@@ -112,7 +114,6 @@ src/mx_process_output.c \
 src/mx_get_max_len_struct.c \
 src/mx_print_filename_and_total.c \
 src/mx_process_l.c \
-src/mx_process_R.c \
 src/mx_get_major.c \
 src/mx_get_minor.c \
 src/mx_check_chr_or_blk_device.c \
@@ -136,7 +137,10 @@ src/mx_print_filename.c \
 src/mx_print_colored.c \
 src/mx_print_errors.c \
 src/mx_create_error.c \
-src/mx_print_inode.c
+src/mx_print_inode.c \
+src/mx_set.c \
+src/mx_get_full_filename.c \
+src/mx_search_arr.c \
 
 OBJ = \
 main.o \
@@ -175,7 +179,6 @@ mx_process_output.o \
 mx_get_max_len_struct.o \
 mx_print_filename_and_total.o \
 mx_process_l.o \
-mx_process_R.o \
 mx_get_major.o \
 mx_get_minor.o \
 mx_check_chr_or_blk_device.o \
@@ -199,7 +202,10 @@ mx_print_filename.o \
 mx_print_colored.o \
 mx_print_errors.o \
 mx_create_error.o \
-mx_print_inode.o
+mx_print_inode.o \
+mx_set.o \
+mx_get_full_filename.o \
+mx_search_arr.o \
 
 CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 

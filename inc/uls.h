@@ -103,7 +103,8 @@ typedef struct s_data {
 typedef struct s_settings {
     int mode;
     int sorting;
-    int data;
+    t_data_enum *data;
+    int data_len;
     int not_found;
     int reverse; // -r
     int format_size; // -h
@@ -112,9 +113,9 @@ typedef struct s_settings {
     int full_time; // -T
     int print_slash; // -p
     int omit_group; // -o
-    int omit_owner; // -g
     int colored; // -G
-    int print_inode; // -i
+    int omit_owner;
+    int print_inode;
 } t_settings;
 
 typedef struct s_max_len {
@@ -145,10 +146,9 @@ typedef struct s_error {
 // Functions
 // Core
 t_settings *mx_setup(char **flags);
-t_list *mx_read_data(char **flags, char **files, t_list **list, char *filename);
+void mx_read_data(t_list **data, t_settings *setup, char **files, char *f);
 void mx_process_output(t_list **data, t_settings *settings, char **flags);
 void mx_process_l(t_st st, t_data *data);
-void mx_process_R(char **flags, t_list **list, char *path, char *filename);
 
 // Errors
 void mx_check_usage_error(char **flags, char **files);
@@ -172,6 +172,9 @@ int mx_get_max_len_by_sizes(t_list *list);
 int mx_get_max_len_by_xattr_size(t_list *list);
 int mx_get_max_len_by_inodes(t_list *list);
 bool mx_has_output_format_flag(char **flags);
+int mx_count_unique(char **arr, char *str);
+char **mx_create_custom_set(char **arr, char *str);
+int mx_search_arr(t_settings *setup, t_data_enum value);
 
 // Getters
 t_max_len *mx_get_max_len_struct(t_list *list);
@@ -189,6 +192,10 @@ int mx_get_max_filename_length(t_list **list);
 void mx_get_formatted_size(int int_part, int int_float_part, char **res);
 t_columns_info *mx_get_columns_info(t_list **list, t_settings *settings,
 t_max_len *max);
+char *mx_get_full_filename(char *dirpath, char *filename);
+char *mx_get_dirname(char *full_path);
+char *mx_get_filename(char *full_path);
+char *mx_check_match(char **strarr, char *dirname, char *filename);
 
 // Comparators
 bool mx_filename_asc_comparator(void *data_1, void *data_2);
