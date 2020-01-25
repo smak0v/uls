@@ -18,11 +18,11 @@
 #include <uuid/uuid.h>
 
 // Constants
-#define ALLOWED_FLAGS "CRSaflmtx1r"
+#define ALLOWED_FLAGS "ACRSaflmtx1r"
 //ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1]
 #define MODE_FLAGS "Clmx1"
 #define SORTING_FLAGS "Stlf"
-#define DATA_FLAGS "Ralf" //ADD f SUPPORT!! -f turns on -a
+#define DATA_FLAGS "ARalf" //ADD f SUPPORT!! -f turns on -a
 
 // Macroses
 #define MX_IS_BLK(mode) (((mode) & S_IFMT) == S_IFBLK)

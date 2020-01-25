@@ -10,24 +10,27 @@ static void write_data(t_data **info_ptr, t_dnt *dir, t_st st, char *dname) {
 }
 
 
-static void gather_data(t_list **lst, t_dnt *dir, t_st st, char *dnm,
+static void gather_data(t_list **lst, t_list *node, t_dnt *dir, t_st st,
                         t_settings *s) {
-    t_list *inner_data = (*lst)->data;
     t_data *info = NULL;
+    char *dnm = node->data;
 
     if ((!mx_strcmp(dir->d_name, ".") || !mx_strcmp(dir->d_name, "..")) 
-        && mx_search_arr(s, a))
+        && !mx_search_arr(s, a))
         return;
-    else if (dir->d_name[0] == '.' && !mx_search_arr(s, A))
+    else if (dir->d_name[0] == '.' && (!mx_search_arr(s, A) 
+             && !mx_search_arr(s, a)))
         return;
 
     info = malloc(sizeof(t_data));
     write_data(&info, dir, st, dnm);
+    // mx_printstr_endl(dnm);
+    // mx_printstr_endl(info->filename);
 
     if (mx_search_arr(s, R) && info->is_dir)
         mx_read_data(lst, s, NULL, info->full_filename);
     
-    mx_push_back(&inner_data, (void *)info);
+    mx_push_back(&node, (void *)info);
 }
 
 
@@ -44,7 +47,7 @@ static char **read_dir_files(t_settings *setup, t_list **list, char *dname,
         if (file_i) {
             full_filename = mx_get_full_filename(dname, dirnt->d_name);
             lstat(full_filename, st);
-            gather_data(list, dirnt, *st, dname, setup);
+            gather_data(list, (*list)->data, dirnt, *st, setup);
             mx_strdel(&full_filename);
             files = mx_pop_string_array(files, file_i);
         }
@@ -72,13 +75,15 @@ static void read_dir(t_settings *setup, t_list **list, char *dname, DIR *dir) {
     struct dirent *dirnt = NULL;
     struct stat *st = malloc(sizeof(struct stat));
     char *full_filename = NULL;
+    t_list *node = NULL;
 
     mx_push_front(list, mx_create_node(mx_strdup(dname))); // mx_create_node(mx_getdirinfo)
+    node = (*list)->data;
 
     while ((dirnt = readdir(dir)) != NULL) {
         full_filename = mx_get_full_filename(dname, dirnt->d_name);
         lstat(full_filename, st);
-        gather_data(list, dirnt, *st, dname, setup);
+        gather_data(list, node, dirnt, *st, setup);
         mx_strdel(&full_filename);
     }
 
@@ -105,8 +110,9 @@ static void process_files(t_settings *setup, char **files, t_list **data) {
             }
         }
     }
-    if (files)
+    if (files) {
         process_leftovers(setup, files, data);
+    }
 }
 
 
@@ -115,7 +121,12 @@ void mx_read_data(t_list **data, t_settings *setup, char **files, char *f) {
 
     if (!files || !(*files)) {
         directory = opendir(f);
+        if (errno == 13) {
+            mx_printstr_endl(strerror(errno));
+            return;
+        }
         read_dir(setup, data, f, directory);
+        closedir(directory);
     }
     else {
         process_files(setup, files, data);

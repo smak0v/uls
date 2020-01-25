@@ -37,9 +37,9 @@ t_settings *mx_setup(char **flags) {
         // setup->print_slash = setup_print_slash(flags); TODO (Yulia) -p
         // setup->omit_group = setup_omit_group(flags); TODO (Yulia) -o
         // setup->colored = setup_colored(flags); TODO (Yulia) -G
-        setup->format_size = 0;
-        setup->print_xattr = 0;
-        setup->print_xcols = 0;
+        setup->format_size = 0; // -l + @ || g + o
+        setup->print_xattr = 0; // -
+        setup->print_xcols = 0; // -x
         setup->full_time = 0;
         setup->print_slash = 0;
         setup->omit_group = 0;
