@@ -114,8 +114,8 @@ typedef struct s_settings {
     int print_slash; // -p
     int omit_group; // -o
     int colored; // -G
-    int omit_owner;
-    int print_inode;
+    int omit_owner; // -g
+    int print_inode; // -i
 } t_settings;
 
 typedef struct s_max_len {

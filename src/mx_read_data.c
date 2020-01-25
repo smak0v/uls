@@ -58,7 +58,7 @@ static char **read_dir_files(t_settings *setup, t_list **list, char *dname,
 static void process_leftovers(t_settings *setup, char **files, t_list **data) {
     char *dirname = NULL;
 
-    mx_push_front(data, mx_create_node("files"));
+    mx_push_front(data, mx_create_node(mx_strdup("files")));
 
     for (int i = 0; files && files[i];) {
         dirname = mx_get_dirname(files[i]);

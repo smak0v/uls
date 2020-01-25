@@ -22,6 +22,8 @@ t_settings *mx_setup(char **flags) {
         setup->print_slash = 0;
         setup->omit_group = 0;
         setup->colored = 0;
+        setup->omit_owner = 0;
+        setup->print_inode = 0;
     }
     else {
         setup->mode = setup_mode(flags);
@@ -42,6 +44,8 @@ t_settings *mx_setup(char **flags) {
         setup->print_slash = 0;
         setup->omit_group = 0;
         setup->colored = 1;
+        setup->omit_owner = 0;
+        setup->print_inode = 0;
     }
     return setup;
 }
