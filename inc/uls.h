@@ -239,6 +239,7 @@ void mx_print_filename(t_data *data, t_settings *settings);
 void mx_print_colored(t_data *data);
 void mx_print_errors(t_list *errors);
 void mx_print_inode(t_settings *settings, ino_t inode, t_max_len *max_len);
+void mx_printdir(char *dirname);
 
 // Printing modes
 // -l -g -o

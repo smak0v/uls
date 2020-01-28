@@ -21,7 +21,8 @@ static void simple_output(t_list **list, t_settings *settings) {
     while (node) {
         max_len = mx_get_max_len_struct(node);
         inner_node = ((t_list *)node->data)->next;
-        if (mx_list_size(inner_node))
+        if (mx_strcmp(((t_list *)(node->data))->data, "files") != 0
+            && mx_list_size(inner_node))
             mx_print_total(inner_node);
         is_device_met = mx_check_chr_or_blk_device(&inner_node);
         while (inner_node) {
@@ -43,7 +44,8 @@ static void output_with_paths(t_list **list, t_settings *settings) {
     while (node) {
         max_len = mx_get_max_len_struct(node);
         inner_node = ((t_list *)node->data)->next;
-        mx_print_filename_and_total(node, inner_node);
+        if (mx_strcmp(((t_list *)(node->data))->data, "files") != 0)
+            mx_print_filename_and_total(node, inner_node);
         is_device_met = mx_check_chr_or_blk_device(&inner_node);
         while (inner_node) {
             print_data(inner_node->data, max_len, is_device_met, settings);
@@ -52,8 +54,7 @@ static void output_with_paths(t_list **list, t_settings *settings) {
         free(max_len);
         max_len = NULL;
         node = node->next;
-        if (node)
-            mx_printstr("\n");
+        node ? mx_printstr("\n") : (void)0;
     }
 }
 

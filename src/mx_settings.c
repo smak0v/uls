@@ -21,7 +21,6 @@ t_settings *mx_setup(char **flags) {
         // setup->print_slash = setup_print_slash(flags); TODO (Yulia) -p
         // setup->omit_group = setup_omit_group(flags); TODO (Yulia) -o
         // setup->colored = setup_colored(flags); TODO (Yulia) -G
-        setup->not_found = 0;
         setup->format_size = 0; // -l + @ || g + o
         setup->print_xattr = 0; // -
         setup->print_xcols = 0; // -x
@@ -31,7 +30,7 @@ t_settings *mx_setup(char **flags) {
         setup->omit_owner = 0;
         setup->print_inode = 0;
         setup->append_slash = 0;
-        setup->append_type_sign = 1;
+        setup->append_type_sign = 0;
     }
     return setup;
 }

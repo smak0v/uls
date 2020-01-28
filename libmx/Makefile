@@ -182,7 +182,7 @@ mx_pop_string_array.o
 
 CC = clang
 
-CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic -g
+CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 
 all : install
 

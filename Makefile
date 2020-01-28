@@ -77,7 +77,8 @@ mx_set.c \
 mx_get_full_filename.c \
 mx_search_arr.c \
 mx_append_slash.c \
-mx_append_type_sign.c)
+mx_append_type_sign.c \
+mx_printdir.c)
 
 OBJ = \
 main.o \
@@ -144,11 +145,12 @@ mx_set.o \
 mx_get_full_filename.o \
 mx_search_arr.o \
 mx_append_slash.o \
-mx_append_type_sign.o
+mx_append_type_sign.o \
+mx_printdir.o
 
 CC = clang
 
-CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic -g
+CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 
 all : install
 

@@ -27,8 +27,8 @@ static void output_with_paths(t_list **list, t_settings *settings) {
 
     while (node) {
         max_len = mx_get_max_len_struct(node);
-        mx_printstr(((t_list *)(node->data))->data);
-        mx_printstr(":\n");
+        if (mx_strcmp(((t_list *)(node->data))->data, "files") != 0)
+            mx_printdir(((t_list *)(node->data))->data);
         inner_list = ((t_list *)(node->data))->next;
         print_columns(&inner_list, settings, max_len);
         free(max_len);
