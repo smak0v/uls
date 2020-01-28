@@ -116,6 +116,8 @@ typedef struct s_settings {
     int colored; // -G
     int omit_owner; // -g
     int print_inode; // -i
+    int append_slash;// -p
+    int append_type_sign; // -F
 } t_settings;
 
 typedef struct s_max_len {
@@ -175,6 +177,8 @@ bool mx_has_output_format_flag(char **flags);
 int mx_count_unique(char **arr, char *str);
 char **mx_create_custom_set(char **arr, char *str);
 int mx_search_arr(t_settings *setup, t_data_enum value);
+void mx_append_slash(t_data **info, t_settings *settings);
+void mx_append_type_sign(t_st st, t_data **info, t_settings *settings);
 
 // Getters
 t_max_len *mx_get_max_len_struct(t_list *list);

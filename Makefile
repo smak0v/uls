@@ -75,7 +75,9 @@ mx_create_error.c \
 mx_print_inode.c \
 mx_set.c \
 mx_get_full_filename.c \
-mx_search_arr.c)
+mx_search_arr.c \
+mx_append_slash.c \
+mx_append_type_sign.c)
 
 OBJ = \
 main.o \
@@ -140,11 +142,13 @@ mx_create_error.o \
 mx_print_inode.o \
 mx_set.o \
 mx_get_full_filename.o \
-mx_search_arr.o
+mx_search_arr.o \
+mx_append_slash.o \
+mx_append_type_sign.o
 
 CC = clang
 
-CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
+CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic -g
 
 all : install
 

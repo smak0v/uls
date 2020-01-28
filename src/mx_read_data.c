@@ -1,12 +1,17 @@
 #include "uls.h"
 
-static void write_data(t_data **info_ptr, t_dnt *dir, t_st st, char *dname) {
-    t_data *info = *info_ptr;
+static t_data *write_data(t_settings *s, t_dnt *dir, t_st st, char *dname) {
+    t_data *info = malloc(sizeof(t_data));
 
     info->filename = mx_strdup(dir->d_name);
     info->full_filename = mx_get_full_filename(dname, info->filename);
     info->is_dir = MX_IS_DIR(st.st_mode);
     mx_process_l(st, info);
+    if (s->append_slash)
+        mx_append_slash(&info, s);
+    else if (s->append_type_sign)
+        mx_append_type_sign(st, &info, s);
+    return info;
 }
 
 
@@ -22,8 +27,7 @@ static void gather_data(t_list **lst, t_list *node, t_dnt *dir, t_st st,
              && !mx_search_arr(s, a)))
         return;
 
-    info = malloc(sizeof(t_data));
-    write_data(&info, dir, st, dnm);
+    info = write_data(s, dir, st, dnm);
     // mx_printstr_endl(dnm);
     // mx_printstr_endl(info->filename);
 

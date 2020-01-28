@@ -5,7 +5,7 @@ static void output_with_paths(t_list **list, t_settings *settings);
 static void print(t_list *node, t_settings *settings, t_max_len *max_len);
 
 void mx_print_force(t_list **list, t_settings *settings) {
-    if (mx_list_size(*list) == 1  && settings->not_found)
+    if (mx_list_size(*list) == 1  && !settings->not_found)
         simple_output(list, settings);
     else
         output_with_paths(list, settings);

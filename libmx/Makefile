@@ -76,6 +76,7 @@ mx_memrchr.c \
 mx_memmem.c \
 mx_memmove.c \
 mx_realloc.c \
+mx_memalloc.c \
 mx_create_node.c \
 mx_pop_back.c \
 mx_pop_front.c \
@@ -162,6 +163,7 @@ mx_memrchr.o \
 mx_memmem.o \
 mx_memmove.o \
 mx_realloc.o \
+mx_memalloc.o \
 mx_create_node.o \
 mx_pop_back.o \
 mx_pop_front.o \
@@ -180,7 +182,7 @@ mx_pop_string_array.o
 
 CC = clang
 
-CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
+CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic -g
 
 all : install
 

@@ -6,7 +6,7 @@ static void simple_output(t_list **list, t_settings *settings);
 static void output_with_paths(t_list **list, t_settings *settings);
 
 void mx_print_long(t_list **list, t_settings *settings) {
-    if (mx_list_size(*list) == 1  && settings->not_found)
+    if (mx_list_size(*list) == 1  && !settings->not_found)
         simple_output(list, settings);
     else
         output_with_paths(list, settings);

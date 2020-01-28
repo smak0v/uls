@@ -1,7 +1,7 @@
 #include "uls.h"
 
 static char *to_float(float number);
-static void format_int_part(int *int_part, int *int_float_part);
+// static void format_int_part(int *int_part, int *int_float_part);
 static void format_float_part(int *int_float_part);
 static char *get_result(char size, char *number);
 
@@ -34,23 +34,23 @@ static char *to_float(float number) {
     int int_float_part = (int)float_part;
     char *res = NULL;
 
-    format_int_part(&int_part, &int_float_part);
     format_float_part(&int_float_part);
+    //format_int_part(&int_part, &int_float_part);
     mx_get_formatted_size(int_part, int_float_part, &res);
     return res;
 }
 
-static void format_int_part(int *int_part, int *int_float_part) {
-    char *str_float_part = mx_itoa(*int_float_part);
+// static void format_int_part(int *int_part, int *int_float_part) {
+//     char *str_float_part = mx_itoa(*int_float_part);
 
-    if (mx_numlen(*int_float_part) == 1)
-        *int_float_part = 0;
-    else if (str_float_part[0] > '5' && str_float_part[0] <= '9') {
-        *int_float_part = 0;
-        *int_part += 1;
-    }
-    mx_strdel(&str_float_part);
-}
+//     if (mx_numlen(*int_float_part) == 1)
+//         *int_float_part = 0;
+//     else if (str_float_part[0] > '5' && str_float_part[0] <= '9') {
+//         *int_float_part = 0;
+//         *int_part += 1;
+//     }
+//     mx_strdel(&str_float_part);
+// }
 
 static void format_float_part(int *int_float_part) {
     char *str_float_part = NULL;
@@ -58,14 +58,19 @@ static void format_float_part(int *int_float_part) {
     if (*int_float_part == 0)
         return;
     if (mx_numlen(*int_float_part) == 1) {
-        *int_float_part = 0;
+        if (*int_float_part >= 5 && *int_float_part <= 9) {
+            *int_float_part = 1;
+            return;
+        }
         return;
     }
     str_float_part = mx_itoa(*int_float_part);
-    if (str_float_part[1] >= '5' && str_float_part[1] <= '9') {
-        str_float_part[0] =  str_float_part[0] + 1;
-        *int_float_part = str_float_part[0] - '0';
+    if (str_float_part[1] >= '5' && str_float_part[1] <= '8') {
+        *int_float_part = (str_float_part[0] + 1) - '0';
         mx_strdel(&str_float_part);
+    }
+    else if (str_float_part[0] == '9') {
+
     }
     else {
         *int_float_part = str_float_part[0] - '0';

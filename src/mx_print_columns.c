@@ -11,7 +11,7 @@ void mx_print_columns(t_list **list, t_settings *settings) {
     t_max_len *max_len = mx_get_max_len_struct(node);
     t_list *inner_list = ((t_list *)(node->data))->next;
 
-    if (mx_list_size(*list) == 1 && settings->not_found) {
+    if (mx_list_size(*list) == 1 && !settings->not_found) {
         print_columns(&inner_list, settings, max_len);
         free(max_len);
         max_len = NULL;
