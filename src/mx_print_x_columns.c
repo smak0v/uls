@@ -25,11 +25,13 @@ static void output_with_paths(t_list **list, t_settings *settings) {
     t_list *node = *list;
     t_list *inner_list = NULL;
     t_max_len *max_len = NULL;
+    char *tmp = NULL;
 
     while (node) {
         max_len = mx_get_max_len_struct(node);
-        if (mx_strcmp(((t_list *)(node->data))->data, "files") != 0)
-            mx_printdir(((t_list *)(node->data))->data);
+        tmp = ((t_data *)((t_list *)node->data)->data)->filename;
+        if (mx_strcmp(tmp, FILES) != 0)
+            mx_print_dir(tmp);
         inner_list = ((t_list *)(node->data))->next;
         print_x_columns(&inner_list, settings, max_len);
         free(max_len);

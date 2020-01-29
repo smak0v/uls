@@ -77,7 +77,8 @@ mx_get_full_filename.c \
 mx_search_arr.c \
 mx_append_slash.c \
 mx_append_type_sign.c \
-mx_printdir.c)
+mx_print_dir.c \
+mx_print_owner_group.c)
 
 OBJ = \
 main.o \
@@ -144,7 +145,8 @@ mx_get_full_filename.o \
 mx_search_arr.o \
 mx_append_slash.o \
 mx_append_type_sign.o \
-mx_printdir.o
+mx_print_dir.o \
+mx_print_owner_group.o
 
 CC = clang
 

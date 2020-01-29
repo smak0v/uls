@@ -62,3 +62,7 @@ lexicographical order.
 |```U```|Use time of file creation, instead of last modification for sorting  (```-t```) or long output (```-l```).|
 |```u```|Use time of last access, instead of last modification of the file for sorting (```-t```) or long printing (```-l```).|
 |```x```|The same as ```-C```, except that the multi-column output is produced with entries sorted across, rather than down, the columns.|
+
+## License
+
+Collision is an open-sourced software licensed under the [MIT license](LICENSE.md).
