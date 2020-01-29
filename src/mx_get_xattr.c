@@ -16,6 +16,7 @@ char *mx_get_xattr(char *dirname, ssize_t *length) {
         *length = xattr_value_length;
         return buffer;
     }
+    mx_strdel(&buffer);
     return NULL;
 }
 

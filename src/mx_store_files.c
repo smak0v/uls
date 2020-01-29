@@ -37,11 +37,14 @@ static int count_files(int argc, int flags_count) {
 }
 
 static char **store_files(int files_count, int argc, int flags, char **argv) {
-    char **files = (char **)malloc(sizeof(char *) * (files_count + 1));
+    char **files = NULL;
     int j = 0;
 
-    for (int i = flags + 1; i < argc; i++)
-        files[j++] = mx_strdup(argv[i]);
-    files[j] = NULL;
+    if (files_count) {
+        files = (char **)malloc(sizeof(char *) * (files_count + 1));
+        for (int i = flags + 1; i < argc; i++)
+            files[j++] = mx_strdup(argv[i]);
+        files[j] = NULL;
+    }
     return files;
 }

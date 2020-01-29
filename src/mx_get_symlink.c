@@ -6,5 +6,6 @@ char *mx_get_symlink(char *dirname, off_t st_size) {
 
     if (size > 0)
         return symlink;
+    mx_strdel(&symlink);
     return NULL;
 }
