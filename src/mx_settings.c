@@ -13,24 +13,17 @@ t_settings *mx_setup(char **flags) {
         setup->mode = setup_mode(flags);
         setup->sorting = setup_sorting(flags);
         setup->data = setup_data(setup, flags);
-        setup->reverse = mx_check_reverse(flags);
-        // setup->format_size = setup_format_size(flags); TODO (Yulia) -h
-        // setup->print_xattr = setup_print_xattr(flags); TODO (Yulia) -@
-        // setup->print_xcols = setup_print_xcols(flags); TODO (Yulia) -x
-        // setup->full_time = setup_full_time(flags); TODO (Yulia) -T
-        // setup->print_slash = setup_print_slash(flags); TODO (Yulia) -p
-        // setup->omit_group = setup_omit_group(flags); TODO (Yulia) -o
-        // setup->colored = setup_colored(flags); TODO (Yulia) -G
-        setup->format_size = 0; // -l + @ || g + o
-        setup->print_xattr = 0; // -
-        setup->print_xcols = 0; // -x
-        setup->full_time = 0;
-        setup->omit_group = 0;
-        setup->colored = 0;
-        setup->omit_owner = 0;
-        setup->print_inode = 0;
-        setup->append_slash = 0;
-        setup->append_type_sign = 0;
+        setup->reverse = mx_search_arr(setup, r);
+        setup->format_size = mx_search_arr(setup, h);
+        setup->print_xattr = mx_search_arr(setup, xattrs);
+        setup->print_xcols = mx_search_arr(setup, x);
+        setup->full_time = mx_search_arr(setup, T);
+        setup->omit_group = mx_search_arr(setup, o);
+        setup->colored = mx_search_arr(setup, G);
+        setup->omit_owner = mx_search_arr(setup, g);
+        setup->print_inode = mx_search_arr(setup, i);
+        setup->append_slash = mx_search_arr(setup, p);
+        setup->append_type_sign = mx_search_arr(setup, F);
     }
     return setup;
 }
@@ -108,7 +101,7 @@ static t_data_enum analyser_data(char flag) {
         mode = a;
     else if (flag == 'A')
         mode = A;
-    else // if (flag == 'l')
+    else
         mode = l;
 
     return mode;
@@ -137,6 +130,6 @@ static t_data_enum *setup_data(t_settings *setup, char **flags) {
         arr = process_data(set, data_len);
         mx_del_strarr(&set);
     }
-    
+
     return arr;
 }

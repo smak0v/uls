@@ -18,11 +18,10 @@
 #include <uuid/uuid.h>
 
 // Constants
-#define ALLOWED_FLAGS "ACRSaflmtx1r"
-//ls [-ABCFGHLOPRSTUW@abcdefghiklmnopqrstuwx1]
+#define ALLOWED_FLAGS "ACFGRSTU@acfghilmoprtux1"
 #define MODE_FLAGS "Clmx1"
 #define SORTING_FLAGS "Stlf"
-#define DATA_FLAGS "ARalf" //ADD f SUPPORT!! -f turns on -a
+#define DATA_FLAGS "ARalf"
 
 // Macroses
 #define MX_IS_BLK(mode) (((mode) & S_IFMT) == S_IFBLK)
@@ -58,10 +57,26 @@ typedef enum e_sorting {
 
 typedef enum e_data {
     def,
-    l,
-    a,
+    xattrs,
     A,
-    R
+    C,
+    F,
+    G,
+    R,
+    S,
+    T,
+    a,
+    f,
+    g,
+    h,
+    i,
+    l,
+    m,
+    o,
+    p,
+    r,
+    t,
+    x
 } t_data_enum;
 
 typedef struct s_data {
@@ -165,7 +180,6 @@ void mx_print_spaces(int count);
 char mx_get_file_type(mode_t mode);
 bool mx_search_strarr(char **strarr, char *str);
 bool mx_check_chr_or_blk_device(t_list **list);
-int mx_check_reverse(char **flags);
 char *mx_convert_size(uint64_t size);
 int mx_get_max_len_by_links(t_list *list);
 int mx_get_max_len_by_owners(t_list *list);

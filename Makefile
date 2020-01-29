@@ -59,7 +59,6 @@ mx_print_force.c \
 mx_print_stream.c \
 mx_get_max_filename_length.c \
 mx_print_size.c \
-mx_check_reverse.c \
 mx_convert_size.c \
 mx_print_symlink.c \
 mx_print_xattrs_text.c \
@@ -127,7 +126,6 @@ mx_print_force.o \
 mx_print_stream.o \
 mx_get_max_filename_length.o \
 mx_print_size.o \
-mx_check_reverse.o \
 mx_convert_size.o \
 mx_print_symlink.o \
 mx_print_xattrs_text.o \
