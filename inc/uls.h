@@ -37,6 +37,11 @@
 // Structures
 typedef struct dirent t_dnt;
 
+typedef struct s_lists {
+    t_list **list;
+    t_list *node;
+} t_lists;
+
 typedef struct stat t_st;
 
 typedef enum e_modes {
