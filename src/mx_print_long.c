@@ -79,7 +79,7 @@ t_settings *settings) {
     settings->format_size ? mx_print_spaces(3) : mx_print_spaces(2);
     mx_print_size(data, max_len, is_device_met, settings);
     mx_print_spaces(1);
-    mx_print_date(data->last_modified, settings->full_time);
+    mx_print_date(data, settings);
     mx_print_spaces(1);
     mx_print_filename(data, settings);
     mx_print_symlink(data);

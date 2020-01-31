@@ -28,6 +28,7 @@ static void simple_output(t_list **list, t_settings *settings) {
         }
         reset_values(&len, &max_len);
         node = node->next;
+        !node ? mx_printchar('\n') : (void)0;
     }
 }
 
@@ -41,13 +42,13 @@ static void output_with_paths(t_list **list, t_settings *settings) {
     while (node) {
         max_len = mx_get_max_len_struct(node);
         tmp = ((t_data *)((t_list *)node->data)->data)->filename;
-        !mx_strcmp(tmp, FILES) ? mx_print_dir(tmp) : (void)0;
+        mx_strcmp(tmp, FILES) ? mx_print_dir(tmp) : (void)0;
         inner_node = ((t_list *)node->data)->next;
         while (inner_node) {
             print(inner_node, &len, max_len, settings);
             inner_node = inner_node->next;
         }
-        mx_strcmp(tmp, FILES) ? mx_printstr(", \n") : mx_printchar('\n');
+        !mx_strcmp(tmp, FILES) ? mx_printstr(", \n") : mx_printchar('\n');
         reset_values(&len, &max_len);
         node = node->next;
         node ? mx_printchar('\n') : (void)0;

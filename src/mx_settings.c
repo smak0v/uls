@@ -30,7 +30,7 @@ static void find_flags(t_settings *s, char **flags) {
         else if (flags[i][0] == 'T')
             s->full_time = true;
         else if (flags[i][0] == 'p')
-            s->print_slash = true;
+            s->append_slash = true;
         else if (flags[i][0] == 'o')
             s->omit_group = true;
         else if (flags[i][0] == 'g')
@@ -78,7 +78,7 @@ static t_mode_enum process_mode(char flag) {
 
     if (flag == 'C' || flag == 'x')
         mode = columns;
-    else if (flag == 'l')
+    else if (flag == 'l' || flag == 'g' || flag == 'o')
         mode = table;
     else if (flag == 'm')
         mode = commas;
@@ -117,6 +117,14 @@ static t_sorting_enum setup_sorting(t_settings *s, char **flags) {
             }
         }
     }
+    if (mx_search_strarr(flags, "c"))
+        s->time = chg;
+    else if (mx_search_strarr(flags, "u"))
+        s->time = acc;
+    else if (mx_search_strarr(flags, "U"))
+        s->time = crt;
+    else
+        s->time = mod;
     return mode;
 }
 

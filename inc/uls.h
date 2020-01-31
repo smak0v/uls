@@ -19,7 +19,7 @@
 
 // Constants
 #define ALLOWED_FLAGS "ACFGRSTU@acfghilmoprtux1"
-#define MODE_FLAGS "Clmx1"
+#define MODE_FLAGS "Clgomx1"
 #define SORTING_FLAGS "Stlf"
 #define FILES "f_I_l_E_s"
 
@@ -120,7 +120,6 @@ typedef struct s_settings {
     bool print_xattr; // -@
     bool print_xcols; // -x
     bool full_time; // -T
-    bool print_slash; // -p
     bool omit_group; // -o
     bool colored; // -G
     bool omit_owner; // -g
@@ -186,7 +185,6 @@ int mx_get_max_len_by_xattr_size(t_list *list);
 int mx_get_max_len_by_inodes(t_list *list);
 bool mx_has_output_format_flag(char **flags);
 int mx_count_unique(char **arr, char *str);
-// char **mx_create_custom_set(char **arr, char *str);
 void mx_append_slash(t_data **info, t_settings *settings);
 void mx_append_type_sign(t_st st, t_data **info, t_settings *settings);
 
@@ -224,19 +222,18 @@ bool mx_size_asc_list_cmp(void *data_1, void *data_2);
 bool mx_size_asc_cmp(void *data_1, void *data_2);
 bool mx_size_desc_list_cmp(void *data_1, void *data_2);
 bool mx_size_desc_cmp(void *data_1, void *data_2);
-
-// TODO
+bool mx_last_changed_time_asc_list_cmp(void *data_1, void *data_2);
+bool mx_last_changed_time_asc_cmp(void *data_1, void *data_2);
+bool mx_last_changed_time_desc_list_cmp(void *data_1, void *data_2);
+bool mx_last_changed_time_desc_cmp(void *data_1, void *data_2);
 bool mx_creation_time_asc_list_cmp(void *data_1, void *data_2);
 bool mx_creation_time_asc_cmp(void *data_1, void *data_2);
 bool mx_creation_time_desc_list_cmp(void *data_1, void *data_2);
 bool mx_creation_time_desc_cmp(void *data_1, void *data_2);
-
-bool mx_last_access_time_asc_comparator(void *data_1, void *data_2);
-bool mx_last_access_time_desc_comparator(void *data_1, void *data_2);
-bool mx_filename_length_asc_comparator(void *data_1, void *data_2);
-bool mx_filename_length_desc_comparator(void *data_1, void *data_2);
-bool mx_last_changed_time_asc_comparator(void *data_1, void *data_2);
-bool mx_last_changed_time_desc_comparator(void *data_1, void *data_2);
+bool mx_last_access_time_asc_list_cmp(void *data_1, void *data_2);
+bool mx_last_access_time_asc_cmp(void *data_1, void *data_2);
+bool mx_last_access_time_desc_list_cmp(void *data_1, void *data_2);
+bool mx_last_access_time_desc_cmp(void *data_1, void *data_2);
 
 // Sortings
 void mx_sort(t_list *node, bool (*cmp_1)(void *a, void *b),
@@ -245,6 +242,7 @@ void mx_sort_by_name(t_list **list, bool reverse);
 void mx_sort_by_creation_time(t_list **list, bool reverse);
 void mx_sort_by_last_access_time(t_list **list, bool reverse);
 void mx_sort_by_last_modification_time(t_list **list, bool reverse);
+void mx_sort_by_last_changed_time(t_list **list, bool reverse);
 void mx_sort_by_size(t_list **list, bool reverse);
 void mx_sort_errors(t_list **errors);
 
@@ -252,7 +250,7 @@ void mx_sort_errors(t_list **errors);
 void mx_print_total(t_list *list);
 void mx_print_filename_and_total(t_list *node, t_list *inner_node);
 void mx_print_acl_xattr_or_nothing(t_data *data);
-void mx_print_date(time_t date, int print_full_time);
+void mx_print_date(t_data *data, t_settings *settings);
 void mx_print_size(t_data *data, t_max_len *max_len, bool is_device_met,
 t_settings *settings);
 void mx_print_symlink(t_data *data);

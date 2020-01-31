@@ -2,22 +2,11 @@
 
 void mx_sort_by_last_changed_time(t_list **list, bool reverse) {
     t_list *node = *list;
-    t_list *inner = NULL;
 
-    if (!reverse) {
-        mx_sort_list(node, mx_last_changed_time_asc_comparator);
-        while (node) {
-            inner = ((t_list *)node->data)->next;
-            mx_sort_list(inner, mx_last_changed_time_asc_comparator);
-            node = node->next;
-        }
-    }
-    else {
-        mx_sort_list(node, mx_last_changed_time_desc_comparator);
-        while (node) {
-            inner = ((t_list *)node->data)->next;
-            mx_sort_list(inner, mx_last_changed_time_desc_comparator);
-            node = node->next;
-        }
-    }
+    if (!reverse)
+        mx_sort(node, mx_last_changed_time_desc_list_cmp,
+        mx_last_changed_time_desc_cmp);
+    else
+        mx_sort(node, mx_last_changed_time_asc_list_cmp,
+        mx_last_changed_time_asc_cmp);
 }
