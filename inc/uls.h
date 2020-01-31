@@ -80,8 +80,7 @@ typedef struct s_data {
     char *links_count;
     char *owner;
     char *group;
-    long long file_size;
-    long last_modified; // -t (sorting)
+    unsigned long long file_size;
     char *symlink;
     mode_t mode;
     int st_rdev;
@@ -92,14 +91,21 @@ typedef struct s_data {
     ssize_t xattr_value_length;
     char *xattr_text;
 
+    // -t
+    long last_modified;
+    long last_modified_nsec;
+
     // -U
     long creation_time;
+    long creation_time_nsec;
 
     // -u
     long last_access;
+    long last_access_nsec;
 
     // -c
     long last_changed;
+    long last_changed_nsec;
 
     ino_t inode;
 } t_data;
@@ -206,22 +212,35 @@ char *mx_get_filename(char *full_path);
 char *mx_check_match(char **strarr, char *dirname, char *filename);
 
 // Comparators
-bool mx_filename_asc_comparator(void *data_1, void *data_2);
-bool mx_filename_desc_comparator(void *data_1, void *data_2);
-bool mx_creation_time_asc_comparator(void *data_1, void *data_2);
-bool mx_creation_time_desc_comparator(void *data_1, void *data_2);
+bool mx_filename_asc_list_cmp(void *data_1, void *data_2);
+bool mx_filename_asc_cmp(void *data_1, void *data_2);
+bool mx_filename_desc_list_cmp(void *data_1, void *data_2);
+bool mx_filename_desc_cmp(void *data_1, void *data_2);
+bool mx_last_modification_time_asc_list_cmp(void *data_1, void *data_2);
+bool mx_last_modification_time_asc_cmp(void *data_1, void *data_2);
+bool mx_last_modification_time_desc_list_cmp(void *data_1, void *data_2);
+bool mx_last_modification_time_desc_cmp(void *data_1, void *data_2);
+bool mx_size_asc_list_cmp(void *data_1, void *data_2);
+bool mx_size_asc_cmp(void *data_1, void *data_2);
+bool mx_size_desc_list_cmp(void *data_1, void *data_2);
+bool mx_size_desc_cmp(void *data_1, void *data_2);
+
+// TODO
+bool mx_creation_time_asc_list_cmp(void *data_1, void *data_2);
+bool mx_creation_time_asc_cmp(void *data_1, void *data_2);
+bool mx_creation_time_desc_list_cmp(void *data_1, void *data_2);
+bool mx_creation_time_desc_cmp(void *data_1, void *data_2);
+
 bool mx_last_access_time_asc_comparator(void *data_1, void *data_2);
 bool mx_last_access_time_desc_comparator(void *data_1, void *data_2);
-bool mx_last_modification_time_asc_comparator(void *data_1, void *data_2);
-bool mx_last_modification_time_desc_comparator(void *data_1, void *data_2);
-bool mx_size_asc_comparator(void *data_1, void *data_2);
-bool mx_size_desc_comparator(void *data_1, void *data_2);
 bool mx_filename_length_asc_comparator(void *data_1, void *data_2);
 bool mx_filename_length_desc_comparator(void *data_1, void *data_2);
 bool mx_last_changed_time_asc_comparator(void *data_1, void *data_2);
 bool mx_last_changed_time_desc_comparator(void *data_1, void *data_2);
 
 // Sortings
+void mx_sort(t_list *node, bool (*cmp_1)(void *a, void *b),
+bool (*cmp_2)(void *a, void *b));
 void mx_sort_by_name(t_list **list, bool reverse);
 void mx_sort_by_creation_time(t_list **list, bool reverse);
 void mx_sort_by_last_access_time(t_list **list, bool reverse);

@@ -1,5 +1,6 @@
 #include "uls.h"
 
+static void proccess_time(t_st st, t_data *data);
 static void check_major_minor(t_data *data);
 
 void mx_process_l(t_st st, t_data *data) {
@@ -14,15 +15,23 @@ void mx_process_l(t_st st, t_data *data) {
     data->owner = mx_get_owner(st.st_uid);
     data->group = mx_get_group(st.st_gid);
     data->file_size = st.st_size;
-    data->last_modified = st.st_mtimespec.tv_sec;
-    data->creation_time = st.st_birthtimespec.tv_sec;
-    data->last_access = st.st_atimespec.tv_sec;
-    data->last_changed = st.st_ctimespec.tv_sec;
+    proccess_time(st, data);
     data->symlink = mx_get_symlink(full_name, st.st_size);
     data->mode = st.st_mode;
     data->st_rdev = st.st_rdev;
     data->inode = st.st_ino;
     check_major_minor(data);
+}
+
+static void proccess_time(t_st st, t_data *data) {
+    data->last_modified = st.st_mtimespec.tv_sec;
+    data->last_modified_nsec = st.st_mtimespec.tv_nsec;
+    data->creation_time = st.st_birthtimespec.tv_sec;
+    data->creation_time_nsec = st.st_birthtimespec.tv_nsec;
+    data->last_access = st.st_atimespec.tv_sec;
+    data->last_access_nsec = st.st_atimespec.tv_nsec;
+    data->last_changed = st.st_ctimespec.tv_sec;
+    data->last_changed_nsec = st.st_ctimespec.tv_nsec;
 }
 
 static void check_major_minor(t_data *data) {
