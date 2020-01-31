@@ -21,7 +21,6 @@
 #define ALLOWED_FLAGS "ACFGRSTU@acfghilmoprtux1"
 #define MODE_FLAGS "Clmx1"
 #define SORTING_FLAGS "Stlf"
-#define DATA_FLAGS "ARalf"
 #define FILES "f_I_l_E_s"
 
 // Macroses
@@ -61,30 +60,6 @@ typedef enum e_sorting {
     names
 } t_sorting_enum;
 
-typedef enum e_data {
-    def,
-    xattrs,
-    A,
-    C,
-    F,
-    G,
-    R,
-    S,
-    T,
-    a,
-    f,
-    g,
-    h,
-    i,
-    l,
-    m,
-    o,
-    p,
-    r,
-    t,
-    x
-} t_data_enum;
-
 typedef struct s_data {
     char *filename;
     char *full_filename;
@@ -122,23 +97,24 @@ typedef struct s_data {
 } t_data;
 
 typedef struct s_settings {
-    int mode;
-    int sorting;
-    t_data_enum *data;
-    int data_len;
-    int not_found;
-    int reverse; // -r
-    int format_size; // -h
-    int print_xattr; // -@
-    int print_xcols; // -x
-    int full_time; // -T
-    int print_slash; // -p
-    int omit_group; // -o
-    int colored; // -G
-    int omit_owner; // -g
-    int print_inode; // -i
-    int append_slash;// -p
-    int append_type_sign; // -F
+    t_mode_enum mode;
+    t_sorting_enum sorting;
+    bool not_found;
+    bool reverse; // -r
+    bool format_size; // -h
+    bool print_xattr; // -@
+    bool print_xcols; // -x
+    bool full_time; // -T
+    bool print_slash; // -p
+    bool omit_group; // -o
+    bool colored; // -G
+    bool omit_owner; // -g
+    bool print_inode; // -i
+    bool append_slash;// -p
+    bool append_type_sign; // -F
+    bool a; // -a
+    bool A; // -A
+    bool R; // -R
 } t_settings;
 
 typedef struct s_max_len {
@@ -195,8 +171,7 @@ int mx_get_max_len_by_xattr_size(t_list *list);
 int mx_get_max_len_by_inodes(t_list *list);
 bool mx_has_output_format_flag(char **flags);
 int mx_count_unique(char **arr, char *str);
-char **mx_create_custom_set(char **arr, char *str);
-int mx_search_arr(t_settings *setup, t_data_enum value);
+// char **mx_create_custom_set(char **arr, char *str);
 void mx_append_slash(t_data **info, t_settings *settings);
 void mx_append_type_sign(t_st st, t_data **info, t_settings *settings);
 

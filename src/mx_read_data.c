@@ -28,13 +28,12 @@ static void gather_data(t_lists lists, t_dnt *dir, t_st st, t_settings *s,
         ((t_data *)node->data)->filename = mx_strdup(dnm);
     }
     if ((!mx_strcmp(dir->d_name, ".") || !mx_strcmp(dir->d_name, "..")) 
-        && !mx_search_arr(s, a))
+        && !s->a)
         return;
-    else if (dir->d_name[0] == '.' && (!mx_search_arr(s, A) 
-             && !mx_search_arr(s, a)))
+    else if (dir->d_name[0] == '.' && (!s->a && !s->A))
         return;
     info = write_data(s, dir, st, dnm);
-    if (mx_search_arr(s, R) && info->is_dir)
+    if (s->R && info->is_dir)
         mx_read_data(lst, s, NULL, info->full_filename);
     mx_push_back(&node, (void *)info);
 }
