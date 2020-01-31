@@ -55,10 +55,18 @@ typedef enum e_sorting {
     unsorted,
     size,
     mod_time,
+    chg_time,
     acc_time,
     crt_time,
     names
 } t_sorting_enum;
+
+typedef enum e_timetype {
+    mod,
+    chg,
+    acc,
+    crt
+} t_time_enum;
 
 typedef struct s_data {
     char *filename;
@@ -99,6 +107,7 @@ typedef struct s_data {
 typedef struct s_settings {
     t_mode_enum mode;
     t_sorting_enum sorting;
+    t_time_enum time;
     bool not_found;
     bool reverse; // -r
     bool format_size; // -h

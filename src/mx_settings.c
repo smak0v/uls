@@ -2,8 +2,7 @@
 
 static t_mode_enum setup_mode(char **flags);
 static t_mode_enum process_mode(char flag);
-static t_sorting_enum setup_sorting(char **flags);
-static t_sorting_enum process_sorting(char flag);
+static t_sorting_enum setup_sorting(t_settings *s, char **flags);
 static void find_flags(t_settings *s, char **flags);
 static bool find_flag(char **flags, char f);
 
@@ -12,7 +11,7 @@ t_settings *mx_setup(char **flags) {
 
     if (flags) {
         setup->mode = setup_mode(flags);
-        setup->sorting = setup_sorting(flags);
+        setup->sorting = setup_sorting(setup, flags);
         find_flags(setup, flags);
     }
     return setup;
@@ -88,34 +87,36 @@ static t_mode_enum process_mode(char flag) {
     return mode;
 }
 
-static t_sorting_enum setup_sorting(char **flags) {
+static t_sorting_enum setup_sorting(t_settings *s, char **flags) {
     int len = mx_strarr_len(flags) - 1;
-    int fish = 0;
     t_sorting_enum mode = names;
 
     for (; len >= 0; len--) {
-        for (int i = 0; i < mx_strlen(SORTING_FLAGS); i++) {
-            if (mx_get_char_index(flags[len], SORTING_FLAGS[i]) == 0 &&
-                !fish) {
-                mode = process_sorting(SORTING_FLAGS[i]);
-                fish = 1;
-                break;
+        if (flags[len][0] == 'f') {
+            mode = unsorted;
+            break;
+        }
+        else if (flags[len][0] == 'S')
+            mode = size;
+        else if (flags[len][0] == 't' && mode != size) {
+            if (mx_search_strarr(flags, "c")) {
+                mode = chg_time;
+                s->time = chg;
+            }
+            else if (mx_search_strarr(flags, "u")) {
+                mode = acc_time;
+                s->time = acc;
+            }
+            else if (mx_search_strarr(flags, "U")) {
+                mode = crt_time;
+                s->time = crt;
+            }
+            else {
+                mode = mod_time;
+                s->time = mod; //this line can optionally be removed but i left it for consistency, s->time = mod (0) by default
             }
         }
     }
-    return mode;
-}
-
-static t_sorting_enum process_sorting(char flag) {
-    t_sorting_enum mode = names;
-
-    if (flag == 'S')
-        mode = size;
-    else if (flag == 't')
-        mode = mod_time;
-    else if (flag == 'f')
-        mode = unsorted;
-
     return mode;
 }
 

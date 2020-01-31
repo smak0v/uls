@@ -33,7 +33,8 @@ static void gather_data(t_lists lists, t_dnt *dir, t_st st, t_settings *s,
     else if (dir->d_name[0] == '.' && (!s->a && !s->A))
         return;
     info = write_data(s, dir, st, dnm);
-    if (s->R && info->is_dir)
+    if (s->R && info->is_dir && mx_strcmp(dir->d_name, ".") 
+        && mx_strcmp(dir->d_name, ".."))
         mx_read_data(lst, s, NULL, info->full_filename);
     mx_push_back(&node, (void *)info);
 }
