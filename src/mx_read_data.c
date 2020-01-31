@@ -73,7 +73,7 @@ static void process_leftovers(t_settings *setup, char **files, t_list **data) {
 
     mx_push_front(data, mx_create_node(malloc(sizeof(t_data))));
     inner_node = (*data)->data;
-    ((t_data *)inner_node->data)->filename = mx_strdup("files");
+    ((t_data *)inner_node->data)->filename = mx_strdup(FILES);
 
     for (int i = 0; files && files[i];) {
         dirname = mx_get_dirname(files[i]);
