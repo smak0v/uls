@@ -52,6 +52,7 @@ lexicographical order.
 |```i```|For each file, print the file's file serial number (inode number).|
 |```l```|The lowercase letter ```ell```. List in long format. If the output is to a terminal, a total sum for all the file sizes is output on a line before  the long listing.|
 |```m```|Stream output format; list files across the page, separated by   commas.|
+|```n```|Display user and group IDs numerically, rather than converting to a user or group name in a long (```-l```) output.  This option turns on the ```-l``` option.|
 |```o```|List in long format, but omit the group id.|
 |```p```|Write a slash (```/```) after each filename if that file is a  directory.|
 |```R```|Recursively list subdirectories encountered.|

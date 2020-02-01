@@ -197,7 +197,7 @@ char *mx_get_permissions(mode_t mode);
 char *mx_get_xattr(char *dirname, ssize_t *length);
 char *mx_get_group(gid_t st_gid, t_settings *settings);
 char *mx_get_owner(uid_t st_uid, t_settings *settings);
-char *mx_get_symlink(char *dirname, off_t st_size);
+char *mx_get_symlink(t_data * data);
 char *mx_get_major(int st_rdev);
 char *mx_get_minor(int st_rdev);
 ushort mx_get_terminal_width(t_settings *settings);
@@ -267,7 +267,7 @@ void mx_print_owner_group(t_settings *settings, t_data *data, t_max_len *len);
 void mx_print_tabs(t_settings *settings, t_columns_info *info, char *prev);
 
 // Printing modes
-// -l -g -o
+// -l -g -o -n
 void mx_print_long(t_list **list, t_settings *settings);
 // -C
 void mx_print_columns(t_list **list, t_settings *settings);

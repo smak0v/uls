@@ -16,7 +16,7 @@ void mx_process_l(t_st st, t_data *data, t_settings *settings) {
     data->group = mx_get_group(st.st_gid, settings);
     data->file_size = st.st_size;
     proccess_time(st, data);
-    data->symlink = mx_get_symlink(full_name, st.st_size);
+    data->symlink = mx_get_symlink(data);
     data->mode = st.st_mode;
     data->st_rdev = st.st_rdev;
     data->inode = st.st_ino;

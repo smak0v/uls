@@ -1,11 +1,16 @@
 #include "uls.h"
 
-char *mx_get_symlink(char *dirname, off_t st_size) {
-    char *symlink = mx_strnew(st_size);
-    ssize_t size = readlink(dirname, symlink, st_size + 1);
+char *mx_get_symlink(t_data * data) {
+    char *symlink = NULL;
+    ssize_t size = 0;
 
-    if (size > 0)
-        return symlink;
-    mx_strdel(&symlink);
+    if (data->permissions[0] == 'l') {
+        symlink = mx_strnew(data->file_size);
+        size = readlink(data->full_filename, symlink, data->file_size + 1);
+        if (size > 0)
+            return symlink;
+        mx_strdel(&symlink);
+        return NULL;
+    }
     return NULL;
 }
