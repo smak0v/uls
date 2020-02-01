@@ -31,11 +31,16 @@ char *mx_get_dirname(char *full_path) {
             return mx_strdup("/");
         res = mx_strdup(strarr[0]);
         for (int i = 1; i < len - 1; i++) {
-            tmp = mx_strjoin(res, strarr[i]);
-            mx_strdel(&res);
-            res = tmp;
+            tmp = mx_strjoin(res, "/");
+            res = mx_strjoin(tmp, strarr[i]);
+            mx_strdel(&tmp);
         }
         mx_del_strarr(&strarr);
+        if (full_path[0] == '/') {
+            tmp = mx_strjoin("/", res);
+            mx_strdel(&res);
+            return tmp;
+        }
         return res;
     }
 }
