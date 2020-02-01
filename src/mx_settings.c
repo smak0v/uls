@@ -21,6 +21,8 @@ static void find_flags(t_settings *s, char **flags) {
     for (int i = 0; flags[i]; i++) {
         if (flags[i][0] == 'r')
             s->reverse = true;
+        else if (flags[i][0] == 'n')
+            s->n = true;
         else if (flags[i][0] == 'h')
             s->format_size = true;
         else if (flags[i][0] == '@')
@@ -29,8 +31,10 @@ static void find_flags(t_settings *s, char **flags) {
             s->print_xcols = true;
         else if (flags[i][0] == 'T')
             s->full_time = true;
-        else if (flags[i][0] == 'p')
+        else if (flags[i][0] == 'p') {
             s->append_slash = true;
+            s->append_type_sign = false;
+        }
         else if (flags[i][0] == 'o')
             s->omit_group = true;
         else if (flags[i][0] == 'g')
@@ -39,10 +43,10 @@ static void find_flags(t_settings *s, char **flags) {
             s->colored = true;
         else if (flags[i][0] == 'i')
             s->print_inode = true;
-        else if (flags[i][0] == 'p')
-            s->append_slash = true;
-        else if (flags[i][0] == 'F')
+        else if (flags[i][0] == 'F') {
             s->append_type_sign = true;
+            s->append_slash = false;
+        }
         else if (flags[i][0] == 'R')
             s->R = true;
         else if (flags[i][0] == 'A')
@@ -78,7 +82,7 @@ static t_mode_enum process_mode(char flag) {
 
     if (flag == 'C' || flag == 'x')
         mode = columns;
-    else if (flag == 'l' || flag == 'g' || flag == 'o')
+    else if (flag == 'l' || flag == 'g' || flag == 'o' || flag == 'n')
         mode = table;
     else if (flag == 'm')
         mode = commas;

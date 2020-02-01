@@ -18,8 +18,8 @@
 #include <uuid/uuid.h>
 
 // Constants
-#define ALLOWED_FLAGS "ACFGRSTU@acfghilmoprtux1"
-#define MODE_FLAGS "Clgomx1"
+#define ALLOWED_FLAGS "ACFGRSTU@acfghilmnoprtux1"
+#define MODE_FLAGS "Clgonmx1"
 #define SORTING_FLAGS "Stlf"
 #define FILES "f_I_l_E_s"
 
@@ -76,14 +76,14 @@ typedef struct s_data {
     // -l
     blkcnt_t blocks_count;
     char *permissions;
-    char *acl_text;
-    char *links_count;
+    bool has_acl;
+    nlink_t links_count;
     char *owner;
     char *group;
-    unsigned long long file_size;
+    off_t file_size;
     char *symlink;
     mode_t mode;
-    int st_rdev;
+    dev_t st_rdev;
     char *major;
     char *minor;
 
@@ -126,6 +126,7 @@ typedef struct s_settings {
     bool print_inode; // -i
     bool append_slash;// -p
     bool append_type_sign; // -F
+    bool n; // -n
     bool a; // -a
     bool A; // -A
     bool R; // -R
@@ -161,7 +162,7 @@ typedef struct s_error {
 t_settings *mx_setup(char **flags);
 void mx_read_data(t_list **data, t_settings *setup, char **files, char *f);
 void mx_process_output(t_list **data, t_settings *settings, char **flags);
-void mx_process_l(t_st st, t_data *data);
+void mx_process_l(t_st st, t_data *data, t_settings *settings);
 
 // Errors
 void mx_check_usage_error(char **flags, char **files);
@@ -187,15 +188,15 @@ bool mx_has_output_format_flag(char **flags);
 int mx_count_unique(char **arr, char *str);
 void mx_append_slash(t_data **info, t_settings *settings);
 void mx_append_type_sign(t_st st, t_data **info, t_settings *settings);
+bool mx_has_acl(char *dirname);
 
 // Getters
 t_max_len *mx_get_max_len_struct(t_list *list);
 int mx_get_total(t_list *list);
 char *mx_get_permissions(mode_t mode);
-char *mx_get_acl(char *dirname);
 char *mx_get_xattr(char *dirname, ssize_t *length);
-char *mx_get_group(gid_t st_gid);
-char *mx_get_owner(uid_t st_uid);
+char *mx_get_group(gid_t st_gid, t_settings *settings);
+char *mx_get_owner(uid_t st_uid, t_settings *settings);
 char *mx_get_symlink(char *dirname, off_t st_size);
 char *mx_get_major(int st_rdev);
 char *mx_get_minor(int st_rdev);
@@ -248,7 +249,8 @@ void mx_sort_errors(t_list **errors);
 
 // Printing data
 void mx_print_total(t_list *list);
-void mx_print_filename_and_total(t_list *node, t_list *inner_node);
+void mx_print_filename_and_total(t_list *node, t_list *inner_node,
+bool is_first, t_settings *settings);
 void mx_print_acl_xattr_or_nothing(t_data *data);
 void mx_print_date(t_data *data, t_settings *settings);
 void mx_print_size(t_data *data, t_max_len *max_len, bool is_device_met,
@@ -262,6 +264,7 @@ void mx_print_errors(t_list *errors);
 void mx_print_inode(t_settings *settings, ino_t inode, t_max_len *max_len);
 void mx_print_dir(char *dirname);
 void mx_print_owner_group(t_settings *settings, t_data *data, t_max_len *len);
+void mx_print_tabs(t_settings *settings, t_columns_info *info, char *prev);
 
 // Printing modes
 // -l -g -o

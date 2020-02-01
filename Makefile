@@ -26,7 +26,7 @@ mx_search_strarr.c \
 mx_print_long.c \
 mx_get_total.c \
 mx_print_total.c \
-mx_get_acl.c \
+mx_has_acl.c \
 mx_get_xattr.c \
 mx_get_group.c \
 mx_get_owner.c \
@@ -80,7 +80,8 @@ mx_get_full_filename.c \
 mx_append_slash.c \
 mx_append_type_sign.c \
 mx_print_dir.c \
-mx_print_owner_group.c)
+mx_print_owner_group.c \
+mx_print_tabs.c)
 
 OBJ = \
 main.o \
@@ -96,7 +97,7 @@ mx_search_strarr.o \
 mx_print_long.o \
 mx_get_total.o \
 mx_print_total.o \
-mx_get_acl.o \
+mx_has_acl.o \
 mx_get_xattr.o \
 mx_get_group.o \
 mx_get_owner.o \
@@ -150,7 +151,8 @@ mx_get_full_filename.o \
 mx_append_slash.o \
 mx_append_type_sign.o \
 mx_print_dir.o \
-mx_print_owner_group.o
+mx_print_owner_group.o \
+mx_print_tabs.o
 
 CC = clang
 

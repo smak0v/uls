@@ -6,7 +6,7 @@ static t_data *write_data(t_settings *s, t_dnt *dir, t_st st, char *dname) {
     info->filename = mx_strdup(dir->d_name);
     info->full_filename = mx_get_full_filename(dname, info->filename);
     info->is_dir = MX_IS_DIR(st.st_mode);
-    mx_process_l(st, info);
+    mx_process_l(st, info, s);
     if (s->append_slash)
         mx_append_slash(&info, s);
     else if (s->append_type_sign)

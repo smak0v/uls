@@ -3,17 +3,17 @@
 static void proccess_time(t_st st, t_data *data);
 static void check_major_minor(t_data *data);
 
-void mx_process_l(t_st st, t_data *data) {
+void mx_process_l(t_st st, t_data *data, t_settings *settings) {
     char *full_name = data->full_filename;
 
     data->xattr_value_length = -1;
     data->blocks_count = st.st_blocks;
     data->permissions = mx_get_permissions(st.st_mode);
-    data->acl_text = mx_get_acl(full_name);
+    data->has_acl = mx_has_acl(full_name);
     data->xattr_text = mx_get_xattr(full_name, &data->xattr_value_length);
-    data->links_count = mx_itoa(st.st_nlink);
-    data->owner = mx_get_owner(st.st_uid);
-    data->group = mx_get_group(st.st_gid);
+    data->links_count = st.st_nlink;
+    data->owner = mx_get_owner(st.st_uid, settings);
+    data->group = mx_get_group(st.st_gid, settings);
     data->file_size = st.st_size;
     proccess_time(st, data);
     data->symlink = mx_get_symlink(full_name, st.st_size);

@@ -1,6 +1,6 @@
 #include "uls.h"
 
-static void print_size(uint64_t size, int spaces, int format, int is_device);
+static void print_size(off_t size, int spaces, int format, int is_device);
 
 void mx_print_size(t_data *data, t_max_len *max_len, bool is_device_met,
 t_settings *settings) {
@@ -20,7 +20,7 @@ t_settings *settings) {
         print_size(data->file_size, max_len->sizes, format, is_device_met);
 }
 
-static void print_size(uint64_t size, int spaces, int format, int is_device) {
+static void print_size(off_t size, int spaces, int format, int is_device) {
     char *tmp = NULL;
 
     if (format && !is_device) {

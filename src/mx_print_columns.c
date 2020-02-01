@@ -4,7 +4,6 @@ static void output_with_paths(t_list **list, t_settings *settings);
 static void print_columns(t_list **list, t_settings *settings, t_max_len *max);
 static void print_row(t_list *node1, t_columns_info *info, bool is_first,
 t_settings *settings);
-static void print_tabs(int max_len, int prev_len);
 
 void mx_print_columns(t_list **list, t_settings *settings) {
     t_list *node = *list;
@@ -69,7 +68,7 @@ t_settings *settings) {
         if (!(info->j % info->rows)) {
             data = (t_data *)node2->data;
             if (!is_first)
-                print_tabs(info->max_len, mx_strlen(prev));
+                mx_print_tabs(settings, info, prev);
             mx_print_inode(settings, data->inode, info->max);
             mx_print_filename(data, settings);
             is_first = false;
@@ -77,23 +76,4 @@ t_settings *settings) {
         }
         info->j++;
     }
-}
-
-static void print_tabs(int max_len, int prev_len) {
-    int spaces_count = 0;
-    int tabs_count = 0;
-
-    if (!(max_len % 8))
-        spaces_count = max_len + 8;
-    else {
-        spaces_count = max_len;
-        while (spaces_count % 8)
-            spaces_count++;
-    }
-    tabs_count = (spaces_count - prev_len) / 8;
-    if (!(prev_len % 8))
-        tabs_count--;
-    while (tabs_count--)
-        mx_printchar('\t');
-    mx_printchar('\t');
 }
