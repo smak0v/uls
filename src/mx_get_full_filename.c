@@ -8,18 +8,35 @@ char *mx_get_full_filename(char *dirpath, char *filename) {
         tmp = mx_strjoin(dirpath, "/");
         full_filename = mx_strjoin(tmp, filename);
         mx_strdel(&tmp);
-    } 
-    else {
-        full_filename = mx_strjoin(dirpath, filename);
     }
-    
+    else
+        full_filename = mx_strjoin(dirpath, filename);
+
     return full_filename;
+}
+
+static char *build_path(char ***strarr_ptr, int len, char *full_path) {
+    char **strarr = *strarr_ptr;
+    char *res = mx_strdup(strarr[0]);
+    char *tmp = NULL;
+
+    for (int i = 1; i < len - 1; i++) {
+        tmp = mx_strjoin(res, "/");
+        mx_strdel(&res);
+        res = mx_strjoin(tmp, strarr[i]);
+        mx_strdel(&tmp);
+    }
+    mx_del_strarr(&strarr);
+    if (full_path[0] == '/') {
+        tmp = mx_strjoin("/", res);
+        mx_strdel(&res);
+        return tmp;
+    }
+    return res;
 }
 
 char *mx_get_dirname(char *full_path) {
     char **strarr = NULL;
-    char *tmp = NULL;
-    char *res = NULL;
     int len;
 
     if (mx_get_char_index(full_path, '/') == -1)
@@ -27,21 +44,11 @@ char *mx_get_dirname(char *full_path) {
     else {
         strarr = mx_strsplit(full_path, '/');
         len = mx_strarr_len(strarr);
-        if (len == 1)
+        if (len == 1) {
+            mx_del_strarr(&strarr);
             return mx_strdup("/");
-        res = mx_strdup(strarr[0]);
-        for (int i = 1; i < len - 1; i++) {
-            tmp = mx_strjoin(res, "/");
-            res = mx_strjoin(tmp, strarr[i]);
-            mx_strdel(&tmp);
         }
-        mx_del_strarr(&strarr);
-        if (full_path[0] == '/') {
-            tmp = mx_strjoin("/", res);
-            mx_strdel(&res);
-            return tmp;
-        }
-        return res;
+        return build_path(&strarr, len, full_path);
     }
 }
 

@@ -1,6 +1,13 @@
 #include "uls.h"
 
-static void print_colored_dir(char *perms);
+static void print_colored_dir(char *perms) {
+    if (perms[8] == 'w' && (perms[9] == 't' || perms[9] == 'T'))
+        mx_printstr("\033[30;42m");
+    else if (perms[8] == 'w' && perms[9] == 'x')
+        mx_printstr("\033[30;43m");
+    else
+        mx_printstr("\033[34m");
+}
 
 void mx_print_colored(t_data *data) {
     if (data->permissions[3] == 's' || data->permissions[3] == 'S')
@@ -23,13 +30,4 @@ void mx_print_colored(t_data *data) {
         mx_printstr("\033[36m");
     else if (MX_IS_EXEC(data->mode))
         mx_printstr("\033[31m");
-}
-
-static void print_colored_dir(char *perms) {
-    if (perms[8] == 'w' && (perms[9] == 't' || perms[9] == 'T'))
-        mx_printstr("\033[30;42m");
-    else if (perms[8] == 'w' && perms[9] == 'x')
-        mx_printstr("\033[30;43m");
-    else
-        mx_printstr("\033[34m");
 }

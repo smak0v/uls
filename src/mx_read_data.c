@@ -15,7 +15,6 @@ static t_data *write_data(t_settings *s, t_dnt *dir, t_st st, char *dname) {
     return info;
 }
 
-
 static void gather_data(t_lists lists, t_dnt *dir, t_st st, t_settings *s,
                         char *dnm) {
     t_data *info = NULL;
@@ -39,33 +38,28 @@ static void gather_data(t_lists lists, t_dnt *dir, t_st st, t_settings *s,
     mx_push_back(&node, (void *)info);
 }
 
-
 static char **read_dir_files(t_settings *setup, t_list **list, char *dname, 
                            char **files) {
     struct dirent *dirnt = NULL;
-    struct stat *st = malloc(sizeof(struct stat));
+    t_st *st = malloc(sizeof(struct stat));
     char *full_filename = NULL;
     DIR *dir = opendir(dname);
     char *file_i = NULL;
-    t_lists lists;
 
     while ((dirnt = readdir(dir)) != NULL) {
         file_i = mx_check_match(files, dname, dirnt->d_name);
         if (file_i) {
             full_filename = mx_get_full_filename(dname, dirnt->d_name);
             lstat(full_filename, st);
-            lists.list = list;
-            lists.node = (*list)->data;
-            gather_data(lists, dirnt, *st, setup, dname);
+            mx_push_back((t_list **)&((*list)->data),
+                         (void *)write_data(setup, dirnt, *st, dname));
             mx_strdel(&full_filename);
             files = mx_pop_string_array(files, file_i);
         }
     }
     free(st);
-    st = NULL;
     return files;
 }
-
 
 static void process_leftovers(t_settings *setup, char **files, t_list **data) {
     char *dirname = NULL;
@@ -81,7 +75,6 @@ static void process_leftovers(t_settings *setup, char **files, t_list **data) {
         free(dirname);
     }
 }
-
 
 static void read_dir(t_settings *setup, t_list **list, char *dname, DIR *dir) {
     struct dirent *dirnt = NULL;
@@ -145,6 +138,4 @@ void mx_read_data(t_list **data, t_settings *setup, char **files, char *f) {
     else {
         process_files(setup, files, data);
     }
-
-    //free(f);
 }

@@ -1,17 +1,33 @@
 #include "uls.h"
 
 static void print_data(t_data *data, t_max_len *max_len, bool is_device_met,
-t_settings *t_settings);
-static void simple_output(t_list **list, t_settings *s);
-static void output_with_paths(t_list **list, t_settings *s);
-static void print_list(t_list **node, t_max_len *max_len, bool is_device_met,
-t_settings *settings);
+t_settings *settings) {
+    mx_print_inode(settings, data->inode, max_len);
+    mx_printstr(data->permissions);
+    mx_print_acl_xattr_or_nothing(data);
+    mx_print_spaces(max_len->links - mx_numlen(data->links_count));
+    mx_printint(data->links_count);
+    mx_print_spaces(1);
+    mx_print_owner_group(settings, data, max_len);
+    settings->format_size ? mx_print_spaces(3) : mx_print_spaces(2);
+    mx_print_size(data, max_len, is_device_met, settings);
+    mx_print_spaces(1);
+    mx_print_date(data, settings);
+    mx_print_spaces(1);
+    mx_print_filename(data, settings);
+    mx_print_symlink(data);
+    mx_printchar('\n');
+    mx_print_xattrs_text(data, settings, max_len);
+}
 
-void mx_print_long(t_list **list, t_settings *settings) {
-    if (mx_list_size(*list) == 1  && !settings->not_found)
-        simple_output(list, settings);
-    else
-        output_with_paths(list, settings);
+static void print_list(t_list **node, t_max_len *max_len,
+bool is_device_met, t_settings *settings) {
+    t_list *inner_node = *node;
+
+    while (inner_node) {
+        print_data(inner_node->data, max_len, is_device_met, settings);
+        inner_node = inner_node->next;
+    }
 }
 
 static void simple_output(t_list **list, t_settings *s) {
@@ -55,32 +71,9 @@ static void output_with_paths(t_list **list, t_settings *s) {
     }
 }
 
-static void print_list(t_list **node, t_max_len *max_len,
-bool is_device_met, t_settings *settings) {
-    t_list *inner_node = *node;
-
-    while (inner_node) {
-        print_data(inner_node->data, max_len, is_device_met, settings);
-        inner_node = inner_node->next;
-    }
-}
-
-static void print_data(t_data *data, t_max_len *max_len, bool is_device_met,
-t_settings *settings) {
-    mx_print_inode(settings, data->inode, max_len);
-    mx_printstr(data->permissions);
-    mx_print_acl_xattr_or_nothing(data);
-    mx_print_spaces(max_len->links - mx_numlen(data->links_count));
-    mx_printint(data->links_count);
-    mx_print_spaces(1);
-    mx_print_owner_group(settings, data, max_len);
-    settings->format_size ? mx_print_spaces(3) : mx_print_spaces(2);
-    mx_print_size(data, max_len, is_device_met, settings);
-    mx_print_spaces(1);
-    mx_print_date(data, settings);
-    mx_print_spaces(1);
-    mx_print_filename(data, settings);
-    mx_print_symlink(data);
-    mx_printchar('\n');
-    mx_print_xattrs_text(data, settings, max_len);
+void mx_print_long(t_list **list, t_settings *settings) {
+    if (mx_list_size(*list) == 1  && !settings->not_found)
+        simple_output(list, settings);
+    else
+        output_with_paths(list, settings);
 }
