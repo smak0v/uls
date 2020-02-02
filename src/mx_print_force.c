@@ -18,14 +18,12 @@ static void output_with_paths(t_list **list, t_settings *settings) {
     while (node) {
         max_len = mx_get_max_len_struct(node);
         tmp = ((t_data *)((t_list *)node->data)->data)->filename;
-        if (mx_strcmp(tmp, FILES) != 0)
-            mx_print_dir(tmp, is_first, settings);
+        mx_print_dir(tmp, &is_first, settings);
         inner_node = ((t_list *)node->data)->next;
         while (inner_node) {
             print(inner_node, settings, max_len);
             inner_node = inner_node->next;
         }
-        is_first = false;
         free(max_len);
         max_len = NULL;
         node = node->next;

@@ -1,8 +1,8 @@
 #include "uls.h"
 
-static void print(t_list *node, int *len, t_max_len *max_len,
+static void print(t_list **node, int *len, t_max_len *max_len,
                   t_settings *settings) {
-    char *file = ((t_data *)(node->data))->filename;
+    char *file = ((t_data *)((*node)->data))->filename;
     ushort width = mx_get_terminal_width(settings);
 
     if (settings->print_inode) {
@@ -18,9 +18,10 @@ static void print(t_list *node, int *len, t_max_len *max_len,
         }
         *len += mx_strlen(file) + 2;
     }
-    mx_print_inode(settings, ((t_data *)node->data)->inode, max_len);
-    mx_print_filename((t_data *)node->data, settings);
-    node->next ? mx_printstr(", ") : (void)0;
+    mx_print_inode(settings, ((t_data *)(*node)->data)->inode, max_len);
+    mx_print_filename((t_data *)(*node)->data, settings);
+    (*node)->next ? mx_printstr(", ") : (void)0;
+    *node = (*node)->next;
 }
 
 static void reset_values(int *len, t_max_len **max_len) {
@@ -34,20 +35,17 @@ static void output_with_paths(t_list **list, t_settings *settings) {
     t_list *inner_node = NULL;
     t_max_len *max_len = NULL;
     int len = 0;
-    char *tmp = NULL;
     bool is_first = true;
 
     while (node) {
         max_len = mx_get_max_len_struct(node);
-        tmp = ((t_data *)((t_list *)node->data)->data)->filename;
-        mx_strcmp(tmp, FILES) ? mx_print_dir(tmp, is_first, settings) : (void)0;
+        mx_print_dir(((t_data *)((t_list *)node->data)->data)->filename,
+                     &is_first, settings);
         inner_node = ((t_list *)node->data)->next;
-        while (inner_node) {
-            print(inner_node, &len, max_len, settings);
-            inner_node = inner_node->next;
-        }
-        is_first = false;
-        !mx_strcmp(tmp, FILES) ? mx_printstr(", \n") : mx_printchar('\n');
+        while (inner_node)
+            print(&inner_node, &len, max_len, settings);
+        !mx_strcmp(((t_data *)((t_list *)node->data)->data)->filename, FILES) ?
+                   mx_printstr(", \n") : mx_printchar('\n');
         reset_values(&len, &max_len);
         node = node->next;
         node ? mx_printchar('\n') : (void)0;
@@ -63,10 +61,8 @@ static void simple_output(t_list **list, t_settings *settings) {
     while (node) {
         max_len = mx_get_max_len_struct(node);
         inner_node = ((t_list *)node->data)->next;
-        while (inner_node) {
-            print(inner_node, &len, max_len, settings);
-            inner_node = inner_node->next;
-        }
+        while (inner_node)
+            print(&inner_node, &len, max_len, settings);
         reset_values(&len, &max_len);
         node = node->next;
         !node ? mx_printchar('\n') : (void)0;

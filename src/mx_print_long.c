@@ -61,7 +61,7 @@ static void output_with_paths(t_list **list, t_settings *s) {
         inner = ((t_list *)node->data)->next;
         tmp = ((t_data *)((t_list *)node->data)->data)->filename;
         if (mx_strcmp(tmp, FILES) != 0)
-            mx_print_filename_and_total(node, inner, is_first, s);
+            mx_print_filename_and_total(node, inner, &is_first, s);
         is_first = false;
         print_list(&inner, max_len, mx_check_chr_or_blk_device(&inner), s);
         free(max_len);
