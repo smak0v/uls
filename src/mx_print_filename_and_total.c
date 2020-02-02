@@ -6,7 +6,7 @@ bool is_first, t_settings *settings) {
         mx_print_total(inner_node);
         return;
     }
-    mx_print_dir(((t_data *)((t_list *)node->data)->data)->filename);
+    mx_print_dir(((t_data *)((t_list *)node->data)->data)->filename, is_first, settings);
     if (mx_list_size(inner_node))
         mx_print_total(inner_node);
 }

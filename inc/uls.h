@@ -22,6 +22,7 @@
 #define MODE_FLAGS "Clgonmx1"
 #define SORTING_FLAGS "Stlf"
 #define FILES "f_I_l_E_s"
+#define LAST_SYMBOLS "/*@=%|"
 
 // Macroses
 #define MX_IS_BLK(mode) (((mode) & S_IFMT) == S_IFBLK)
@@ -262,7 +263,7 @@ void mx_print_filename(t_data *data, t_settings *settings);
 void mx_print_colored(t_data *data);
 void mx_print_errors(t_list *errors);
 void mx_print_inode(t_settings *settings, ino_t inode, t_max_len *max_len);
-void mx_print_dir(char *dirname);
+void mx_print_dir(char *dirname, bool is_first, t_settings *settings);
 void mx_print_owner_group(t_settings *settings, t_data *data, t_max_len *len);
 void mx_print_tabs(t_settings *settings, t_columns_info *info, char *prev);
 
