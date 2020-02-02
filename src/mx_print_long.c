@@ -37,7 +37,7 @@ static void simple_output(t_list **list, t_settings *s) {
     char *tmp = NULL;
 
     while (node) {
-        max_len = mx_get_max_len_struct(node);
+        max_len = mx_get_max_len_struct(node, s);
         inner = ((t_list *)node->data)->next;
         tmp = ((t_data *)((t_list *)node->data)->data)->filename;
         if (mx_strcmp(tmp, FILES) != 0 && mx_list_size(inner))
@@ -53,15 +53,16 @@ static void output_with_paths(t_list **list, t_settings *s) {
     t_list *node = *list;
     t_list *inner = NULL;
     t_max_len *max_len = NULL;
-    char *tmp = NULL;
     bool is_first = true;
 
     while (node) {
-        max_len = mx_get_max_len_struct(node);
+        max_len = mx_get_max_len_struct(node, s);
         inner = ((t_list *)node->data)->next;
-        tmp = ((t_data *)((t_list *)node->data)->data)->filename;
-        if (mx_strcmp(tmp, FILES) != 0)
+        if (mx_strcmp(((t_data *)((t_list *)node->data)->data)->filename,
+                      FILES) != 0) {
+            is_first = false;
             mx_print_filename_and_total(node, inner, &is_first, s);
+        }
         is_first = false;
         print_list(&inner, max_len, mx_check_chr_or_blk_device(&inner), s);
         free(max_len);
@@ -72,8 +73,8 @@ static void output_with_paths(t_list **list, t_settings *s) {
 }
 
 void mx_print_long(t_list **list, t_settings *settings) {
-    if (mx_list_size(*list) == 1  && !settings->not_found)
-        simple_output(list, settings);
-    else
+    if ((list && *list && (*list)->next) || settings->not_found)
         output_with_paths(list, settings);
+    else
+        simple_output(list, settings);
 }

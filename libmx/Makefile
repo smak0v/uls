@@ -91,7 +91,8 @@ mx_count_unequal.c \
 mx_check_set.c \
 mx_create_set.c \
 mx_strarr_len.c \
-mx_pop_string_array.c)
+mx_pop_string_array.c \
+mx_list_quicksort.c)
 
 OBJ = \
 mx_binary_search.o \
@@ -178,7 +179,8 @@ mx_count_unequal.o \
 mx_check_set.o \
 mx_create_set.o \
 mx_strarr_len.o \
-mx_pop_string_array.o
+mx_pop_string_array.o \
+mx_list_quicksort.o
 
 CC = clang
 

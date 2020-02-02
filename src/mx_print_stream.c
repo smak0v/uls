@@ -38,7 +38,7 @@ static void output_with_paths(t_list **list, t_settings *settings) {
     bool is_first = true;
 
     while (node) {
-        max_len = mx_get_max_len_struct(node);
+        max_len = mx_get_max_len_struct(node, settings);
         mx_print_dir(((t_data *)((t_list *)node->data)->data)->filename,
                      &is_first, settings);
         inner_node = ((t_list *)node->data)->next;
@@ -59,7 +59,7 @@ static void simple_output(t_list **list, t_settings *settings) {
     int len = 0;
 
     while (node) {
-        max_len = mx_get_max_len_struct(node);
+        max_len = mx_get_max_len_struct(node, settings);
         inner_node = ((t_list *)node->data)->next;
         while (inner_node)
             print(&inner_node, &len, max_len, settings);
@@ -70,8 +70,8 @@ static void simple_output(t_list **list, t_settings *settings) {
 }
 
 void mx_print_stream(t_list **list, t_settings *settings) {
-    if (mx_list_size(*list) == 1  && !settings->not_found)
-        simple_output(list, settings);
-    else
+    if ((list && *list && (*list)->next) || settings->not_found)
         output_with_paths(list, settings);
+    else
+        simple_output(list, settings);
 }

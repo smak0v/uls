@@ -192,7 +192,7 @@ void mx_append_type_sign(t_st st, t_data **info, t_settings *settings);
 bool mx_has_acl(char *dirname);
 
 // Getters
-t_max_len *mx_get_max_len_struct(t_list *list);
+t_max_len *mx_get_max_len_struct(t_list *list, t_settings *settings);
 int mx_get_total(t_list *list);
 char *mx_get_permissions(mode_t mode);
 char *mx_get_xattr(char *dirname, ssize_t *length);
