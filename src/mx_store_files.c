@@ -1,14 +1,24 @@
 #include "uls.h"
 
-static int count_flags_with_stop_flag(int argc, char **argv);
-static int count_files(int argc, int flags_count);
-static char **store_files(int files_count, int argc, int flags, char **argv);
+static char **store_files(int files_count, int argc, int flags, char **argv) {
+    char **files = NULL;
+    int j = 0;
 
-char **mx_store_files(int argc, char **argv) {
-    int flags_count = count_flags_with_stop_flag(argc, argv);
-    int files_count = count_files(argc, flags_count);
+    if (files_count) {
+        files = (char **)malloc(sizeof(char *) * (files_count + 1));
+        for (int i = flags + 1; i < argc; i++)
+            files[j++] = mx_strdup(argv[i]);
+        files[j] = NULL;
+    }
+    return files;
+}
 
-    return store_files(files_count, argc, flags_count, argv);
+static int count_files(int argc, int flags_count) {
+    int count = 0;
+
+    for (int i = flags_count + 1; i < argc; i++)
+        count++;
+    return count;
 }
 
 static int count_flags_with_stop_flag(int argc, char **argv) {
@@ -28,23 +38,9 @@ static int count_flags_with_stop_flag(int argc, char **argv) {
     return count;
 }
 
-static int count_files(int argc, int flags_count) {
-    int count = 0;
+char **mx_store_files(int argc, char **argv) {
+    int flags_count = count_flags_with_stop_flag(argc, argv);
+    int files_count = count_files(argc, flags_count);
 
-    for (int i = flags_count + 1; i < argc; i++)
-        count++;
-    return count;
-}
-
-static char **store_files(int files_count, int argc, int flags, char **argv) {
-    char **files = NULL;
-    int j = 0;
-
-    if (files_count) {
-        files = (char **)malloc(sizeof(char *) * (files_count + 1));
-        for (int i = flags + 1; i < argc; i++)
-            files[j++] = mx_strdup(argv[i]);
-        files[j] = NULL;
-    }
-    return files;
+    return store_files(files_count, argc, flags_count, argv);
 }

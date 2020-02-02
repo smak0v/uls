@@ -1,20 +1,41 @@
 #include "uls.h"
 
-static t_mode_enum setup_mode(char **flags);
-static t_mode_enum process_mode(char flag);
-static t_sorting_enum setup_sorting(t_settings *s, char **flags);
-static void find_flags(t_settings *s, char **flags);
-static bool find_flag(char **flags, char f);
+static bool find_flag(char **flags, char f) {
+    for (int i = 0; flags[i]; i++)
+        if (flags[i][0] == f)
+            return true;
+    return false;
+}
 
-t_settings *mx_setup(char **flags) {
-    t_settings *setup = mx_memalloc(sizeof(t_settings));
 
-    if (flags) {
-        setup->mode = setup_mode(flags);
-        setup->sorting = setup_sorting(setup, flags);
-        find_flags(setup, flags);
+static void find_flags_3(t_settings *s, char flag) {
+    if (flag == 'U')
+        s->time = crt;
+    else if (flag == 'u')
+        s->time = acc;
+    else if (flag == 'c')
+        s->time = chg;
+}
+
+static void find_flags_2(t_settings *s, char flag) {
+    if (flag == 'g')
+        s->omit_owner = true;
+    else if (flag == 'G')
+        s->colored = true;
+    else if (flag == 'i')
+        s->print_inode = true;
+    else if (flag == 'F') {
+        s->append_type_sign = true;
+        s->append_slash = false;
     }
-    return setup;
+    else if (flag == 'R')
+        s->R = true;
+    else if (flag == 'A')
+        s->A = true;
+    else if (flag == 'a' || flag == 'f')
+        s->a = true;
+    else
+        find_flags_3(s, flag);
 }
 
 static void find_flags(t_settings *s, char **flags) {
@@ -35,25 +56,48 @@ static void find_flags(t_settings *s, char **flags) {
             s->append_slash = true;
             s->append_type_sign = false;
         }
-        else if (flags[i][0] == 'o')
-            s->omit_group = true;
-        else if (flags[i][0] == 'g')
-            s->omit_owner = true;
-        else if (flags[i][0] == 'G')
-            s->colored = true;
-        else if (flags[i][0] == 'i')
-            s->print_inode = true;
-        else if (flags[i][0] == 'F') {
-            s->append_type_sign = true;
-            s->append_slash = false;
-        }
-        else if (flags[i][0] == 'R')
-            s->R = true;
-        else if (flags[i][0] == 'A')
-            s->A = true;
-        else if (flags[i][0] == 'a' || flags[i][0] == 'f')
-            s->a = true;
+        else 
+            find_flags_2(s, flags[i][0]);
     }
+}
+
+static t_sorting_enum setup_sorting(char **flags) {
+    int len = mx_strarr_len(flags) - 1;
+    t_sorting_enum mode = names;
+
+    for (; len >= 0; len--) {
+        if (flags[len][0] == 'f') {
+            mode = unsorted;
+            break;
+        }
+        else if (flags[len][0] == 'S')
+            mode = size;
+        else if (flags[len][0] == 't' && mode != size) {
+            if (mx_search_strarr(flags, "c"))
+                mode = chg_time;
+            else if (mx_search_strarr(flags, "u"))
+                mode = acc_time;
+            else if (mx_search_strarr(flags, "U"))
+                mode = crt_time;
+            else
+                mode = mod_time;
+        }
+    }
+    return mode;
+}
+
+static t_mode_enum process_mode(char flag) {
+    t_mode_enum mode;
+
+    if (flag == 'C' || flag == 'x')
+        mode = columns;
+    else if (flag == 'l' || flag == 'g' || flag == 'o' || flag == 'n')
+        mode = table;
+    else if (flag == 'm')
+        mode = commas;
+    else
+        mode = line_break;
+    return mode;
 }
 
 static t_mode_enum setup_mode(char **flags) {
@@ -77,64 +121,13 @@ static t_mode_enum setup_mode(char **flags) {
     return mode;
 }
 
-static t_mode_enum process_mode(char flag) {
-    t_mode_enum mode;
+t_settings *mx_setup(char **flags) {
+    t_settings *setup = mx_memalloc(sizeof(t_settings));
 
-    if (flag == 'C' || flag == 'x')
-        mode = columns;
-    else if (flag == 'l' || flag == 'g' || flag == 'o' || flag == 'n')
-        mode = table;
-    else if (flag == 'm')
-        mode = commas;
-    else
-        mode = line_break;
-    return mode;
-}
-
-static t_sorting_enum setup_sorting(t_settings *s, char **flags) {
-    int len = mx_strarr_len(flags) - 1;
-    t_sorting_enum mode = names;
-
-    for (; len >= 0; len--) {
-        if (flags[len][0] == 'f') {
-            mode = unsorted;
-            break;
-        }
-        else if (flags[len][0] == 'S')
-            mode = size;
-        else if (flags[len][0] == 't' && mode != size) {
-            if (mx_search_strarr(flags, "c")) {
-                mode = chg_time;
-                s->time = chg;
-            }
-            else if (mx_search_strarr(flags, "u")) {
-                mode = acc_time;
-                s->time = acc;
-            }
-            else if (mx_search_strarr(flags, "U")) {
-                mode = crt_time;
-                s->time = crt;
-            }
-            else {
-                mode = mod_time;
-                s->time = mod; //this line can optionally be removed but i left it for consistency, s->time = mod (0) by default
-            }
-        }
+    if (flags) {
+        setup->mode = setup_mode(flags);
+        setup->sorting = setup_sorting(flags);
+        find_flags(setup, flags);
     }
-    if (mx_search_strarr(flags, "c"))
-        s->time = chg;
-    else if (mx_search_strarr(flags, "u"))
-        s->time = acc;
-    else if (mx_search_strarr(flags, "U"))
-        s->time = crt;
-    else
-        s->time = mod;
-    return mode;
-}
-
-static bool find_flag(char **flags, char f) {
-    for (int i = 0; flags[i]; i++)
-        if (flags[i][0] == f)
-            return true;
-    return false;
+    return setup;
 }

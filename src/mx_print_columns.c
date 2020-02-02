@@ -1,7 +1,7 @@
 #include "uls.h"
 
 static void print_row(t_list *node1, t_columns_info *info, bool is_first,
-t_settings *settings) {
+                      t_settings *settings) {
     char *prev = NULL;
     t_data *data = NULL;
 
@@ -20,7 +20,7 @@ t_settings *settings) {
 }
 
 static void print_columns(t_list **list, t_settings *settings,
-t_max_len *max) {
+                          t_max_len *max) {
     t_columns_info *info = mx_get_columns_info(list, settings, max);
     bool is_first = true;
 

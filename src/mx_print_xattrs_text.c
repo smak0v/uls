@@ -1,16 +1,7 @@
 #include "uls.h"
 
 static void print_xattrs(t_data *data, t_max_len *max_len,
-t_settings *settings);
-
-void mx_print_xattrs_text(t_data *data, t_settings *settings,
-t_max_len *max_len) {
-    if (settings->print_xattr && data->xattr_text)
-        print_xattrs(data, max_len, settings);
-}
-
-static void print_xattrs(t_data *data, t_max_len *max_len,
-t_settings *settings) {
+                         t_settings *settings) {
     int max_num_len = mx_numlen(data->xattr_value_length);
 
     if (!max_num_len && !(data->xattr_value_length))
@@ -28,4 +19,10 @@ t_settings *settings) {
         mx_printstr("B \n");
     else
         mx_printstr(" \n");
+}
+
+void mx_print_xattrs_text(t_data *data, t_settings *settings,
+                          t_max_len *max_len) {
+    if (settings->print_xattr && data->xattr_text)
+        print_xattrs(data, max_len, settings);
 }
