@@ -1,7 +1,7 @@
 #include "uls.h"
 
 static void print_data(t_data *data, t_max_len *max_len, bool is_device_met,
-t_settings *settings) {
+                       t_settings *settings) {
     mx_print_inode(settings, data->inode, max_len);
     mx_printstr(data->permissions);
     mx_print_acl_xattr_or_nothing(data);
@@ -20,8 +20,8 @@ t_settings *settings) {
     mx_print_xattrs_text(data, settings, max_len);
 }
 
-static void print_list(t_list **node, t_max_len *max_len,
-bool is_device_met, t_settings *settings) {
+static void print_list(t_list **node, t_max_len *max_len, bool is_device_met,
+                       t_settings *settings) {
     t_list *inner_node = *node;
 
     while (inner_node) {

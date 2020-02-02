@@ -1,35 +1,32 @@
 #include "uls.h"
 
-static void simple_output(t_list **list, t_settings *settings);
-static void output_with_paths(t_list **list, t_settings *settings);
 static void print(t_list *node, int *len, t_max_len *max_len,
-t_settings *settings);
-static void reset_values(int *len, t_max_len **max_len);
+                  t_settings *settings) {
+    char *file = ((t_data *)(node->data))->filename;
+    ushort width = mx_get_terminal_width(settings);
 
-void mx_print_stream(t_list **list, t_settings *settings) {
-    if (mx_list_size(*list) == 1  && !settings->not_found)
-        simple_output(list, settings);
-    else
-        output_with_paths(list, settings);
+    if (settings->print_inode) {
+        if (*len + mx_strlen(file) + 3 >= width) {
+            mx_printchar('\n');
+            *len = 0;
+        }
+        *len +=  max_len->inodes + mx_strlen(file) + 3;
+    } else {
+        if (*len + mx_strlen(file) + 2 >= width) {
+            mx_printchar('\n');
+            *len = 0;
+        }
+        *len += mx_strlen(file) + 2;
+    }
+    mx_print_inode(settings, ((t_data *)node->data)->inode, max_len);
+    mx_print_filename((t_data *)node->data, settings);
+    node->next ? mx_printstr(", ") : (void)0;
 }
 
-static void simple_output(t_list **list, t_settings *settings) {
-    t_list *node = *list;
-    t_list *inner_node = NULL;
-    t_max_len *max_len = NULL;
-    int len = 0;
-
-    while (node) {
-        max_len = mx_get_max_len_struct(node);
-        inner_node = ((t_list *)node->data)->next;
-        while (inner_node) {
-            print(inner_node, &len, max_len, settings);
-            inner_node = inner_node->next;
-        }
-        reset_values(&len, &max_len);
-        node = node->next;
-        !node ? mx_printchar('\n') : (void)0;
-    }
+static void reset_values(int *len, t_max_len **max_len) {
+    *len = 0;
+    free(*max_len);
+    *max_len = NULL;
 }
 
 static void output_with_paths(t_list **list, t_settings *settings) {
@@ -57,31 +54,28 @@ static void output_with_paths(t_list **list, t_settings *settings) {
     }
 }
 
-static void print(t_list *node, int *len, t_max_len *max_len,
-t_settings *settings) {
-    char *file = ((t_data *)(node->data))->filename;
-    ushort width = mx_get_terminal_width(settings);
+static void simple_output(t_list **list, t_settings *settings) {
+    t_list *node = *list;
+    t_list *inner_node = NULL;
+    t_max_len *max_len = NULL;
+    int len = 0;
 
-    if (settings->print_inode) {
-        if (*len + mx_strlen(file) + 3 >= width) {
-            mx_printchar('\n');
-            *len = 0;
+    while (node) {
+        max_len = mx_get_max_len_struct(node);
+        inner_node = ((t_list *)node->data)->next;
+        while (inner_node) {
+            print(inner_node, &len, max_len, settings);
+            inner_node = inner_node->next;
         }
-        *len +=  max_len->inodes + mx_strlen(file) + 3;
-    } else {
-        if (*len + mx_strlen(file) + 2 >= width) {
-            mx_printchar('\n');
-            *len = 0;
-        }
-        *len += mx_strlen(file) + 2;
+        reset_values(&len, &max_len);
+        node = node->next;
+        !node ? mx_printchar('\n') : (void)0;
     }
-    mx_print_inode(settings, ((t_data *)node->data)->inode, max_len);
-    mx_print_filename((t_data *)node->data, settings);
-    node->next ? mx_printstr(", ") : (void)0;
 }
 
-static void reset_values(int *len, t_max_len **max_len) {
-    *len = 0;
-    free(*max_len);
-    *max_len = NULL;
+void mx_print_stream(t_list **list, t_settings *settings) {
+    if (mx_list_size(*list) == 1  && !settings->not_found)
+        simple_output(list, settings);
+    else
+        output_with_paths(list, settings);
 }

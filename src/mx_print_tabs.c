@@ -1,14 +1,5 @@
 #include "uls.h"
 
-static void print(int max_len, int prev_len);
-
-void mx_print_tabs(t_settings *settings, t_columns_info *info, char *prev) {
-    if (settings->print_inode)
-        print(info->max_len, mx_strlen(prev) + info->max->inodes + 1);
-    else
-        print(info->max_len, mx_strlen(prev));
-}
-
 static void print(int max_len, int prev_len) {
     int spaces_count = 0;
     int tabs_count = 0;
@@ -27,3 +18,11 @@ static void print(int max_len, int prev_len) {
         mx_printchar('\t');
     mx_printchar('\t');
 }
+
+void mx_print_tabs(t_settings *settings, t_columns_info *info, char *prev) {
+    if (settings->print_inode)
+        print(info->max_len, mx_strlen(prev) + info->max->inodes + 1);
+    else
+        print(info->max_len, mx_strlen(prev));
+}
+

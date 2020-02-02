@@ -13,6 +13,7 @@ void mx_get_formatted_size(int int_part, int float_part, char **res) {
     res_copy = mx_strcpy(res_copy, tmp);
     mx_strdel(&tmp);
     res_copy += mx_numlen(int_part);
+
     if (mx_numlen(int_part) < 2) {
         res_copy = mx_strcpy(res_copy, ".");
         res_copy += 1;

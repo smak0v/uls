@@ -1,6 +1,21 @@
 #include "uls.h"
 
-static void process_sorting(t_list **data, t_settings *settings);
+static void process_sorting(t_list **data, t_settings *settings) {
+    if (settings->sorting == unsorted)
+        return;
+    else if (settings->sorting == size)
+        mx_sort_by_size(data, settings->reverse);
+    else if (settings->sorting == chg_time)
+        mx_sort_by_last_changed_time(data, settings->reverse);
+    else if (settings->sorting == acc_time)
+        mx_sort_by_last_access_time(data, settings->reverse);
+    else if (settings->sorting == crt_time)
+        mx_sort_by_creation_time(data, settings->reverse);
+    else if (settings->sorting == mod_time)
+        mx_sort_by_last_modification_time(data, settings->reverse);
+    else if (settings->sorting == names)
+        mx_sort_by_name(data, settings->reverse);
+}
 
 void mx_process_output(t_list **data, t_settings *settings, char **flags) {
     process_sorting(data, settings);
@@ -19,21 +34,4 @@ void mx_process_output(t_list **data, t_settings *settings, char **flags) {
             mx_print_force(data, settings);
     } else
         mx_print_force(data, settings);
-}
-
-static void process_sorting(t_list **data, t_settings *settings) {
-    if (settings->sorting == unsorted)
-        return;
-    else if (settings->sorting == size)
-        mx_sort_by_size(data, settings->reverse);
-    else if (settings->sorting == chg_time)
-        mx_sort_by_last_changed_time(data, settings->reverse);
-    else if (settings->sorting == acc_time)
-        mx_sort_by_last_access_time(data, settings->reverse);
-    else if (settings->sorting == crt_time)
-        mx_sort_by_creation_time(data, settings->reverse);
-    else if (settings->sorting == mod_time)
-        mx_sort_by_last_modification_time(data, settings->reverse);
-    else if (settings->sorting == names)
-        mx_sort_by_name(data, settings->reverse);
 }
