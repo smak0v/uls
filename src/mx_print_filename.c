@@ -20,11 +20,7 @@ static void print(t_data *data) {
 }
 
 void mx_print_filename(t_data *data, t_settings *settings) {
-    if (settings->colored && settings->mode == columns && isatty(1)) {
-        mx_print_colored(data);
-        print(data);
-    }
-    else if (settings->colored && settings->mode != columns && isatty(1)) {
+    if (settings->colored && isatty(1)) {
         mx_print_colored(data);
         if (check_last_symbol(data))
             print(data);

@@ -22,7 +22,7 @@
 #define MODE_FLAGS "Clgonmx1"
 #define SORTING_FLAGS "Stlf"
 #define FILES "f_I_l_E_s"
-#define LAST_SYMBOLS "/*@=%|"
+#define LAST_SYMBOLS "/*@=%| "
 
 // Macroses
 #define MX_IS_BLK(mode) (((mode) & S_IFMT) == S_IFBLK)
