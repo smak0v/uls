@@ -105,7 +105,7 @@ void mx_pop_front(t_list **head);
 void mx_pop_back(t_list **head);
 int mx_list_size(t_list *list);
 t_list *mx_sort_list(t_list *lst, bool (*cmp)(void *, void *));
-void mx_list_quicksort(t_list **list, bool (*cmp)(void *a, void *b));
+void mx_list_merge_sort(t_list **head_ptr, bool (*cmp)(void *a, void *b));
 void mx_revers_list(t_list **list);
 bool mx_is_equal_lists(t_list *a, t_list *b);
 

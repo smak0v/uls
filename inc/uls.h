@@ -238,7 +238,7 @@ bool mx_last_access_time_desc_list_cmp(void *data_1, void *data_2);
 bool mx_last_access_time_desc_cmp(void *data_1, void *data_2);
 
 // Sortings
-void mx_sort(t_list *node, bool (*cmp_1)(void *a, void *b),
+void mx_sort(t_list **list, bool (*cmp_1)(void *a, void *b),
 bool (*cmp_2)(void *a, void *b));
 void mx_sort_by_name(t_list **list, bool reverse);
 void mx_sort_by_creation_time(t_list **list, bool reverse);

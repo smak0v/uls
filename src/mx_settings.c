@@ -18,7 +18,9 @@ static void find_flags_3(t_settings *s, char flag) {
 }
 
 static void find_flags_2(t_settings *s, char flag) {
-    if (flag == 'g')
+    if (flag == 'o')
+        s->omit_group = true;
+    else if (flag == 'g')
         s->omit_owner = true;
     else if (flag == 'G')
         s->colored = true;
