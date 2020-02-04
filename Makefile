@@ -49,7 +49,7 @@ sortings/mx_sort_by_size.c \
 sortings/mx_sort_errors.c \
 sortings/mx_sort.c \
 mx_settings.c \
-mx_process_output.c \
+mx_sort_and_output.c \
 mx_get_max_len_struct.c \
 mx_print_filename_and_total.c \
 mx_process_l.c \
@@ -120,7 +120,7 @@ mx_sort_by_size.o \
 mx_sort_errors.o \
 mx_sort.o \
 mx_settings.o \
-mx_process_output.o \
+mx_sort_and_output.o \
 mx_get_max_len_struct.o \
 mx_print_filename_and_total.o \
 mx_process_l.o \

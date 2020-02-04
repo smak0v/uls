@@ -115,6 +115,8 @@ typedef struct s_settings {
     t_mode_enum mode;
     t_sorting_enum sorting;
     t_time_enum time;
+    bool has_output_format_flag;
+    bool is_atty;
     bool not_found;
     bool reverse; // -r
     bool format_size; // -h
@@ -162,7 +164,7 @@ typedef struct s_error {
 // Core
 t_settings *mx_setup(char **flags);
 void mx_read_data(t_list **data, t_settings *setup, char **files, char *f);
-void mx_process_output(t_list **data, t_settings *settings, char **flags);
+void mx_sort_and_output(t_list **data, t_settings *settings);
 void mx_process_l(t_st st, t_data *data, t_settings *settings);
 
 // Errors
@@ -205,7 +207,7 @@ ushort mx_get_terminal_width(t_settings *settings);
 int mx_get_max_filename_length(t_list **list);
 void mx_get_formatted_size(int int_part, int int_float_part, char **res);
 t_columns_info *mx_get_columns_info(t_list **list, t_settings *settings,
-t_max_len *max);
+                                    t_max_len *max);
 char *mx_get_full_filename(char *dirpath, char *filename);
 char *mx_get_dirname(char *full_path);
 char *mx_get_filename(char *full_path);
@@ -239,26 +241,26 @@ bool mx_last_access_time_desc_cmp(void *data_1, void *data_2);
 
 // Sortings
 void mx_sort(t_list **list, bool (*cmp_1)(void *a, void *b),
-bool (*cmp_2)(void *a, void *b));
-void mx_sort_by_name(t_list **list, bool reverse);
-void mx_sort_by_creation_time(t_list **list, bool reverse);
-void mx_sort_by_last_access_time(t_list **list, bool reverse);
-void mx_sort_by_last_modification_time(t_list **list, bool reverse);
-void mx_sort_by_last_changed_time(t_list **list, bool reverse);
-void mx_sort_by_size(t_list **list, bool reverse);
+             bool (*cmp_2)(void *a, void *b), t_settings *settings);
+void mx_sort_by_name(t_list **list, t_settings *settings);
+void mx_sort_by_creation_time(t_list **list, t_settings *settings);
+void mx_sort_by_last_access_time(t_list **list, t_settings *settings);
+void mx_sort_by_last_modification_time(t_list **list, t_settings *settings);
+void mx_sort_by_last_changed_time(t_list **list, t_settings *settings);
+void mx_sort_by_size(t_list **list, t_settings *settings);
 void mx_sort_errors(t_list **errors);
 
 // Printing data
 void mx_print_total(t_list *list);
 void mx_print_filename_and_total(t_list *node, t_list *inner_node,
-bool *is_first, t_settings *settings);
+                                 bool *is_first, t_settings *settings);
 void mx_print_acl_xattr_or_nothing(t_data *data);
 void mx_print_date(t_data *data, t_settings *settings);
 void mx_print_size(t_data *data, t_max_len *max_len, bool is_device_met,
-t_settings *settings);
+                   t_settings *settings);
 void mx_print_symlink(t_data *data);
 void mx_print_xattrs_text(t_data *data, t_settings *settings,
-t_max_len *max_len);
+                          t_max_len *max_len);
 void mx_print_filename(t_data *data, t_settings *settings);
 void mx_print_colored(t_data *data);
 void mx_print_errors(t_list *errors);
@@ -269,14 +271,19 @@ void mx_print_tabs(t_settings *settings, t_columns_info *info, char *prev);
 
 // Printing modes
 // -l -g -o -n
-void mx_print_long(t_list **list, t_settings *settings);
+void mx_print_long(t_list **list, t_settings *settings, bool many_lists,
+                   bool *is_first);
 // -C
-void mx_print_columns(t_list **list, t_settings *settings);
+void mx_print_columns(t_list **list, t_settings *settings, bool many_lists,
+                      bool *is_first);
 // -x
-void mx_print_x_columns(t_list **list, t_settings *settings);
+void mx_print_x_columns(t_list **list, t_settings *settings, bool many_lists,
+                        bool *is_first);
 // -1
-void mx_print_force(t_list **list, t_settings *settings);
+void mx_print_force(t_list **list, t_settings *settings, bool many_lists,
+                    bool *is_first);
 // -m
-void mx_print_stream(t_list **list, t_settings *settings);
+void mx_print_stream(t_list **list, t_settings *settings, bool many_lists,
+                     bool *is_first);
 
 #endif

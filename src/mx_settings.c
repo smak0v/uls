@@ -20,46 +20,48 @@ static void find_flags_3(t_settings *s, char flag) {
 static void find_flags_2(t_settings *s, char flag) {
     if (flag == 'o')
         s->omit_group = true;
-    else if (flag == 'g')
+    if (flag == 'g')
         s->omit_owner = true;
-    else if (flag == 'G')
+    if (flag == 'G')
         s->colored = true;
-    else if (flag == 'i')
+    if (flag == 'i')
         s->print_inode = true;
-    else if (flag == 'F') {
+    if (flag == 'F') {
         s->append_type_sign = true;
         s->append_slash = false;
     }
-    else if (flag == 'R')
+    if (flag == 'R')
         s->R = true;
-    else if (flag == 'A')
+    if (flag == 'A')
         s->A = true;
-    else if (flag == 'a' || flag == 'f')
+    if (flag == 'a' || flag == 'f')
         s->a = true;
-    else
-        find_flags_3(s, flag);
+    find_flags_3(s, flag);
 }
 
 static void find_flags(t_settings *s, char **flags) {
     for (int i = 0; flags[i]; i++) {
+        if (mx_has_output_format_flag(flags))
+            s->has_output_format_flag = true;
+        if (isatty(1))
+            s->is_atty = true;
         if (flags[i][0] == 'r')
             s->reverse = true;
-        else if (flags[i][0] == 'n')
+        if (flags[i][0] == 'n')
             s->n = true;
-        else if (flags[i][0] == 'h')
+        if (flags[i][0] == 'h')
             s->format_size = true;
-        else if (flags[i][0] == '@')
+        if (flags[i][0] == '@')
             s->print_xattr = true;
-        else if (flags[i][0] == 'x')
+        if (flags[i][0] == 'x')
             s->print_xcols = true;
-        else if (flags[i][0] == 'T')
+        if (flags[i][0] == 'T')
             s->full_time = true;
-        else if (flags[i][0] == 'p') {
+        if (flags[i][0] == 'p') {
             s->append_slash = true;
             s->append_type_sign = false;
         }
-        else 
-            find_flags_2(s, flags[i][0]);
+        find_flags_2(s, flags[i][0]);
     }
 }
 
