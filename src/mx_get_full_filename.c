@@ -67,12 +67,15 @@ char *mx_get_filename(char *full_path) {
 }
 
 char *mx_check_match(char **strarr, char *dirname, char *filename) {
-    char *full_filename = mx_get_full_filename(dirname, filename);
+    char *full_filename = NULL;
 
     if (mx_search_strarr(strarr, filename) == 1)
-        return filename;
-    else if (mx_search_strarr(strarr, full_filename) == 1)
+        return mx_strdup(filename);
+    
+    full_filename = mx_get_full_filename(dirname, filename);
+    if (mx_search_strarr(strarr, full_filename) == 1)
         return full_filename;
 
+    free(full_filename);
     return NULL;
 }

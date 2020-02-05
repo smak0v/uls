@@ -1,10 +1,10 @@
 #include "uls.h"
 
-static t_data *write_data(t_settings *s, t_dnt *dir, t_st st, char *dname) {
+static t_data *write_data(t_settings *s, t_dnt *dir, t_st st, char *full_fnm, char *fnm) {
     t_data *info = malloc(sizeof(t_data));
 
-    info->filename = mx_strdup(dir->d_name);
-    info->full_filename = mx_get_full_filename(dname, info->filename);
+    info->filename = fnm ? fnm : mx_strdup(dir->d_name);
+    info->full_filename = full_fnm;
     info->is_dir = MX_IS_DIR(st.st_mode);
     mx_process_l(st, info, s);
     if (s->append_slash)
@@ -15,31 +15,44 @@ static t_data *write_data(t_settings *s, t_dnt *dir, t_st st, char *dname) {
     return info;
 }
 
-static void gather_data(t_lists lists, t_dnt *dir, t_st st, t_settings *s,
-                        char *dnm) {
+static bool check_flags(t_settings *s, t_dnt *dir) {
+    if ((!mx_strcmp(dir->d_name, ".") || !mx_strcmp(dir->d_name, ".."))
+        && !s->a)
+        return true;
+    else if (dir->d_name[0] == '.' && (!s->a && !s->A))
+        return true;
+    return false;
+}
+
+static void check_R(t_list **lst, t_settings *s, t_data *info, t_dnt *dir) {
+    if (s->R && info->is_dir && mx_strcmp(dir->d_name, ".") 
+        && mx_strcmp(dir->d_name, "..")) {
+        mx_read_data(lst, s, NULL, info->full_filename);
+    }
+}
+
+static void gather_data(t_lists lists, t_dnt *dir, t_settings *s, char *dnm) {
+    char *full_filename = NULL;
     t_data *info = NULL;
     t_list **lst = lists.list;
     t_list *node = lists.node;
-
+    t_st st;
+    
+    full_filename = mx_get_full_filename(dnm, dir->d_name);
+    lstat(full_filename, &st);
     if (!mx_strcmp(dir->d_name, ".") && !node->data) {
-        node->data = write_data(s, dir, st, dnm);
-        free(((t_data *)node->data)->filename);
-        ((t_data *)node->data)->filename = mx_strdup(dnm);
+        node->data = write_data(s, dir, st, dnm, mx_strdup(dnm));
     }
-    if ((!mx_strcmp(dir->d_name, ".") || !mx_strcmp(dir->d_name, "..")) 
-        && !s->a)
+    if (check_flags(s, dir))
         return;
-    else if (dir->d_name[0] == '.' && (!s->a && !s->A))
-        return;
-    info = write_data(s, dir, st, dnm);
-    if (s->R && info->is_dir && mx_strcmp(dir->d_name, ".") 
-        && mx_strcmp(dir->d_name, ".."))
-        mx_read_data(lst, s, NULL, info->full_filename);
-    mx_push_back(&node, (void *)info);
+    info = write_data(s, dir, st, full_filename, NULL);
+    mx_push_second(&node, (void *)info);
+
+    check_R(lst, s, info, dir);
 }
 
-static char **read_dir_files(t_settings *setup, t_list **list, char *dname, 
-                           char **files) {
+static char **read_dir_files(t_settings *setup, t_list **list, char *dname,
+                             char **files) {
     struct dirent *dirnt = NULL;
     t_st *st = malloc(sizeof(struct stat));
     char *full_filename = NULL;
@@ -51,12 +64,13 @@ static char **read_dir_files(t_settings *setup, t_list **list, char *dname,
         if (file_i) {
             full_filename = mx_get_full_filename(dname, dirnt->d_name);
             lstat(full_filename, st);
-            mx_push_back((t_list **)&((*list)->data),
-                         (void *)write_data(setup, dirnt, *st, dname));
+            mx_push_second((t_list **)&((*list)->data),
+                         (void *)write_data(setup, dirnt, *st, full_filename, file_i));
             mx_strdel(&full_filename);
             files = mx_pop_string_array(files, file_i);
         }
     }
+    closedir(dir);
     free(st);
     return files;
 }
@@ -78,8 +92,6 @@ static void process_leftovers(t_settings *setup, char **files, t_list **data) {
 
 static void read_dir(t_settings *setup, t_list **list, char *dname, DIR *dir) {
     struct dirent *dirnt = NULL;
-    struct stat *st = malloc(sizeof(struct stat));
-    char *full_filename = NULL;
     t_list *node = NULL;
     t_lists lists;
 
@@ -89,15 +101,9 @@ static void read_dir(t_settings *setup, t_list **list, char *dname, DIR *dir) {
     lists.node = node;
 
     while ((dirnt = readdir(dir)) != NULL) {
-        full_filename = mx_get_full_filename(dname, dirnt->d_name);
-        lstat(full_filename, st);
-        gather_data(lists, dirnt, *st, setup, dname);
-        mx_strdel(&full_filename);
+        gather_data(lists, dirnt, setup, dname);
     }
-    free(st);
-    st = NULL;
 }
-
 
 static void process_files(t_settings *setup, char **files, t_list **data) {
     DIR *dir = NULL;
@@ -129,7 +135,7 @@ void mx_read_data(t_list **data, t_settings *setup, char **files, char *f) {
     if (!files || !(*files)) {
         directory = opendir(f);
         if (!directory) {
-            mx_printstr_endl(strerror(errno));
+            // mx_printstr_endl(strerror(errno));
             return;
         }
         read_dir(setup, data, f, directory);

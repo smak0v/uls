@@ -160,10 +160,12 @@ CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 
 all : install
 
-install : uls
+install : libmx.a uls
 
-uls : $(SRC) inc/uls.h
+libmx.a:
 	@make -C $(LIBMXF)
+
+uls : $(SRC) inc/uls.h libmx/libmx.a
 	@$(CC) $(CFLAGS) -c $(SRC) $(foreach d, $(INC), -I $d)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBMXF)/$(LIB_NAME) -o $(APP_NAME)
 	@mkdir $(OBJ_DIR)
