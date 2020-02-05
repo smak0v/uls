@@ -15,9 +15,13 @@ void mx_check_usage_error(char **flags, char **files) {
     }
 }
 
-void mx_print_uls_error(char *filename, char *error) {
-    mx_print_error("uls: ");
-    mx_print_error(filename);
-    mx_print_error(": ");
-    mx_print_error_endl(error);
+void mx_print_not_found(t_list *err_list) {
+    t_list *node = err_list;
+
+    while (node) {
+        mx_print_error("uls: ");
+        mx_print_error(node->data);
+        mx_print_error(": No such file or directory\n");
+        node = node->next;
+    }
 }

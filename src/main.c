@@ -37,7 +37,6 @@ int main(int argc, char *argv[]) {
     settings = mx_setup(flags);
     mx_check_usage_error(flags, files);
     mx_read_data(&data, settings, files, ".");
-    //mx_print_errors(errors);
     if (data)
         mx_sort_and_output(&data, settings);
     free_data(flags, settings);

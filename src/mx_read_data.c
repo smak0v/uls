@@ -129,8 +129,9 @@ static void process_files(t_settings *setup, char **files, t_list **data) {
             }
         }
     }
+    mx_sort_errors(&err_list);
     mx_print_not_found(err_list);
-    mx_clear_list(&err_list);
+    mx_clear_errors_list(&err_list);
     if (files) {
         process_leftovers(setup, files, data);
     }

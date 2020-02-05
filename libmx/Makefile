@@ -92,7 +92,8 @@ mx_check_set.c \
 mx_create_set.c \
 mx_strarr_len.c \
 mx_pop_string_array.c \
-mx_list_merge_sort.c)
+mx_list_merge_sort.c \
+mx_push_second.c)
 
 OBJ = \
 mx_binary_search.o \
@@ -180,7 +181,8 @@ mx_check_set.o \
 mx_create_set.o \
 mx_strarr_len.o \
 mx_pop_string_array.o \
-mx_list_merge_sort.o
+mx_list_merge_sort.o \
+mx_push_second.o
 
 CC = clang
 

@@ -16,10 +16,3 @@ void mx_pop_front(t_list **head) {
         *head = p;
     }
 }
-
-void mx_clear_list(t_list **list) {
-    while (list && *list) {
-        free((*list)->data);
-        mx_pop_front(list);    
-    }
-}
