@@ -10,11 +10,6 @@ static char **store_files(int files_count, int argc, int flags, char **argv) {
             files[j++] = mx_strdup(argv[i]);
         files[j] = NULL;
     }
-    else {
-        files = (char **)malloc(sizeof(char *) * 2);
-        files[0] = mx_strdup(".");
-        files[1] = NULL;
-    }
     return files;
 }
 

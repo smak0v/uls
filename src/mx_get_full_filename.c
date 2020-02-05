@@ -1,4 +1,5 @@
 #include "uls.h"
+//MIGRATE TO MEMRCHR
 
 char *mx_get_full_filename(char *dirpath, char *filename) {
     char *tmp = NULL;

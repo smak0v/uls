@@ -173,6 +173,7 @@ void mx_process_l(t_st st, t_data *data, t_settings *settings);
 void mx_check_usage_error(char **flags, char **files);
 void mx_print_uls_error(char *filename, char *error);
 t_error *mx_create_error(char *filename, char *error, int is_dir);
+void mx_print_not_found(t_list *err_list);
 
 // Utils
 char **mx_store_flags(int argc, char **argv);

@@ -43,8 +43,10 @@ static void gather_data(t_lists lists, t_dnt *dir, t_settings *s, char *dnm) {
     if (!mx_strcmp(dir->d_name, ".") && !node->data) {
         node->data = write_data(s, dir, st, dnm, mx_strdup(dnm));
     }
-    if (check_flags(s, dir))
-        return;
+    if (check_flags(s, dir)) {
+        mx_strdel(&full_filename);
+        return ;
+    }
     info = write_data(s, dir, st, full_filename, NULL);
     mx_push_second(&node, (void *)info);
 
@@ -107,6 +109,7 @@ static void read_dir(t_settings *setup, t_list **list, char *dname, DIR *dir) {
 
 static void process_files(t_settings *setup, char **files, t_list **data) {
     DIR *dir = NULL;
+    t_list *err_list = NULL;
 
     for (int i = 0; files && files[i]; i++) {
         dir = opendir(files[i]);
@@ -117,12 +120,17 @@ static void process_files(t_settings *setup, char **files, t_list **data) {
         }
         else {
             if (errno != 20) { // 20 == Not a directory error
-                // mx_print_no_such_error(files[i]);
+                if (!err_list)
+                    err_list = mx_create_node(mx_strdup(files[i]));
+                else
+                    mx_push_front(&err_list, mx_strdup(files[i]));
                 files = mx_pop_string_array(files, files[i--]);
                 setup->not_found = 1;
             }
         }
     }
+    mx_print_not_found(err_list);
+    mx_clear_list(&err_list);
     if (files) {
         process_leftovers(setup, files, data);
     }
