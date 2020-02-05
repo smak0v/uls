@@ -66,9 +66,6 @@ mx_print_size.c \
 mx_convert_size.c \
 mx_print_symlink.c \
 mx_print_xattrs_text.c \
-mx_get_formatted_size.c \
-utils/mx_get_max_len_by_strings.c \
-utils/mx_get_max_len_by_numbers.c \
 mx_has_output_format_flag.c \
 mx_get_columns_info.c \
 mx_print_filename.c \
@@ -137,9 +134,6 @@ mx_print_size.o \
 mx_convert_size.o \
 mx_print_symlink.o \
 mx_print_xattrs_text.o \
-mx_get_formatted_size.o \
-mx_get_max_len_by_strings.o \
-mx_get_max_len_by_numbers.o \
 mx_has_output_format_flag.o \
 mx_get_columns_info.o \
 mx_print_filename.o \

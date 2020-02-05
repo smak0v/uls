@@ -10,9 +10,11 @@ t_columns_info *mx_get_columns_info(t_list **list, t_settings *settings,
         info->max_len = tmp_max_len + max->inodes + 1;
     else
         info->max_len = tmp_max_len;
-
     info->list_size = mx_list_size(*list);
-    info->cols = width / ((8 - (info->max_len % 8)) + info->max_len);
+    if (!settings->colored)
+        info->cols = width / ((8 - (info->max_len % 8)) + info->max_len);
+    else
+        info->cols = width / (info->max_len + 1);
     info->rows = info->list_size / info->cols;
     info->max = max;
     info->i = 0;

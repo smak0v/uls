@@ -34,6 +34,7 @@
 #define MX_IS_WHT(mode) (((mode) & S_IFMT) == S_IFWHT)
 #define MX_IS_REG(mode) (((mode) & S_IFMT) == S_IFREG)
 #define MX_IS_EXEC(mode) ((mode) & S_IXUSR)
+#define MX_MAX(x, y) (((x) > (y)) ? (x) : (y))
 
 // Structures
 typedef struct dirent t_dnt;
@@ -181,13 +182,7 @@ void mx_print_spaces(int count);
 char mx_get_file_type(mode_t mode);
 bool mx_search_strarr(char **strarr, char *str);
 bool mx_check_chr_or_blk_device(t_list **list);
-char *mx_convert_size(uint64_t size);
-int mx_get_max_len_by_links(t_list *list);
-int mx_get_max_len_by_owners(t_list *list);
-int mx_get_max_len_by_groups(t_list *list);
-int mx_get_max_len_by_sizes(t_list *list);
-int mx_get_max_len_by_xattr_size(t_list *list);
-int mx_get_max_len_by_inodes(t_list *list);
+char *mx_convert_size(off_t st_size);
 bool mx_has_output_format_flag(char **flags);
 int mx_count_unique(char **arr, char *str);
 void mx_append_slash(t_data **info, t_settings *settings);
@@ -206,7 +201,6 @@ char *mx_get_major(int st_rdev);
 char *mx_get_minor(int st_rdev);
 ushort mx_get_terminal_width(t_settings *settings);
 int mx_get_max_filename_length(t_list **list);
-void mx_get_formatted_size(int int_part, int int_float_part, char **res);
 t_columns_info *mx_get_columns_info(t_list **list, t_settings *settings,
                                     t_max_len *max);
 char *mx_get_full_filename(char *dirpath, char *filename);

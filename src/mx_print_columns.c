@@ -8,8 +8,10 @@ static void print_row(t_list *node1, t_columns_info *info, bool is_first,
     for (t_list *node2 = node1; node2; node2 = node2->next) {
         if (!(info->j % info->rows)) {
             data = (t_data *)node2->data;
-            if (!is_first)
+            if (!is_first && !settings->colored)
                 mx_print_tabs(settings, info, prev);
+            else if (!is_first)
+                mx_print_spaces(info->max_len - mx_strlen(prev) + 1);
             mx_print_inode(settings, data->inode, info->max);
             mx_print_filename(data, settings);
             is_first = false;
