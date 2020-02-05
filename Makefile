@@ -49,7 +49,7 @@ sortings/mx_sort_by_size.c \
 sortings/mx_sort_errors.c \
 sortings/mx_sort.c \
 mx_settings.c \
-mx_process_output.c \
+mx_sort_and_output.c \
 mx_get_max_len_struct.c \
 mx_print_filename_and_total.c \
 mx_process_l.c \
@@ -66,9 +66,6 @@ mx_print_size.c \
 mx_convert_size.c \
 mx_print_symlink.c \
 mx_print_xattrs_text.c \
-mx_get_formatted_size.c \
-utils/mx_get_max_len_by_strings.c \
-utils/mx_get_max_len_by_numbers.c \
 mx_has_output_format_flag.c \
 mx_get_columns_info.c \
 mx_print_filename.c \
@@ -120,7 +117,7 @@ mx_sort_by_size.o \
 mx_sort_errors.o \
 mx_sort.o \
 mx_settings.o \
-mx_process_output.o \
+mx_sort_and_output.o \
 mx_get_max_len_struct.o \
 mx_print_filename_and_total.o \
 mx_process_l.o \
@@ -137,9 +134,6 @@ mx_print_size.o \
 mx_convert_size.o \
 mx_print_symlink.o \
 mx_print_xattrs_text.o \
-mx_get_formatted_size.o \
-mx_get_max_len_by_strings.o \
-mx_get_max_len_by_numbers.o \
 mx_has_output_format_flag.o \
 mx_get_columns_info.o \
 mx_print_filename.o \

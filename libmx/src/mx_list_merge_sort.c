@@ -1,7 +1,7 @@
 #include "libmx.h"
 
 static t_list *merge(t_list *left, t_list *right,
-bool (*cmp)(void *a, void *b)) {
+					 bool (*cmp)(void *a, void *b)) {
 	t_list *result = NULL;
 
 	if (!left)

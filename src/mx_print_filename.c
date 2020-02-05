@@ -20,7 +20,7 @@ static void print(t_data *data) {
 }
 
 void mx_print_filename(t_data *data, t_settings *settings) {
-    if (settings->colored && isatty(1)) {
+    if (settings->colored && settings->is_atty) {
         mx_print_colored(data);
         if (check_last_symbol(data))
             print(data);

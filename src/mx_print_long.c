@@ -20,61 +20,31 @@ static void print_data(t_data *data, t_max_len *max_len, bool is_device_met,
     mx_print_xattrs_text(data, settings, max_len);
 }
 
-static void print_list(t_list **node, t_max_len *max_len, bool is_device_met,
-                       t_settings *settings) {
-    t_list *inner_node = *node;
-
-    while (inner_node) {
-        print_data(inner_node->data, max_len, is_device_met, settings);
-        inner_node = inner_node->next;
-    }
-}
-
-static void simple_output(t_list **list, t_settings *s) {
+static void long_output(t_list **list, t_settings *settings) {
     t_list *node = *list;
-    t_list *inner = NULL;
+    t_list *next = NULL;
     t_max_len *max_len = NULL;
-    char *tmp = NULL;
+    bool is_device_met = false;
 
-    while (node) {
-        max_len = mx_get_max_len_struct(node, s);
-        inner = ((t_list *)node->data)->next;
-        tmp = ((t_data *)((t_list *)node->data)->data)->filename;
-        if (mx_strcmp(tmp, FILES) != 0 && mx_list_size(inner))
-            mx_print_total(inner);
-        print_list(&inner, max_len, mx_check_chr_or_blk_device(&inner), s);
-        free(max_len);
-        max_len = NULL;
-        node = node->next;
+    max_len = mx_get_max_len_struct(node, settings);
+    next = ((t_list *)node->data)->next;
+    is_device_met = mx_check_chr_or_blk_device(&next);
+    while (next) {
+        print_data(next->data, max_len, is_device_met, settings);
+        next = next->next;
     }
+    free(max_len);
+    max_len = NULL;
 }
 
-static void output_with_paths(t_list **list, t_settings *s) {
+void mx_print_long(t_list **list, t_settings *settings, bool many_lists,
+                   bool *is_first) {
     t_list *node = *list;
-    t_list *inner = NULL;
-    t_max_len *max_len = NULL;
-    bool is_first = true;
+    char *tmp = ((t_data *)((t_list *)node->data)->data)->filename;
 
-    while (node) {
-        max_len = mx_get_max_len_struct(node, s);
-        inner = ((t_list *)node->data)->next;
-        if (mx_strcmp(((t_data *)((t_list *)node->data)->data)->filename,
-                      FILES) != 0) {
-            is_first = false;
-            mx_print_filename_and_total(node, inner, &is_first, s);
-        }
-        is_first = false;
-        print_list(&inner, max_len, mx_check_chr_or_blk_device(&inner), s);
-        free(max_len);
-        max_len = NULL;
-        node = node->next;
-        node ? mx_printstr("\n") : (void)0;
-    }
-}
-
-void mx_print_long(t_list **list, t_settings *settings) {
-    if ((list && *list && (*list)->next) || settings->not_found)
-        output_with_paths(list, settings);
-    else
-        simple_output(list, settings);
+    if (many_lists)
+        mx_print_dir(tmp, is_first, settings);
+    if (mx_strcmp(tmp, FILES))
+        mx_print_total(((t_list *)node->data)->next);
+    long_output(list, settings);
 }

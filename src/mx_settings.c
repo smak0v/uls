@@ -41,6 +41,10 @@ static void find_flags_2(t_settings *s, char flag) {
 }
 
 static void find_flags(t_settings *s, char **flags) {
+    if (mx_has_output_format_flag(flags))
+        s->has_output_format_flag = true;
+    if (isatty(1))
+        s->is_atty = true;
     for (int i = 0; flags[i]; i++) {
         if (flags[i][0] == 'r')
             s->reverse = true;
@@ -58,7 +62,7 @@ static void find_flags(t_settings *s, char **flags) {
             s->append_slash = true;
             s->append_type_sign = false;
         }
-        else 
+        else
             find_flags_2(s, flags[i][0]);
     }
 }

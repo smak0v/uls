@@ -7,8 +7,10 @@ t_settings *settings) {
 
     for (t_list *node2 = node1; node2; node2 = node2->next) {
         data = (t_data *)node2->data;
-        if (!is_first)
+        if (!is_first && !settings->colored)
             mx_print_tabs(settings, info, prev);
+        else if (!is_first)
+            mx_print_spaces(info->max_len - mx_strlen(prev) + 1);
         mx_print_inode(settings, data->inode, info->max);
         mx_print_filename(data, settings);
         info->j++;
@@ -41,38 +43,16 @@ t_max_len *max) {
     info = NULL;
 }
 
-static void output_with_paths(t_list **list, t_settings *settings) {
+void mx_print_x_columns(t_list **list, t_settings *settings, bool many_lists,
+                        bool *is_first) {
     t_list *node = *list;
-    t_list *inner_list = NULL;
-    t_max_len *max_len = NULL;
-    char *tmp = NULL;
-    bool is_first = true;
+    t_list *next = ((t_list *)node->data)->next;
+    t_max_len *max_len = mx_get_max_len_struct(node, settings);
 
-    while (node) {
-        max_len = mx_get_max_len_struct(node, settings);
-        tmp = ((t_data *)((t_list *)node->data)->data)->filename;
-        mx_print_dir(tmp, &is_first, settings);
-        inner_list = ((t_list *)(node->data))->next;
-        print_x_columns(&inner_list, settings, max_len);
-        free(max_len);
-        max_len = NULL;
-        node = node->next;
-        if (node)
-            mx_printchar('\n');
-    }
-}
-
-void mx_print_x_columns(t_list **list, t_settings *settings) {
-    t_list *node = *list;
-    t_max_len *max_len = NULL;
-    t_list *inner_list = ((t_list *)(node->data))->next;
-
-    if ((list && *list && (*list)->next) || settings->not_found)
-        output_with_paths(list, settings);
-    else {
-        max_len = mx_get_max_len_struct(node, settings);
-        print_x_columns(&inner_list, settings, max_len);
-        free(max_len);
-        max_len = NULL;
-    }
+    if (many_lists)
+        mx_print_dir(((t_data *)((t_list *)node->data)->data)->filename,
+                     is_first, settings);
+    print_x_columns(&next, settings, max_len);
+    free(max_len);
+    max_len = NULL;
 }

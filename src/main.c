@@ -37,12 +37,11 @@ int main(int argc, char *argv[]) {
     settings = mx_setup(flags);
     mx_check_usage_error(flags, files);
     mx_read_data(&data, settings, files, ".");
-    mx_print_errors(errors);
-    //print_list(&data);
-    mx_process_output(&data, settings, flags);
+    //mx_print_errors(errors);
+    mx_sort_and_output(&data, settings);
     free_data(flags, settings);
     if (errors)
         return 1;
-    //system("leaks uls");
+    // system("leaks uls");
     return 0;
 }

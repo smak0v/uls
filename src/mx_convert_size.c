@@ -1,90 +1,105 @@
 #include "uls.h"
 
-static char *to_float(float number);
-// static void format_int_part(int *int_part, int *int_float_part);
-static void format_float_part(int *int_float_part);
-static char *get_result(char size, char *number);
+static void mx_hr_write_number(char *size, off_t st_size) {
+    int c = 0;
+    off_t num = st_size;
 
-char *mx_convert_size(uint64_t size) {
-    uint64_t mult = 1024LL * 1024LL * 1024LL * 1024LL * 1024LL;
-    char *sizes[] = {"P", "T", "G", "M", "K", "B"};
-    char *result = NULL;
-
-    if (size == 0)
-        return mx_strdup("0");
-    for (int i = 0; i < 6; i++, mult /= 1024) {
-        if (size < mult)
-            continue;
-        if (size % mult == 0) {
-            if (*sizes[i] != 'B')
-                result = get_result(*sizes[i], to_float((float)size / mult));
-            else
-                result = get_result(*sizes[i], mx_itoa(size / mult));
+    for (c = 3; c > 0; c--) {
+        if (num > 0) {
+            size[c - 1] = num % 10 + 48;
+            num /= 10;
         }
         else
-            result = get_result(*sizes[i], to_float((float)size / mult));
-        return result;
+            size[c - 1] = ' ';
     }
-    return result;
 }
 
-static char *to_float(float number) {
-    int int_part = (int)number;
-    float float_part = (number - (float)int_part) * mx_pow(10, 2);
-    int int_float_part = (int)float_part;
-    char *res = NULL;
+static int mx_hr_get_pow(off_t st_size) {
+    off_t num = st_size;
+    int pow = 0;
 
-    format_float_part(&int_float_part);
-    //format_int_part(&int_part, &int_float_part);
-    mx_get_formatted_size(int_part, int_float_part, &res);
+    while (num >= 1000) {
+        num /= 1024;
+        pow += 10;
+    }
+    return pow;
+}
+
+static int round_num(double g) {
+    off_t res;
+    
+    if (((off_t)(g * 10) % 10) >= 5)
+        res = (off_t)(g * 10) / 10 + 1;
+    else
+        res = (off_t)(g * 10) / 10;
     return res;
 }
 
-// static void format_int_part(int *int_part, int *int_float_part) {
-//     char *str_float_part = mx_itoa(*int_float_part);
-
-//     if (mx_numlen(*int_float_part) == 1)
-//         *int_float_part = 0;
-//     else if (str_float_part[0] > '5' && str_float_part[0] <= '9') {
-//         *int_float_part = 0;
-//         *int_part += 1;
-//     }
-//     mx_strdel(&str_float_part);
-// }
-
-static void format_float_part(int *int_float_part) {
-    char *str_float_part = NULL;
-
-    if (*int_float_part == 0)
-        return;
-    if (mx_numlen(*int_float_part) == 1) {
-        if (*int_float_part >= 5 && *int_float_part <= 9) {
-            *int_float_part = 1;
-            return;
-        }
-        return;
-    }
-    str_float_part = mx_itoa(*int_float_part);
-    if (str_float_part[1] >= '5' && str_float_part[1] <= '8') {
-        *int_float_part = (str_float_part[0] + 1) - '0';
-        mx_strdel(&str_float_part);
-    }
-    else if (str_float_part[0] == '9') {
-
-    }
-    else {
-        *int_float_part = str_float_part[0] - '0';
-        mx_strdel(&str_float_part);
+static void add_pref(char *size, int pow) {
+    switch (pow) {
+        case 10:
+            size[3] = 'K';
+            break;
+        case 20:
+            size[3] = 'M';
+            break;
+        case 30:
+            size[3] = 'G';
+            break;
+        case 40:
+            size[3] = 'T';
+            break;
+        case 50:
+            size[3] = 'P';
+            break;
     }
 }
 
-static char *get_result(char size, char *number) {
-    char *result = mx_strnew(mx_strlen(number) + 1);
-
-    if (number) {
-        result = mx_strcpy(result, number);
-        result[mx_strlen(result)] = size;
-        mx_strdel(&number);
+static void size_more_thous(off_t num, double g, int pow, char *size) {
+    if (g >= 9.95) {
+        num = round_num(g);
+        if (num < 999)
+            mx_hr_write_number(size, num);
+        else {
+            num = round_num(g * 10);
+            pow += 10;
+            size[0] = num / 10 + 48;
+            size[1] = '.';
+            size[2] = num % 10 + 48;
+        }
     }
-    return result;
+    else {
+        num = round_num(g * 10);
+        size[0] = num / 10 + 48;
+        size[1] = '.';
+        size[2] = num % 10 + 48;
+    }
+    add_pref(size, pow);
+}
+
+static void size_less_thousand(off_t st_size, char *size) {
+    off_t num = st_size;
+
+    if (num == 0) {
+        size = mx_strcpy(size, "  0B");
+    }
+    else if (st_size < 1000) {
+        mx_hr_write_number(size, num);
+        size[3] = 'B';
+    }
+}
+
+char *mx_convert_size(off_t st_size) {
+    char *size = mx_strnew(4);
+    double g = 0.0;
+    int pow = 0;
+
+    if (st_size < 1000)
+        size_less_thousand(st_size, size);
+    else if (st_size >= 1000) {
+        pow = mx_hr_get_pow(st_size);
+        g = st_size / mx_pow(2, pow);
+        size_more_thous(st_size, g, pow, size);
+    }
+    return size;
 }
