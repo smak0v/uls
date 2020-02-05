@@ -117,6 +117,7 @@ typedef struct s_settings {
     t_time_enum time;
     bool has_output_format_flag;
     bool is_atty;
+    bool has_many_file_arguments;
     bool not_found;
     bool reverse; // -r
     bool format_size; // -h

@@ -126,6 +126,8 @@ static void process_files(t_settings *setup, char **files, t_list **data) {
 void mx_read_data(t_list **data, t_settings *setup, char **files, char *f) {
     DIR *directory = NULL;
 
+    if (files && mx_get_arr_length(files) > 1)
+        setup->has_many_file_arguments = true;
     if (!files || !(*files)) {
         directory = opendir(f);
         if (!directory) {

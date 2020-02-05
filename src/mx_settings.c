@@ -20,48 +20,50 @@ static void find_flags_3(t_settings *s, char flag) {
 static void find_flags_2(t_settings *s, char flag) {
     if (flag == 'o')
         s->omit_group = true;
-    if (flag == 'g')
+    else if (flag == 'g')
         s->omit_owner = true;
-    if (flag == 'G')
+    else if (flag == 'G')
         s->colored = true;
-    if (flag == 'i')
+    else if (flag == 'i')
         s->print_inode = true;
-    if (flag == 'F') {
+    else if (flag == 'F') {
         s->append_type_sign = true;
         s->append_slash = false;
     }
-    if (flag == 'R')
+    else if (flag == 'R')
         s->R = true;
-    if (flag == 'A')
+    else if (flag == 'A')
         s->A = true;
-    if (flag == 'a' || flag == 'f')
+    else if (flag == 'a' || flag == 'f')
         s->a = true;
-    find_flags_3(s, flag);
+    else
+        find_flags_3(s, flag);
 }
 
 static void find_flags(t_settings *s, char **flags) {
+    if (mx_has_output_format_flag(flags))
+        s->has_output_format_flag = true;
+    if (isatty(1))
+        s->is_atty = true;
     for (int i = 0; flags[i]; i++) {
-        if (mx_has_output_format_flag(flags))
-            s->has_output_format_flag = true;
-        if (isatty(1))
-            s->is_atty = true;
         if (flags[i][0] == 'r')
             s->reverse = true;
-        if (flags[i][0] == 'n')
+        else if (flags[i][0] == 'n')
             s->n = true;
-        if (flags[i][0] == 'h')
+        else if (flags[i][0] == 'h')
             s->format_size = true;
-        if (flags[i][0] == '@')
+        else if (flags[i][0] == '@')
             s->print_xattr = true;
-        if (flags[i][0] == 'x')
+        else if (flags[i][0] == 'x')
             s->print_xcols = true;
-        if (flags[i][0] == 'T')
+        else if (flags[i][0] == 'T')
             s->full_time = true;
-        if (flags[i][0] == 'p') {
+        else if (flags[i][0] == 'p') {
             s->append_slash = true;
             s->append_type_sign = false;
         }
-        find_flags_2(s, flags[i][0]);
+        else
+            find_flags_2(s, flags[i][0]);
     }
 }
 
