@@ -11,7 +11,7 @@ static void print_row(t_list *node1, t_columns_info *info, bool is_first,
             if (!is_first && !settings->colored)
                 mx_print_tabs(settings, info, prev);
             else if (!is_first)
-                mx_print_columns_solored_spaces(settings, prev, info);
+                mx_print_columns_colored_spaces(settings, prev, info);
             mx_print_inode(settings, data->inode, info->max);
             mx_print_filename(data, settings);
             is_first = false;

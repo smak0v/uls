@@ -241,7 +241,7 @@ void mx_print_inode(t_settings *settings, ino_t inode, t_max_len *max_len);
 void mx_print_dir(char *dirname, bool *is_first, t_settings *settings);
 void mx_print_owner_group(t_settings *settings, t_data *data, t_max_len *len);
 void mx_print_tabs(t_settings *settings, t_columns_info *info, t_data *prev);
-void mx_print_columns_solored_spaces(t_settings *settings, t_data *prev,
+void mx_print_columns_colored_spaces(t_settings *settings, t_data *prev,
                                      t_columns_info *info);
 
 // Printing modes

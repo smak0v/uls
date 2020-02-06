@@ -1,6 +1,6 @@
 #include "uls.h"
 
-void mx_print_columns_solored_spaces(t_settings *settings, t_data *prev,
+void mx_print_columns_colored_spaces(t_settings *settings, t_data *prev,
                                      t_columns_info *info) {
     if (settings->append_slash || settings->append_type_sign) {
         if (prev->permissions[0] == '-' 

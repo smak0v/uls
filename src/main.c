@@ -6,8 +6,6 @@ static void free_data(char **flags, t_settings *settings) {
     settings = NULL;
 }
 
-
-
 int main(int argc, char *argv[]) {
     char **flags = mx_store_flags(argc, argv);
     char **files = mx_store_files(argc, argv);
