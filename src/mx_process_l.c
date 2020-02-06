@@ -16,6 +16,10 @@ static void check_major_minor(t_data *data) {
         data->major = mx_get_major(data->st_rdev);
         data->minor = mx_get_minor(data->st_rdev);
     }
+    else {
+        data->major = NULL;
+        data->minor = NULL;
+    }
 }
 
 void mx_process_l(t_st st, t_data *data, t_settings *settings) {

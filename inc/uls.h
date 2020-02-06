@@ -119,6 +119,9 @@ typedef struct s_settings {
     bool is_atty;
     bool has_many_file_arguments;
     bool not_found;
+    bool is_first;
+    bool many_lists;
+
     bool reverse; // -r
     bool format_size; // -h
     bool print_xattr; // -@
@@ -165,7 +168,7 @@ void mx_process_l(t_st st, t_data *data, t_settings *settings);
 // Errors
 void mx_check_usage_error(char **flags, char **files);
 void mx_print_not_found(t_list *err_list);
-void mx_clear_errors_list(t_list **list);
+void mx_clear_list(t_list **list);
 
 // Utils
 char **mx_store_flags(int argc, char **argv);
@@ -179,6 +182,7 @@ char *mx_convert_size(off_t st_size);
 bool mx_has_output_format_flag(char **flags);
 int mx_count_unique(char **arr, char *str);
 bool mx_has_acl(char *dirname);
+void mx_clear_tdata_list(t_list **list);
 
 // Getters
 t_max_len *mx_get_max_len_struct(t_list *list, t_settings *settings);
