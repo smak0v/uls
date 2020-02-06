@@ -12,14 +12,11 @@ int main(int argc, char *argv[]) {
     char **flags = mx_store_flags(argc, argv);
     char **files = mx_store_files(argc, argv);
     t_settings *settings = NULL;
-    t_list *data =  NULL;
     t_list *errors = NULL;
 
     settings = mx_setup(flags);
     mx_check_usage_error(flags, files);
-    mx_read_data(&data, settings, files, ".");
-    // if (data)
-    //     mx_sort_and_output(&data, settings);
+    mx_read_data(settings, files, ".");
     free_data(flags, settings);
     if (errors)
         return 1;
