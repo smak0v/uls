@@ -23,10 +23,8 @@ void mx_print_filename(t_data *data, t_settings *settings) {
     }
     else
         mx_printstr(data->filename);
-    if (settings->append_slash) {
-        if (data->permissions[0] == 'd')
-            mx_printchar('/');
-    }
+    if (settings->append_slash && data->permissions[0] == 'd')
+        mx_printchar('/');
     else if (settings->append_type_sign)
         print_type_sign(data);
 }

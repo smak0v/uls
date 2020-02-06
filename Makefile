@@ -72,7 +72,8 @@ mx_get_full_filename.c \
 mx_print_dir.c \
 mx_print_owner_group.c \
 mx_print_tabs.c \
-mx_clear_errors_list.c)
+mx_clear_errors_list.c \
+mx_print_columns_colored_spaces.c)
 
 OBJ = \
 main.o \
@@ -134,7 +135,8 @@ mx_get_full_filename.o \
 mx_print_dir.o \
 mx_print_owner_group.o \
 mx_print_tabs.o \
-mx_clear_errors_list.o
+mx_clear_errors_list.o \
+mx_print_columns_colored_spaces.o
 
 CC = clang
 
