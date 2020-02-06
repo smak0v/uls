@@ -7,10 +7,6 @@ static t_data *write_data(t_settings *s, t_dnt *dir, t_st st, char *full_fnm, ch
     info->full_filename = full_fnm;
     info->is_dir = MX_IS_DIR(st.st_mode);
     mx_process_l(st, info, s);
-    if (s->append_slash)
-        mx_append_slash(&info, s);
-    else if (s->append_type_sign)
-        mx_append_type_sign(st, &info, s);
 
     return info;
 }
@@ -37,7 +33,7 @@ static void gather_data(t_lists lists, t_dnt *dir, t_settings *s, char *dnm) {
     t_list **lst = lists.list;
     t_list *node = lists.node;
     t_st st;
-    
+
     full_filename = mx_get_full_filename(dnm, dir->d_name);
     lstat(full_filename, &st);
     if (!mx_strcmp(dir->d_name, ".") && !node->data) {
@@ -98,14 +94,19 @@ static void read_dir(t_settings *setup, t_list **list, char *dname, DIR *dir) {
     t_lists lists;
 
     mx_push_front(list, mx_create_node(NULL)); // mx_create_node(mx_getdirinfo)
-    node = (*list)->data;
+    node = (t_list *)(*list)->data;
     lists.list = list;
     lists.node = node;
 
     while ((dirnt = readdir(dir)) != NULL) {
         gather_data(lists, dirnt, setup, dname);
     }
+
+    // mx_printstr_endl(((t_data *)node->data)->filename);
+    mx_sort_and_output(&node, setup);
 }
+
+
 
 static void process_files(t_settings *setup, char **files, t_list **data) {
     DIR *dir = NULL;

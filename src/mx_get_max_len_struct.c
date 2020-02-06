@@ -24,7 +24,7 @@ static void fill_max_len(t_max_len **len, t_list *inner_node, t_settings *s) {
 
 t_max_len *mx_get_max_len_struct(t_list *list, t_settings *settings) {
     t_list *node = list;
-    t_list *inner_node = ((t_list *)node->data)->next;
+    t_list *inner_node = node->next;
     t_max_len *max_len = NULL;
 
     if (settings->mode == table

@@ -74,7 +74,7 @@ static t_sorting_enum setup_sorting(char **flags) {
     for (; len >= 0; len--) {
         if (flags[len][0] == 'f') {
             mode = unsorted;
-            break;
+            break ;
         }
         else if (flags[len][0] == 'S')
             mode = size;
