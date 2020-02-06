@@ -22,7 +22,6 @@
 #define MODE_FLAGS "Clgonmx1"
 #define SORTING_FLAGS "Stlf"
 #define FILES "f_I_l_E_s"
-#define LAST_SYMBOLS "/*@=%| "
 
 // Macroses
 #define MX_IS_BLK(mode) (((mode) & S_IFMT) == S_IFBLK)
@@ -39,12 +38,12 @@
 // Structures
 typedef struct dirent t_dnt;
 
+typedef struct stat t_st;
+
 typedef struct s_lists {
     t_list **list;
     t_list *node;
 } t_lists;
-
-typedef struct stat t_st;
 
 typedef enum e_modes {
     columns,
@@ -201,34 +200,22 @@ char *mx_get_filename(char *full_path);
 char *mx_check_match(char **strarr, char *dirname, char *filename);
 
 // Comparators
-bool mx_filename_asc_list_cmp(void *data_1, void *data_2);
 bool mx_filename_asc_cmp(void *data_1, void *data_2);
-bool mx_filename_desc_list_cmp(void *data_1, void *data_2);
 bool mx_filename_desc_cmp(void *data_1, void *data_2);
-bool mx_last_modification_time_asc_list_cmp(void *data_1, void *data_2);
 bool mx_last_modification_time_asc_cmp(void *data_1, void *data_2);
-bool mx_last_modification_time_desc_list_cmp(void *data_1, void *data_2);
 bool mx_last_modification_time_desc_cmp(void *data_1, void *data_2);
-bool mx_size_asc_list_cmp(void *data_1, void *data_2);
 bool mx_size_asc_cmp(void *data_1, void *data_2);
-bool mx_size_desc_list_cmp(void *data_1, void *data_2);
 bool mx_size_desc_cmp(void *data_1, void *data_2);
-bool mx_last_changed_time_asc_list_cmp(void *data_1, void *data_2);
 bool mx_last_changed_time_asc_cmp(void *data_1, void *data_2);
-bool mx_last_changed_time_desc_list_cmp(void *data_1, void *data_2);
 bool mx_last_changed_time_desc_cmp(void *data_1, void *data_2);
-bool mx_creation_time_asc_list_cmp(void *data_1, void *data_2);
 bool mx_creation_time_asc_cmp(void *data_1, void *data_2);
-bool mx_creation_time_desc_list_cmp(void *data_1, void *data_2);
 bool mx_creation_time_desc_cmp(void *data_1, void *data_2);
-bool mx_last_access_time_asc_list_cmp(void *data_1, void *data_2);
 bool mx_last_access_time_asc_cmp(void *data_1, void *data_2);
-bool mx_last_access_time_desc_list_cmp(void *data_1, void *data_2);
 bool mx_last_access_time_desc_cmp(void *data_1, void *data_2);
 
 // Sortings
-void mx_sort(t_list **list, bool (*cmp_1)(void *a, void *b),
-             bool (*cmp_2)(void *a, void *b), t_settings *settings);
+void mx_sort(t_list **list, bool (*cmp)(void *a, void *b),
+             t_settings *settings);
 void mx_sort_by_name(t_list **list, t_settings *settings);
 void mx_sort_by_creation_time(t_list **list, t_settings *settings);
 void mx_sort_by_last_access_time(t_list **list, t_settings *settings);
