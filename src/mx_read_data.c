@@ -27,8 +27,11 @@ static void check_R(t_list *data, t_settings *s) {
         while (node) {
             t_data *info = node->data;
             if (info->is_dir && mx_strcmp(info->filename, ".") 
-                && mx_strcmp(info->filename, ".."))
-                mx_read_data(s, NULL, info->full_filename);
+                && mx_strcmp(info->filename, "..")) {
+                    mx_printchar('\n');
+                    mx_read_data(s, NULL, info->full_filename);
+                }
+                
             node = node->next;
         }
     }
@@ -144,9 +147,14 @@ static void process_files(t_settings *setup, char **files) {
         process_leftovers(setup, files);
     }
 
+    bool break_line = false;
     node = dirlist;
     while (node) {
-        read_dir(setup, dirlist->data);
+        if (break_line == true)
+            mx_printchar('\n');
+        else
+            break_line = true;
+        read_dir(setup, node->data);
         node = node->next;
     }
     mx_clear_list(&dirlist);

@@ -20,6 +20,6 @@ int main(int argc, char *argv[]) {
     free_data(flags, settings);
     if (errors)
         return 1;
-    //system("leaks uls");
+    // system("leaks uls");
     return 0;
 }
