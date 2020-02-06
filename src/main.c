@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
 
     mx_check_usage_error(flags, files);
     mx_read_data(settings, files, ".");
-    free_data(flags, settings);
+    mx_free_data(flags, settings);
     if (errors)
         return 1;
     // system("leaks uls");

@@ -186,7 +186,7 @@ int mx_count_unique(char **arr, char *str);
 bool mx_has_acl(char *dirname);
 void mx_clear_tdata_list(t_list **list);
 int mx_round_number(double g);
-static void mx_free_data(char **flags, t_settings *settings);
+void mx_free_data(char **flags, t_settings *settings);
 
 // Getters
 t_max_len *mx_get_max_len_struct(t_list *list, t_settings *settings);
