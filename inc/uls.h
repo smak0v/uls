@@ -158,7 +158,7 @@ typedef struct s_colunms_info {
 // Functions
 // Core
 t_settings *mx_setup(char **flags);
-void mx_read_data(t_list **data, t_settings *setup, char **files, char *f);
+void mx_read_data(t_settings *setup, char **files, char *f);
 void mx_sort_and_output(t_list **data, t_settings *settings);
 void mx_process_l(t_st st, t_data *data, t_settings *settings);
 
