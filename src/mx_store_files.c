@@ -17,7 +17,7 @@ static int count_files(int argc, int flags_count) {
     int count = 0;
 
     for (int i = flags_count + 1; i < argc; i++)
-        count++;
+        ++count;
     return count;
 }
 
@@ -30,7 +30,7 @@ static int count_flags_with_stop_flag(int argc, char **argv) {
                 count++;
                 break;
             }
-            count++;
+            ++count;
             continue;
         }
         break;

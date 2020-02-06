@@ -72,8 +72,6 @@ mx_print_filename.c \
 mx_print_colored.c \
 mx_print_inode.c \
 mx_get_full_filename.c \
-mx_append_slash.c \
-mx_append_type_sign.c \
 mx_print_dir.c \
 mx_print_owner_group.c \
 mx_print_tabs.c \
@@ -139,8 +137,6 @@ mx_print_filename.o \
 mx_print_colored.o \
 mx_print_inode.o \
 mx_get_full_filename.o \
-mx_append_slash.o \
-mx_append_type_sign.o \
 mx_print_dir.o \
 mx_print_owner_group.o \
 mx_print_tabs.o \

@@ -179,8 +179,6 @@ bool mx_check_chr_or_blk_device(t_list **list);
 char *mx_convert_size(off_t st_size);
 bool mx_has_output_format_flag(char **flags);
 int mx_count_unique(char **arr, char *str);
-void mx_append_slash(t_data **info, t_settings *settings);
-void mx_append_type_sign(t_st st, t_data **info, t_settings *settings);
 bool mx_has_acl(char *dirname);
 
 // Getters

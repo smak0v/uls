@@ -13,7 +13,7 @@ t_settings *settings) {
             mx_print_spaces(info->max_len - mx_strlen(prev) + 1);
         mx_print_inode(settings, data->inode, info->max);
         mx_print_filename(data, settings);
-        info->j++;
+        ++info->j;
         is_first = false;
         prev = data->filename;
         if (!(info->j % info->cols)) {
@@ -30,7 +30,7 @@ t_max_len *max) {
     bool is_first = true;
 
     for (t_list *node1 = *list; node1; node1 = node1->next) {
-        info->i++;
+        ++info->i;
         is_first = true;
         print_row(node1, info, is_first, settings);
         info->j = 0;

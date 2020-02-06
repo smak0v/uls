@@ -20,6 +20,6 @@ t_columns_info *mx_get_columns_info(t_list **list, t_settings *settings,
     info->i = 0;
     info->j = 0;
     if (!info->rows || info->list_size % info->cols)
-        info->rows++;
+        ++info->rows;
     return info;
 }
