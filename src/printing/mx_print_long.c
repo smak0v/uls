@@ -22,13 +22,10 @@ static void print_data(t_data *data, t_max_len *max_len, bool is_device_met,
 
 static void long_output(t_list **list, t_settings *settings) {
     t_list *node = *list;
-    t_list *next = NULL;
-    t_max_len *max_len = NULL;
-    bool is_device_met = false;
+    t_list *next = node->next;
+    t_max_len *max_len = mx_get_max_len_struct(node, settings);
+    bool is_device_met = mx_check_chr_or_blk_device(&next);
 
-    max_len = mx_get_max_len_struct(node, settings);
-    next = node->next;
-    is_device_met = mx_check_chr_or_blk_device(&next);
     while (next) {
         print_data(next->data, max_len, is_device_met, settings);
         next = next->next;
@@ -41,8 +38,7 @@ void mx_print_long(t_list **list, t_settings *settings) {
     t_list *node = *list;
     char *tmp = ((t_data *)node->data)->filename;
 
-    if (settings->many_lists)
-        mx_print_dir(tmp, settings);
+    mx_print_dir(tmp, settings);
     if (mx_strcmp(tmp, FILES))
         mx_print_total(node->next);
     long_output(list, settings);

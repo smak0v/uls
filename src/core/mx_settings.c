@@ -41,10 +41,6 @@ static void find_flags_2(t_settings *s, char flag) {
 }
 
 static void find_flags(t_settings *s, char **flags) {
-    if (mx_has_output_format_flag(flags))
-        s->has_output_format_flag = true;
-    if (isatty(1))
-        s->is_atty = true;
     for (int i = 0; flags[i]; i++) {
         if (flags[i][0] == 'r')
             s->reverse = true;
@@ -130,9 +126,13 @@ static t_mode_enum setup_mode(char **flags) {
 t_settings *mx_setup(char **flags) {
     t_settings *setup = mx_memalloc(sizeof(t_settings));
 
+    setup->is_first = true;
+    setup->is_atty = isatty(1);
     if (flags) {
         setup->mode = setup_mode(flags);
         setup->sorting = setup_sorting(flags);
+        if (mx_has_output_format_flag(flags))
+            setup->has_output_format_flag = true;
         find_flags(setup, flags);
     }
     return setup;

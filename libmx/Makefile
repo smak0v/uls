@@ -93,6 +93,7 @@ mx_create_set.c \
 mx_strarr_len.c \
 mx_pop_string_array.c \
 mx_list_merge_sort.c \
+mx_list_insertion_sort.c \
 mx_push_second.c)
 
 OBJ = \
@@ -182,6 +183,7 @@ mx_create_set.o \
 mx_strarr_len.o \
 mx_pop_string_array.o \
 mx_list_merge_sort.o \
+mx_list_insertion_sort.o \
 mx_push_second.o
 
 CC = clang

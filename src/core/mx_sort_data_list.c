@@ -1,8 +1,8 @@
 #include "uls.h"
 
-void mx_sort_and_output(t_list **data, t_settings *settings) {
+void mx_sort_data_list(t_list **data, t_settings *settings) {
     if (settings->sorting == unsorted)
-        mx_sort(data, NULL, settings);
+        mx_sort(data, NULL);
     else if (settings->sorting == size)
         mx_sort_by_size(data, settings);
     else if (settings->sorting == chg_time)

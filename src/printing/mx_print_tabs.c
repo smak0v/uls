@@ -11,7 +11,7 @@ static void print(int max_len, int prev_len, t_settings *settings) {
         while (spaces_count % 8)
             ++spaces_count;
     }
-    tabs_count = (spaces_count - prev_len) / 8;
+    tabs_count = ((spaces_count - prev_len) / 8) + 1;
     if (!(prev_len % 8))
         --tabs_count;
     if (!((prev_len + 1) % 8)
@@ -19,7 +19,6 @@ static void print(int max_len, int prev_len, t_settings *settings) {
         --tabs_count;
     while (tabs_count--)
         mx_printchar('\t');
-    mx_printchar('\t');
 }
 
 void mx_print_tabs(t_settings *settings, t_columns_info *info, t_data *prev) {

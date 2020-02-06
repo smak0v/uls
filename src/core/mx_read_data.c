@@ -91,7 +91,8 @@ static void process_leftovers(t_settings *setup, char **files) {
         free(dirname);
     }
 
-    mx_sort_and_output(&data, setup);
+    mx_sort_data_list(&data, setup);
+    mx_proccess_output(&data, setup);
 }
 
 static void read_dir(t_settings *setup, char *dname) {
@@ -110,7 +111,8 @@ static void read_dir(t_settings *setup, char *dname) {
     }
 
     closedir(dir);
-    mx_sort_and_output(&data, setup);
+    mx_sort_data_list(&data, setup);
+    mx_proccess_output(&data, setup);
     check_R(data, setup);
     mx_clear_tdata_list(&data);
 }
@@ -121,6 +123,7 @@ static void process_files(t_settings *setup, char **files) {
     t_list *err_list = NULL;
     t_list *dirlist = NULL;
     t_list *node = NULL;
+    int files_bool = 0;
 
     for (int i = 0; files && files[i]; i++) {
         dir = opendir(files[i]);
@@ -130,7 +133,7 @@ static void process_files(t_settings *setup, char **files) {
             closedir(dir);
         }
         else {
-            if (errno != 20) { // 20 == Not a directory error
+            if (errno != 20) {
                 if (!err_list)
                     err_list = mx_create_node(mx_strdup(files[i]));
                 else
@@ -145,12 +148,14 @@ static void process_files(t_settings *setup, char **files) {
     mx_clear_list(&err_list);
     if (files) {
         process_leftovers(setup, files);
+        files_bool = 1;
     }
 
     bool break_line = false;
+    // TODO create list and sort it
     node = dirlist;
     while (node) {
-        if (break_line == true)
+        if (break_line == true || files_bool)
             mx_printchar('\n');
         else
             break_line = true;

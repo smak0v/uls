@@ -6,9 +6,7 @@ void mx_print_force(t_list **list, t_settings *settings) {
     t_data *data = NULL;
     t_max_len *max_len = mx_get_max_len_struct(node, settings);
 
-    if (settings->many_lists)
-        mx_print_dir(((t_data *)((t_list *)node->data)->data)->filename,
-                     settings);
+    mx_print_dir(((t_data *)node->data)->filename, settings);
     next = node->next;
     while (next) {
         data = (t_data *)next->data;

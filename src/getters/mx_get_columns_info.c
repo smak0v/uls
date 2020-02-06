@@ -4,7 +4,7 @@ t_columns_info *mx_get_columns_info(t_list **list, t_settings *settings,
                                     t_max_len *max) {
     t_columns_info *info = (t_columns_info *)malloc(sizeof(t_columns_info));
     ushort width = mx_get_terminal_width(settings);
-    int tmp_max_len = mx_get_max_filename_length(list);
+    int tmp_max_len = max->filenames;
 
     if (settings->print_inode)
         info->max_len = tmp_max_len + max->inodes + 1;

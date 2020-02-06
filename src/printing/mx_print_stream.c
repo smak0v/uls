@@ -33,11 +33,10 @@ void mx_print_stream(t_list **list, t_settings *settings) {
     t_list *node = *list;
     t_list *next = NULL;
     t_max_len *max_len = mx_get_max_len_struct(node, settings);
-    char *tmp = ((t_data *)(node->data))->filename;
+    char *tmp = ((t_data *)node->data)->filename;
     int len = 0;
 
-    if (settings->many_lists)
-        mx_print_dir(tmp, settings);
+    mx_print_dir(tmp, settings);
     next = node->next;
     while (next) {
         print(next, &len, max_len, settings);

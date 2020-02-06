@@ -1,41 +1,20 @@
 #include "uls.h"
 
-static void mx_hr_write_number(char *size, off_t st_size) {
+static void uls_h_write_number(char *size, off_t st_size) {
+    off_t number = st_size;
     int c = 0;
-    off_t num = st_size;
 
-    for (c = 3; c > 0; c--) {
-        if (num > 0) {
-            size[c - 1] = num % 10 + 48;
-            num /= 10;
+    for (c = 3; c > 0; --c) {
+        if (number > 0) {
+            size[c - 1] = number % 10 + 48;
+            number /= 10;
         }
         else
             size[c - 1] = ' ';
     }
 }
 
-static int mx_hr_get_pow(off_t st_size) {
-    off_t num = st_size;
-    int pow = 0;
-
-    while (num >= 1000) {
-        num /= 1024;
-        pow += 10;
-    }
-    return pow;
-}
-
-static int round_num(double g) {
-    off_t res;
-    
-    if (((off_t)(g * 10) % 10) >= 5)
-        res = (off_t)(g * 10) / 10 + 1;
-    else
-        res = (off_t)(g * 10) / 10;
-    return res;
-}
-
-static void add_pref(char *size, int pow) {
+static void add_preffix(char *size, int pow) {
     switch (pow) {
         case 10:
             size[3] = 'K';
@@ -55,13 +34,13 @@ static void add_pref(char *size, int pow) {
     }
 }
 
-static void size_more_thous(off_t num, double g, int pow, char *size) {
+static void size_more_thousand(off_t num, double g, int pow, char *size) {
     if (g >= 9.95) {
-        num = round_num(g);
+        num = mx_round_number(g);
         if (num < 999)
-            mx_hr_write_number(size, num);
+            uls_h_write_number(size, num);
         else {
-            num = round_num(g * 10);
+            num = mx_round_number(g * 10);
             pow += 10;
             size[0] = num / 10 + 48;
             size[1] = '.';
@@ -69,22 +48,21 @@ static void size_more_thous(off_t num, double g, int pow, char *size) {
         }
     }
     else {
-        num = round_num(g * 10);
+        num = mx_round_number(g * 10);
         size[0] = num / 10 + 48;
         size[1] = '.';
         size[2] = num % 10 + 48;
     }
-    add_pref(size, pow);
+    add_preffix(size, pow);
 }
 
 static void size_less_thousand(off_t st_size, char *size) {
     off_t num = st_size;
 
-    if (num == 0) {
+    if (num == 0)
         size = mx_strcpy(size, "  0B");
-    }
     else if (st_size < 1000) {
-        mx_hr_write_number(size, num);
+        uls_h_write_number(size, num);
         size[3] = 'B';
     }
 }
@@ -97,9 +75,9 @@ char *mx_convert_size(off_t st_size) {
     if (st_size < 1000)
         size_less_thousand(st_size, size);
     else if (st_size >= 1000) {
-        pow = mx_hr_get_pow(st_size);
+        pow = mx_uls_h_get_pow(st_size);
         g = st_size / mx_pow(2, pow);
-        size_more_thous(st_size, g, pow, size);
+        size_more_thousand(st_size, g, pow, size);
     }
     return size;
 }

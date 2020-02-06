@@ -140,6 +140,7 @@ typedef struct s_settings {
 } t_settings;
 
 typedef struct s_max_len {
+    int filenames;
     int links;
     int owners;
     int groups;
@@ -162,8 +163,9 @@ typedef struct s_colunms_info {
 // Core
 t_settings *mx_setup(char **flags);
 void mx_read_data(t_settings *setup, char **files, char *f);
-void mx_sort_and_output(t_list **data, t_settings *settings);
 void mx_process_l(t_st st, t_data *data, t_settings *settings);
+void mx_sort_data_list(t_list **data, t_settings *settings);
+void mx_proccess_output(t_list **list, t_settings *settings);
 
 // Errors
 void mx_check_usage_error(char **flags, char **files);
@@ -183,6 +185,8 @@ bool mx_has_output_format_flag(char **flags);
 int mx_count_unique(char **arr, char *str);
 bool mx_has_acl(char *dirname);
 void mx_clear_tdata_list(t_list **list);
+int mx_round_number(double g);
+static void mx_free_data(char **flags, t_settings *settings);
 
 // Getters
 t_max_len *mx_get_max_len_struct(t_list *list, t_settings *settings);
@@ -195,13 +199,13 @@ char *mx_get_symlink(t_data * data);
 char *mx_get_major(int st_rdev);
 char *mx_get_minor(int st_rdev);
 ushort mx_get_terminal_width(t_settings *settings);
-int mx_get_max_filename_length(t_list **list);
 t_columns_info *mx_get_columns_info(t_list **list, t_settings *settings,
                                     t_max_len *max);
 char *mx_get_full_filename(char *dirpath, char *filename);
 char *mx_get_dirname(char *full_path);
 char *mx_get_filename(char *full_path);
 char *mx_check_match(char **strarr, char *dirname, char *filename);
+int mx_uls_h_get_pow(off_t st_size);
 
 // Comparators
 bool mx_filename_asc_cmp(void *data_1, void *data_2);
@@ -218,8 +222,7 @@ bool mx_last_access_time_asc_cmp(void *data_1, void *data_2);
 bool mx_last_access_time_desc_cmp(void *data_1, void *data_2);
 
 // Sortings
-void mx_sort(t_list **list, bool (*cmp)(void *a, void *b),
-             t_settings *settings);
+void mx_sort(t_list **list, bool (*cmp)(void *a, void *b));
 void mx_sort_by_name(t_list **list, t_settings *settings);
 void mx_sort_by_creation_time(t_list **list, t_settings *settings);
 void mx_sort_by_last_access_time(t_list **list, t_settings *settings);
