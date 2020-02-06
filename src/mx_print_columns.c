@@ -43,13 +43,16 @@ static void print_columns(t_list **list, t_settings *settings,
 void mx_print_columns(t_list **list, t_settings *settings, bool many_lists,
                       bool *is_first) {
     t_list *node = *list;
-    t_list *next = ((t_list *)node->data)->next;
+    t_list *next = node->next;
     t_max_len *max_len = mx_get_max_len_struct(node, settings);
 
-    if (many_lists)
-        mx_print_dir(((t_data *)((t_list *)node->data)->data)->filename,
-                     is_first, settings);
+    // if (many_lists)
+    //     mx_print_dir(((t_data *)((t_list *)node->data)->data)->filename,
+    //                  is_first, settings);
     print_columns(&next, settings, max_len);
     free(max_len);
     max_len = NULL;
+
+    many_lists = 1;
+    *is_first = 1;
 }
