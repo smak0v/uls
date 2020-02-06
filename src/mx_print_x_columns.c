@@ -13,7 +13,7 @@ t_settings *settings) {
             mx_print_spaces(info->max_len - mx_strlen(prev) + 1);
         mx_print_inode(settings, data->inode, info->max);
         mx_print_filename(data, settings);
-        info->j++;
+        ++info->j;
         is_first = false;
         prev = data->filename;
         if (!(info->j % info->cols)) {
@@ -30,7 +30,7 @@ t_max_len *max) {
     bool is_first = true;
 
     for (t_list *node1 = *list; node1; node1 = node1->next) {
-        info->i++;
+        ++info->i;
         is_first = true;
         print_row(node1, info, is_first, settings);
         info->j = 0;
@@ -46,13 +46,16 @@ t_max_len *max) {
 void mx_print_x_columns(t_list **list, t_settings *settings, bool many_lists,
                         bool *is_first) {
     t_list *node = *list;
-    t_list *next = ((t_list *)node->data)->next;
+    t_list *next = node->next;
     t_max_len *max_len = mx_get_max_len_struct(node, settings);
 
-    if (many_lists)
-        mx_print_dir(((t_data *)((t_list *)node->data)->data)->filename,
-                     is_first, settings);
+    // if (many_lists)
+    //     mx_print_dir(((t_data *)((t_list *)node->data)->data)->filename,
+    //                  is_first, settings);
     print_x_columns(&next, settings, max_len);
     free(max_len);
     max_len = NULL;
+
+    many_lists = 1;
+    *is_first = 1;
 }

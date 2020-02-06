@@ -19,25 +19,16 @@ static void proccess_output(t_settings *settings, t_list **list,
         mx_print_force(list, settings, many_lists, is_first);
 }
 
-void mx_sort(t_list **list, bool (*cmp_1)(void *a, void *b),
-             bool (*cmp_2)(void *a, void *b), t_settings *settings) {
+void mx_sort(t_list **list, bool (*cmp)(void *a, void *b),
+             t_settings *settings) {
     t_list *node = *list;
     t_list *inner = NULL;
     bool many_lists = node->next != NULL ? true : false;
     bool is_first = true;
 
-    // if (cmp_1)
-    //     mx_list_merge_sort(&node, cmp_1);
-    // *list = node;
-    // while (node) {
-        inner = (t_list *)node->next;
-        if (cmp_2)
-            mx_list_merge_sort(&inner, cmp_2);
-        node->next = inner;
-        proccess_output(settings, &node, many_lists, &is_first);
-        // node = node->next;
-        // if (node)
-        //     mx_printchar('\n');
-    // }
-    cmp_1 = NULL;
+    inner = (t_list *)node->next;
+    if (cmp)
+        mx_list_merge_sort(&inner, cmp);
+    node->next = inner;
+    proccess_output(settings, &node, many_lists, &is_first);
 }

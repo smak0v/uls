@@ -33,12 +33,9 @@ mx_get_owner.c \
 mx_get_symlink.c \
 mx_print_acl_xattr_or_nothing.c \
 mx_print_date.c \
-comparators/mx_name_list_comparators.c \
 comparators/mx_name_comparators.c \
 comparators/mx_size_comparators.c \
-comparators/mx_time_asc_list_comparators.c \
 comparators/mx_time_asc_comparators.c \
-comparators/mx_time_desc_list_comparators.c \
 comparators/mx_time_desc_comparators.c \
 sortings/mx_sort_by_name.c \
 sortings/mx_sort_by_creation_time.c \
@@ -72,8 +69,6 @@ mx_print_filename.c \
 mx_print_colored.c \
 mx_print_inode.c \
 mx_get_full_filename.c \
-mx_append_slash.c \
-mx_append_type_sign.c \
 mx_print_dir.c \
 mx_print_owner_group.c \
 mx_print_tabs.c \
@@ -100,12 +95,9 @@ mx_get_owner.o \
 mx_get_symlink.o \
 mx_print_acl_xattr_or_nothing.o \
 mx_print_date.o \
-mx_name_list_comparators.o \
 mx_name_comparators.o \
 mx_size_comparators.o \
-mx_time_asc_list_comparators.o \
 mx_time_asc_comparators.o \
-mx_time_desc_list_comparators.o \
 mx_time_desc_comparators.o \
 mx_sort_by_name.o \
 mx_sort_by_creation_time.o \
@@ -139,8 +131,6 @@ mx_print_filename.o \
 mx_print_colored.o \
 mx_print_inode.o \
 mx_get_full_filename.o \
-mx_append_slash.o \
-mx_append_type_sign.o \
 mx_print_dir.o \
 mx_print_owner_group.o \
 mx_print_tabs.o \

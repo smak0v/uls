@@ -32,21 +32,24 @@ static void reset_values(int *len, t_max_len **max_len) {
 void mx_print_stream(t_list **list, t_settings *settings, bool many_lists,
                      bool *is_first) {
     t_list *node = *list;
-    t_list *inner = NULL;
+    t_list *next = NULL;
     t_max_len *max_len = mx_get_max_len_struct(node, settings);
-    char *tmp = ((t_data *)((t_list *)(node->data))->data)->filename;
+    char *tmp = ((t_data *)(node->data))->filename;
     int len = 0;
 
-    if (many_lists)
-        mx_print_dir(tmp, is_first, settings);
-    inner = ((t_list *)node->data)->next;
-    while (inner) {
-        print(inner, &len, max_len, settings);
-        inner = inner->next;
+    // if (many_lists)
+    //     mx_print_dir(tmp, is_first, settings);
+    next = node->next;
+    while (next) {
+        print(next, &len, max_len, settings);
+        next = next->next;
     }
     if (!mx_strcmp(tmp, FILES) && node->next)
         mx_printstr(", \n");
     else
         mx_printchar('\n');
     reset_values(&len, &max_len);
+
+    many_lists = 1;
+    *is_first = 1;
 }
