@@ -231,7 +231,7 @@ void mx_sort_errors(t_list **errors);
 // Printing data
 void mx_print_total(t_list *list);
 void mx_print_filename_and_total(t_list *node, t_list *inner_node,
-                                 bool *is_first, t_settings *settings);
+                                 t_settings *settings);
 void mx_print_acl_xattr_or_nothing(t_data *data);
 void mx_print_date(t_data *data, t_settings *settings);
 void mx_print_size(t_data *data, t_max_len *max_len, bool is_device_met,
@@ -242,7 +242,7 @@ void mx_print_xattrs_text(t_data *data, t_settings *settings,
 void mx_print_filename(t_data *data, t_settings *settings);
 void mx_print_colored(t_data *data);
 void mx_print_inode(t_settings *settings, ino_t inode, t_max_len *max_len);
-void mx_print_dir(char *dirname, bool *is_first, t_settings *settings);
+void mx_print_dir(char *dirname, t_settings *settings);
 void mx_print_owner_group(t_settings *settings, t_data *data, t_max_len *len);
 void mx_print_tabs(t_settings *settings, t_columns_info *info, t_data *prev);
 void mx_print_columns_colored_spaces(t_settings *settings, t_data *prev,
@@ -250,19 +250,14 @@ void mx_print_columns_colored_spaces(t_settings *settings, t_data *prev,
 
 // Printing modes
 // -l -g -o -n
-void mx_print_long(t_list **list, t_settings *settings, bool many_lists,
-                   bool *is_first);
+void mx_print_long(t_list **list, t_settings *settings);
 // -C
-void mx_print_columns(t_list **list, t_settings *settings, bool many_lists,
-                      bool *is_first);
+void mx_print_columns(t_list **list, t_settings *settings);
 // -x
-void mx_print_x_columns(t_list **list, t_settings *settings, bool many_lists,
-                        bool *is_first);
+void mx_print_x_columns(t_list **list, t_settings *settings);
 // -1
-void mx_print_force(t_list **list, t_settings *settings, bool many_lists,
-                    bool *is_first);
+void mx_print_force(t_list **list, t_settings *settings);
 // -m
-void mx_print_stream(t_list **list, t_settings *settings, bool many_lists,
-                     bool *is_first);
+void mx_print_stream(t_list **list, t_settings *settings);
 
 #endif

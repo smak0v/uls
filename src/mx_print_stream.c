@@ -29,16 +29,15 @@ static void reset_values(int *len, t_max_len **max_len) {
     *max_len = NULL;
 }
 
-void mx_print_stream(t_list **list, t_settings *settings, bool many_lists,
-                     bool *is_first) {
+void mx_print_stream(t_list **list, t_settings *settings) {
     t_list *node = *list;
     t_list *next = NULL;
     t_max_len *max_len = mx_get_max_len_struct(node, settings);
     char *tmp = ((t_data *)(node->data))->filename;
     int len = 0;
 
-    // if (many_lists)
-    //     mx_print_dir(tmp, is_first, settings);
+    if (settings->many_lists)
+        mx_print_dir(tmp, settings);
     next = node->next;
     while (next) {
         print(next, &len, max_len, settings);
@@ -49,7 +48,4 @@ void mx_print_stream(t_list **list, t_settings *settings, bool many_lists,
     else
         mx_printchar('\n');
     reset_values(&len, &max_len);
-
-    many_lists = 1;
-    *is_first = 1;
 }

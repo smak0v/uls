@@ -37,17 +37,13 @@ static void long_output(t_list **list, t_settings *settings) {
     max_len = NULL;
 }
 
-void mx_print_long(t_list **list, t_settings *settings, bool many_lists,
-                   bool *is_first) {
+void mx_print_long(t_list **list, t_settings *settings) {
     t_list *node = *list;
     char *tmp = ((t_data *)node->data)->filename;
 
-    // if (many_lists)
-    //     mx_print_dir(tmp, is_first, settings);
+    if (settings->many_lists)
+        mx_print_dir(tmp, settings);
     if (mx_strcmp(tmp, FILES))
         mx_print_total(node->next);
     long_output(list, settings);
-
-    many_lists = 1;
-    *is_first = 1;
 }
