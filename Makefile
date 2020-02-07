@@ -17,6 +17,7 @@ comparators/mx_name_comparators.c \
 comparators/mx_size_comparators.c \
 comparators/mx_time_asc_comparators.c \
 comparators/mx_time_desc_comparators.c \
+core/mx_find_flags.c \
 core/mx_proccess_output.c \
 core/mx_process_l.c \
 core/mx_read_data.c \
@@ -83,6 +84,7 @@ mx_name_comparators.o \
 mx_size_comparators.o \
 mx_time_asc_comparators.o \
 mx_time_desc_comparators.o \
+mx_find_flags.o \
 mx_proccess_output.o \
 mx_process_l.o \
 mx_read_data.o \

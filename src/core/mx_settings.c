@@ -1,95 +1,37 @@
 #include "uls.h"
 
-static bool find_flag(char **flags, char f) {
-    for (int i = 0; flags[i]; i++)
-        if (flags[i][0] == f)
-            return true;
+static bool find_flag(char **flags, char flag, int position, int arr_len) {
+    if (position == 0 || position == arr_len + 1)
+        return false;
+    if (flags[position - 1][0] == flag || flags[position + 1][0] == flag)
+        return true;
     return false;
 }
 
-
-static void find_flags_3(t_settings *s, char flag) {
-    if (flag == 'U')
-        s->time = crt;
-    else if (flag == 'u')
-        s->time = acc;
-    else if (flag == 'c')
-        s->time = chg;
-}
-
-static void find_flags_2(t_settings *s, char flag) {
-    if (flag == 'o')
-        s->omit_group = true;
-    else if (flag == 'g')
-        s->omit_owner = true;
-    else if (flag == 'G')
-        s->colored = true;
-    else if (flag == 'i')
-        s->print_inode = true;
-    else if (flag == 'F') {
-        s->append_type_sign = true;
-        s->append_slash = false;
-    }
-    else if (flag == 'R')
-        s->R = true;
-    else if (flag == 'A')
-        s->A = true;
-    else if (flag == 'a' || flag == 'f')
-        s->a = true;
-    else
-        find_flags_3(s, flag);
-}
-
-static void find_flags(t_settings *s, char **flags) {
-    for (int i = 0; flags[i]; i++) {
-        if (flags[i][0] == 'r')
-            s->reverse = true;
-        else if (flags[i][0] == 'n')
-            s->n = true;
-        else if (flags[i][0] == 'h')
-            s->format_size = true;
-        else if (flags[i][0] == '@')
-            s->print_xattr = true;
-        else if (flags[i][0] == 'x')
-            s->print_xcols = true;
-        else if (flags[i][0] == 'T')
-            s->full_time = true;
-        else if (flags[i][0] == 'p') {
-            s->append_slash = true;
-            s->append_type_sign = false;
-        }
-        else
-            find_flags_2(s, flags[i][0]);
-    }
-}
-
-static t_sorting_enum setup_sorting(char **flags) {
-    int len = mx_strarr_len(flags) - 1;
-    t_sorting_enum mode = names;
-
-    for (; len >= 0; len--) {
-        if (flags[len][0] == 'f') {
-            mode = unsorted;
+static void setup_sorting(char **flags, int arr_len,
+                          t_sorting_enum *sorting_mode) {
+    for (; arr_len >= 0; arr_len--) {
+        if (flags[arr_len][0] == 'f') {
+            *sorting_mode = unsorted;
             break ;
         }
-        else if (flags[len][0] == 'S')
-            mode = size;
-        else if (flags[len][0] == 't' && mode != size) {
+        else if (flags[arr_len][0] == 'S')
+            *sorting_mode = size;
+        else if ((flags[arr_len][0] == 't') && (*sorting_mode != size)) {
             if (mx_search_strarr(flags, "c"))
-                mode = chg_time;
+                *sorting_mode = chg_time;
             else if (mx_search_strarr(flags, "u"))
-                mode = acc_time;
+                *sorting_mode = acc_time;
             else if (mx_search_strarr(flags, "U"))
-                mode = crt_time;
+                *sorting_mode = crt_time;
             else
-                mode = mod_time;
+                *sorting_mode = mod_time;
         }
     }
-    return mode;
 }
 
 static t_mode_enum process_mode(char flag) {
-    t_mode_enum mode;
+    t_mode_enum mode = columns;
 
     if (flag == 'C' || flag == 'x')
         mode = columns;
@@ -102,38 +44,45 @@ static t_mode_enum process_mode(char flag) {
     return mode;
 }
 
-static t_mode_enum setup_mode(char **flags) {
-    int len = mx_strarr_len(flags) - 1;
+static t_mode_enum setup_mode(char **flags, int arr_len,
+                              t_mode_enum *output_mode) {
+    int len = arr_len;
     int fish = 0;
-    t_mode_enum mode = columns;
 
-    for (; len >= 0; len--) {
-        for (int i = 0; i < mx_strlen(MODE_FLAGS); i++) {
+    for (; len >= 0; --len) {
+        for (int i = 0; i < mx_strlen(MODE_FLAGS); ++i) {
             if (mx_get_char_index(flags[len], MODE_FLAGS[i]) == 0) {
-                mode = process_mode(MODE_FLAGS[i]);
-                if (mode == columns && find_flag(flags, 'm'))
-                    mode = commas;
+                *output_mode = process_mode(MODE_FLAGS[i]);
+                if (*output_mode == columns
+                    && find_flag(flags, 'm', len, arr_len))
+                    *output_mode = commas;
                 fish = 1;
-                break;
+                break ;
             }
         }
         if (fish)
-            break;
+            break ;
     }
-    return mode;
+    return *output_mode;
 }
 
 t_settings *mx_setup(char **flags) {
     t_settings *setup = mx_memalloc(sizeof(t_settings));
+    t_sorting_enum sorting_mode = names;
+    t_mode_enum output_mode = columns;
+    int arr_len = 0;
 
     setup->is_first = true;
     setup->is_atty = isatty(1);
     if (flags) {
-        setup->mode = setup_mode(flags);
-        setup->sorting = setup_sorting(flags);
+        arr_len = mx_strarr_len(flags) - 1;
+        setup_mode(flags, arr_len, &output_mode);
+        setup_sorting(flags, arr_len, &sorting_mode);
+        setup->mode = output_mode;
+        setup->sorting = sorting_mode;
         if (mx_has_output_format_flag(flags))
             setup->has_output_format_flag = true;
-        find_flags(setup, flags);
+        mx_find_flags(setup, flags);
     }
     return setup;
 }
