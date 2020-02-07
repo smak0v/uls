@@ -159,6 +159,11 @@ typedef struct s_colunms_info {
     int j;
 } t_columns_info;
 
+typedef struct s_error {
+    char *filename;
+    int error;
+} t_error;
+
 // Functions
 // Core
 t_settings *mx_setup(char **flags);
@@ -168,7 +173,9 @@ void mx_sort_data_list(t_list **data, t_settings *settings);
 void mx_proccess_output(t_list **list, t_settings *settings);
 
 // Errors
+void mx_create_error(t_list **errlist, char *fname);
 void mx_check_usage_error(char **flags, char **files);
+void mx_print_uls_error(t_list *err_list);
 void mx_print_not_found(t_list **err_list);
 void mx_clear_list(t_list **list);
 
@@ -202,9 +209,6 @@ ushort mx_get_terminal_width(t_settings *settings);
 t_columns_info *mx_get_columns_info(t_list **list, t_settings *settings,
                                     t_max_len *max);
 char *mx_get_full_filename(char *dirpath, char *filename);
-char *mx_get_dirname(char *full_path);
-char *mx_get_filename(char *full_path);
-char *mx_check_match(char **strarr, char *dirname, char *filename);
 int mx_uls_h_get_pow(off_t st_size);
 
 // Comparators

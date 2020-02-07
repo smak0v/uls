@@ -49,6 +49,7 @@ void mx_print_x_columns(t_list **list, t_settings *settings) {
     t_max_len *max_len = mx_get_max_len_struct(node, settings);
 
     mx_print_dir(((t_data *)node->data)->filename, settings);
+    settings->is_first = false;
     print_x_columns(&next, settings, max_len);
     free(max_len);
     max_len = NULL;
