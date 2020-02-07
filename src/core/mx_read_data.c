@@ -101,7 +101,7 @@ static void read_dir(t_settings *setup, char *dname) {
     DIR *dir = opendir(dname);
 
     if (!dir) {
-        //mx_printstr_endl(strerror(errno));
+        // mx_print_error_endl(strerror(errno));
         return ;
     }
 
@@ -120,39 +120,26 @@ static void read_dir(t_settings *setup, char *dname) {
 
 static void process_files(t_settings *setup, char **files) {
     DIR *dir = NULL;
-    t_list *err_list = NULL;
     t_list *dirlist = NULL;
     t_list *node = NULL;
     int files_bool = 0;
 
     for (int i = 0; files && files[i]; i++) {
         dir = opendir(files[i]);
+        if (!dir)
+            mx_print_error_endl(strerror(errno)); // Store permission denied, bad file descriptor and another to char *error field in t_data
         if (dir) {
             mx_push_back(&dirlist, mx_strdup(files[i]));
             files = mx_pop_string_array(files, files[i--]);
             closedir(dir);
         }
-        else {
-            if (errno != 20) {
-                if (!err_list)
-                    err_list = mx_create_node(mx_strdup(files[i]));
-                else
-                    mx_push_front(&err_list, mx_strdup(files[i]));
-                files = mx_pop_string_array(files, files[i--]);
-                setup->not_found = 1;
-            }
-        }
     }
-    mx_sort_errors(&err_list);
-    mx_print_not_found(err_list);
-    mx_clear_list(&err_list);
     if (files) {
         process_leftovers(setup, files);
         files_bool = 1;
     }
 
     bool break_line = false;
-    // TODO create list and sort it
     node = dirlist;
     while (node) {
         if (break_line == true || files_bool)
@@ -167,12 +154,34 @@ static void process_files(t_settings *setup, char **files) {
 
 
 void mx_read_data(t_settings *setup, char **files, char *f) {
-    if (files && mx_get_arr_length(files) > 1)
-        setup->has_many_file_arguments = true;
-    if (!files || !(*files)) {
-        read_dir(setup, f);
+    t_list *err_list = NULL;
+    int len = 0;
+    t_st st;
+
+    if (files) {
+        len = mx_get_arr_length(files);
+        if (len > 1)
+            setup->has_many_file_arguments = true;
     }
+    if (!files || !(*files))
+        read_dir(setup, f);
     else {
-        process_files(setup, files);
+        for (int i = 0; i < len; ++i)
+            if (lstat(files[i], &st) > -1) {
+                // TODO create list with t_data from argv, sort it
+                mx_printstr(files[i]); // t_data->filename
+                mx_printchar(' ');
+                mx_printint_endl(st.st_gid);
+            }
+            else {
+                if (!err_list)
+                    err_list = mx_create_node(mx_strdup(files[i]));
+                else
+                    mx_push_front(&err_list, mx_strdup(files[i]));
+                //files = mx_pop_string_array(files, files[i--]);
+                setup->not_found = 1;
+            }
+        mx_print_not_found(&err_list);
+        process_files(setup, files); // t_list with correct data (not files)
     }
 }

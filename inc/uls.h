@@ -169,7 +169,7 @@ void mx_proccess_output(t_list **list, t_settings *settings);
 
 // Errors
 void mx_check_usage_error(char **flags, char **files);
-void mx_print_not_found(t_list *err_list);
+void mx_print_not_found(t_list **err_list);
 void mx_clear_list(t_list **list);
 
 // Utils
