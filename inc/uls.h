@@ -166,6 +166,9 @@ void mx_read_data(t_settings *setup, char **files, char *f);
 void mx_process_l(t_st st, t_data *data, t_settings *settings);
 void mx_sort_data_list(t_list **data, t_settings *settings);
 void mx_proccess_output(t_list **list, t_settings *settings);
+void mx_find_flags(t_settings *settings, char **flags);
+void mx_find_flags_2(t_settings *settings, char flag);
+void mx_find_flags_3(t_settings *settings, char flag);
 
 // Errors
 void mx_check_usage_error(char **flags, char **files);
