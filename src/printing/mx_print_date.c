@@ -47,7 +47,7 @@ static void print(time_t date, int print_full_time) {
     }
     now = time(NULL);
     diff = now - date;
-    half_year = (365.24 / 2) * 86400;
+    half_year = (365 / 2) * 86400;
     if (diff < 0)
         diff *= -1;
     if (diff >= half_year)

@@ -10,10 +10,7 @@ static void print_xattrs(t_data *data, t_max_len *max_len,
     mx_printstr(data->xattr_text);
     mx_printchar('\t');
     mx_print_spaces(2);
-    if (settings->a || settings->A)
-        mx_print_spaces(max_len->xattrs_sizes - max_num_len + 1);
-    else
-        mx_print_spaces(max_len->xattrs_sizes - max_num_len);
+    mx_print_spaces(max_len->xattrs_sizes - max_num_len);
     mx_printint(data->xattr_value_length);
     if (settings->format_size)
         mx_printstr("B \n");
