@@ -37,6 +37,7 @@ void mx_print_stream(t_list **list, t_settings *settings) {
     int len = 0;
 
     mx_print_dir(tmp, settings);
+    settings->is_first = false;
     next = node->next;
     while (next) {
         print(next, &len, max_len, settings);

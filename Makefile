@@ -68,6 +68,7 @@ utils/mx_check_chr_or_blk_device.c \
 utils/mx_check_flags.c \
 utils/mx_clear_errors_list.c \
 utils/mx_convert_size.c \
+utils/mx_create_errors.c \
 utils/mx_errors_handler.c \
 utils/mx_free_data.c \
 utils/mx_has_acl.c \
@@ -135,6 +136,7 @@ mx_check_chr_or_blk_device.o \
 mx_check_flags.o \
 mx_clear_errors_list.o \
 mx_convert_size.o \
+mx_create_errors.o \
 mx_errors_handler.o \
 mx_free_data.o \
 mx_has_acl.o \
