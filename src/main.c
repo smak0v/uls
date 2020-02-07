@@ -4,7 +4,7 @@ int main(int argc, char *argv[]) {
     char **flags = mx_store_flags(argc, argv);
     char **files = mx_store_files(argc, argv);
     t_settings *settings = mx_setup(flags);
-    t_list *errors = NULL;
+    int exit_code = 0;
 
     mx_check_usage_error(flags, files);
     mx_read_data(settings, files, ".");
@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
     if (errors)
         return 1;
     // system("leaks uls");
-    return 0;
+    return exit_code;
 }
 
 

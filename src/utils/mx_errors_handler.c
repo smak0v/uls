@@ -15,6 +15,7 @@ void mx_check_usage_error(char **flags, char **files) {
     }
 }
 
+
 static void permission_denied(t_list **errors) {
     t_list *tp = *errors;
 
