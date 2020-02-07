@@ -8,9 +8,12 @@ int main(int argc, char *argv[]) {
 
     mx_check_usage_error(flags, files);
     mx_read_data(settings, files, ".");
-    mx_free_data(flags, settings);
+    // mx_free_data(flags, settings);
+    // mx_del_strarr(&files);
     if (errors)
         return 1;
     // system("leaks uls");
     return 0;
 }
+
+
