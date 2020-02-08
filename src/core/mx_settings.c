@@ -10,7 +10,7 @@ static bool find_flag(char **flags, char flag, int position, int arr_len) {
 
 static void setup_sorting(char **flags, int arr_len,
                           t_sorting_enum *sorting_mode) {
-    for (; arr_len >= 0; arr_len--) {
+    for (; arr_len >= 0; --arr_len) {
         if (flags[arr_len][0] == 'f') {
             *sorting_mode = unsorted;
             break ;

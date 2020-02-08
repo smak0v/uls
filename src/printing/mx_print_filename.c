@@ -1,17 +1,17 @@
 #include "uls.h"
 
 static void print_type_sign(t_data *data) {
-    if (data->permissions[0] == 'd')
+    if (MX_IS_DIR(data->mode))
         mx_printchar('/');
-    else if (data->permissions[0] == '-' && MX_IS_EXEC(data->mode))
+    else if (MX_IS_REG(data->mode) && MX_IS_EXEC(data->mode))
         mx_printchar('*');
-    else if (data->permissions[0] == 'l')
+    else if (MX_IS_LNK(data->mode))
         mx_printchar('@');
-    else if (data->permissions[0] == 's')
+    else if (MX_IS_SOCK(data->mode))
         mx_printchar('=');
-    else if (data->permissions[0] == 'w')
+    else if (MX_IS_WHT(data->mode))
         mx_printchar('%');
-    else if (data->permissions[0] == 'p')
+    else if (MX_IS_FIFO(data->mode))
         mx_printchar('|');
 }
 
@@ -23,7 +23,7 @@ void mx_print_filename(t_data *data, t_settings *settings) {
     }
     else
         mx_printstr(data->filename);
-    if (settings->append_slash && data->permissions[0] == 'd')
+    if (settings->append_slash && MX_IS_DIR(data->mode))
         mx_printchar('/');
     else if (settings->append_type_sign)
         print_type_sign(data);
