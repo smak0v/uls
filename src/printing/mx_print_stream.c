@@ -1,23 +1,26 @@
 #include "uls.h"
 
+static void print_new_line_and_reset(int *len) {
+    mx_printchar('\n');
+    *len = 0;
+}
+
 static void print(t_list *node, int *len, t_max_len *max_len,
                   t_settings *settings) {
     char *file = ((t_data *)(node->data))->filename;
     ushort width = mx_get_terminal_width(settings);
+    int value = settings->print_inode ? 3 : 2;
 
-    if (settings->print_inode) {
-        if (*len + mx_strlen(file) + 3 >= width) {
-            mx_printchar('\n');
-            *len = 0;
-        }
-        *len +=  max_len->inodes + mx_strlen(file) + 3;
-    } else {
-        if (*len + mx_strlen(file) + 2 >= width) {
-            mx_printchar('\n');
-            *len = 0;
-        }
-        *len += mx_strlen(file) + 2;
+    if (!node->next) {
+        if (*len + mx_strlen(file) >= width)
+            print_new_line_and_reset(len);
     }
+    else if (*len + mx_strlen(file) + value >= width)
+        print_new_line_and_reset(len);
+    if (settings->print_inode)
+        *len += max_len->inodes + mx_strlen(file) + value;
+     else
+        *len += mx_strlen(file) + value;
     mx_print_inode(settings, ((t_data *)node->data)->inode, max_len);
     mx_print_filename((t_data *)node->data, settings);
     node->next ? mx_printstr(", ") : (void)0;
@@ -43,9 +46,11 @@ void mx_print_stream(t_list **list, t_settings *settings) {
         print(next, &len, max_len, settings);
         next = next->next;
     }
-    if (!mx_strcmp(tmp, FILES) && node->next)
-        mx_printstr(", \n");
-    else
-        mx_printchar('\n');
+    if (list && *list && (*list)->next) {
+        if (!mx_strcmp(tmp, FILES) && node->next)
+            mx_printstr(", \n");
+        else
+            mx_printchar('\n');
+    }
     reset_values(&len, &max_len);
 }

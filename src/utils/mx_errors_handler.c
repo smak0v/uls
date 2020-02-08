@@ -16,16 +16,16 @@ void mx_check_usage_error(char **flags, char **files) {
 }
 
 static void permission_denied(t_list **errors) {
-    t_list *tp = *errors;
+    t_list *tmp = *errors;
 
-    while (tp) {
-        mx_print_error(tp->data);
+    while (tmp) {
+        mx_print_error(tmp->data);
         mx_print_error(":\nuls: ");
-        mx_print_error((char *)mx_memrchr(tp->data, '/', mx_strlen(tp->data)) + 1);
+        mx_print_error((char *)mx_memrchr(tmp->data, '/',
+                       mx_strlen(tmp->data)) + 1);
         mx_print_error(": Permission denied\n");
-        tp = tp->next;
+        tmp = tmp->next;
     }
-
     mx_clear_list(errors);
 }
 
@@ -46,7 +46,6 @@ void mx_print_uls_error(t_list *err_list) {
         mx_print_error_endl(strerror(error->error));
         node = node->next;
     }
-
     if (tmp)
         permission_denied(&tmp);
 }

@@ -19,7 +19,7 @@ static void proccess_time(t_settings *settings, t_st st, t_data *data) {
     }
 }
 
-static void check_major_minor(t_data *data) {
+static void process_major_minor(t_data *data) {
     if (MX_IS_CHR(data->mode) || MX_IS_BLK(data->mode)) {
         data->major = mx_get_major(data->st_rdev);
         data->minor = mx_get_minor(data->st_rdev);
@@ -31,9 +31,12 @@ static void check_major_minor(t_data *data) {
 }
 
 static void proccess_extras(t_settings *settings, t_st st, t_data *data) {
+    if (settings->mode == table || settings->colored)
+        data->permissions = mx_get_permissions(st.st_mode);
     if (settings->append_slash
         || settings->append_type_sign
-        || settings->mode == table)
+        || settings->mode == table
+        || settings->colored)
         data->mode = st.st_mode;
     if (settings->print_inode)
         data->inode = st.st_ino;
@@ -44,7 +47,6 @@ void mx_process_l(t_st st, t_data *data, t_settings *settings) {
 
     if (settings->mode == table) {
         data->xattr_value_length = -1;
-        data->permissions = mx_get_permissions(st.st_mode);
         data->blocks_count = st.st_blocks;
         data->has_acl = mx_has_acl(full_name);
         data->xattr_text = mx_get_xattr(full_name, &data->xattr_value_length);
@@ -54,10 +56,10 @@ void mx_process_l(t_st st, t_data *data, t_settings *settings) {
         if (!settings->omit_group)
             data->group = mx_get_group(st.st_gid, settings);
         data->file_size = st.st_size;
-        proccess_time(settings, st, data);
         data->symlink = mx_get_symlink(data);
         data->st_rdev = st.st_rdev;
-        check_major_minor(data);
+        process_major_minor(data);
     }
+    proccess_time(settings, st, data);
     proccess_extras(settings, st, data);
 }

@@ -7,7 +7,6 @@ static t_data *write_data(t_settings *s, t_st st, char *full_fnm, char *fnm) {
     info->full_filename = mx_strdup(full_fnm);
     info->is_dir = MX_IS_DIR(st.st_mode);
     mx_process_l(st, info, s);
-
     return info;
 }
 

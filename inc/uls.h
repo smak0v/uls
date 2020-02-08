@@ -1,5 +1,4 @@
-#ifndef ULS_H
-#define ULS_H
+#pragma once
 
 #include "libmx.h"
 
@@ -268,5 +267,3 @@ void mx_print_x_columns(t_list **list, t_settings *settings);
 void mx_print_force(t_list **list, t_settings *settings);
 // -m
 void mx_print_stream(t_list **list, t_settings *settings);
-
-#endif

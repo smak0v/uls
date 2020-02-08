@@ -1,6 +1,7 @@
 #include "uls.h"
 
-static void print(int max_len, int prev_len, t_settings *settings) {
+static void print(int max_len, int prev_len, t_data *prev,
+                  t_settings *settings) {
     int spaces_count = 0;
     int tabs_count = 0;
 
@@ -15,8 +16,10 @@ static void print(int max_len, int prev_len, t_settings *settings) {
     if (!(prev_len % 8))
         --tabs_count;
     if (!((prev_len + 1) % 8)
-        && (settings->append_slash || settings->append_type_sign))
-        --tabs_count;
+        && (settings->append_slash || settings->append_type_sign)) {
+            if (!MX_IS_REG(prev->mode))
+                --tabs_count;
+        }
     while (tabs_count--)
         mx_printchar('\t');
 }
@@ -24,7 +27,9 @@ static void print(int max_len, int prev_len, t_settings *settings) {
 void mx_print_tabs(t_settings *settings, t_columns_info *info, t_data *prev) {
     if (settings->print_inode)
         print(info->max_len,
-              mx_strlen(prev->filename) + info->max->inodes + 1, settings);
+              mx_strlen(prev->filename) + info->max->inodes + 1,
+                        prev,
+                        settings);
     else
-        print(info->max_len , mx_strlen(prev->filename), settings);
+        print(info->max_len , mx_strlen(prev->filename), prev, settings);
 }

@@ -3,7 +3,7 @@
 void mx_clear_list(t_list **list) {
     while (list && *list) {
         free((*list)->data);
-        mx_pop_front(list);    
+        mx_pop_front(list);
     }
 }
 
@@ -25,7 +25,7 @@ static void free_t_data(t_data *tdata) {
 void mx_clear_tdata_list(t_list **list) {
     while (list && *list) {
         free_t_data((*list)->data);
-        mx_pop_front(list);    
+        mx_pop_front(list);
     }
 }
 

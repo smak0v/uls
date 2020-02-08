@@ -3,8 +3,8 @@
 static void not_sub_case(const char **s, const char **sub, char **buf);
 static void get_all_lengths(int *len_s, int *len_r, char *sub, char *replace);
 
-char *mx_replace_substr(const char *str, const char *sub, const char *replace)
-{
+char *mx_replace_substr(const char *str, const char *sub,
+                        const char *replace) {
     char *buf1 = NULL;
     char *buf2 = NULL;
     const char *s = str;
