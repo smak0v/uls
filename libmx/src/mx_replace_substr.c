@@ -1,7 +1,17 @@
 #include "libmx.h"
 
-static void not_sub_case(const char **s, const char **sub, char **buf);
-static void get_all_lengths(int *len_s, int *len_r, char *sub, char *replace);
+static void get_all_lengths(int *len_s, int *len_r, char *sub, char *replace) {
+    *len_s = mx_strlen(sub);
+    *len_r = mx_strlen(replace);
+}
+
+static void not_sub_case(const char **s, const char **sub, char **buf) {
+    if (*s != mx_strstr(*s, *sub)) {
+        **buf = **s;
+        (*buf)++;
+        (*s)++;
+    }
+}
 
 char *mx_replace_substr(const char *str, const char *sub,
                         const char *replace) {
@@ -25,17 +35,4 @@ char *mx_replace_substr(const char *str, const char *sub,
         }
     }
     return buf1;
-}
-
-static void get_all_lengths(int *len_s, int *len_r, char *sub, char *replace) {
-    *len_s = mx_strlen(sub);
-    *len_r = mx_strlen(replace);
-}
-
-static void not_sub_case(const char **s, const char **sub, char **buf) {
-    if (*s != mx_strstr(*s, *sub)) {
-        **buf = **s;
-        (*buf)++;
-        (*s)++;
-    }
 }

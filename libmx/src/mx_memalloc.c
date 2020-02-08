@@ -5,9 +5,9 @@ void *mx_memalloc(size_t size) {
     char *str = NULL;
 
     if ((str = (char *)malloc(size)) == NULL)
-        return (NULL);
+        return NULL;
     i = -1;
     while (++i < size)
         str[i] = 0;
-    return (str);
+    return str;
 }

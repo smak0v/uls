@@ -51,10 +51,8 @@ void mx_process_l(t_st st, t_data *data, t_settings *settings) {
         data->has_acl = mx_has_acl(full_name);
         data->xattr_text = mx_get_xattr(full_name, &data->xattr_value_length);
         data->links_count = st.st_nlink;
-        if (!settings->omit_owner)
-            data->owner = mx_get_owner(st.st_uid, settings);
-        if (!settings->omit_group)
-            data->group = mx_get_group(st.st_gid, settings);
+        data->owner = mx_get_owner(st.st_uid, settings);
+        data->group = mx_get_group(st.st_gid, settings);
         data->file_size = st.st_size;
         data->symlink = mx_get_symlink(data);
         data->st_rdev = st.st_rdev;
