@@ -1,7 +1,7 @@
 #include "uls.h"
 
 void mx_check_usage_error(char **flags, char **files) {
-    char *error_flag = mx_check_flags(flags);
+    char *error_flag = mx_check_flag(flags);
 
     if (error_flag) {
         mx_print_error("uls: illegal option -- ");

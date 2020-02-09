@@ -1,6 +1,6 @@
 #include "uls.h"
 
-char *mx_check_flags(char **flags) {
+char *mx_check_flag(char **flags) {
     char **ptr = flags;
     int index = 0;
 

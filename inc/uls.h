@@ -167,9 +167,14 @@ typedef struct s_error {
 // Core
 t_settings *mx_setup(char **flags);
 void mx_read_data(t_settings *setup, char **files, char *f);
+void mx_read_dir(t_settings *setup, char *dname);
 void mx_process_l(t_st st, t_data *data, t_settings *settings);
 void mx_sort_data_list(t_list **data, t_settings *settings);
 void mx_proccess_output(t_list **list, t_settings *settings);
+void mx_process_files(t_settings *setup, char **files);
+t_data *mx_write_data(t_settings *s, t_st st, char *full_fnm, char *fnm);
+bool mx_check_flags(t_settings *s, t_dnt *dir);
+void mx_check_R(t_list *data, t_settings *s);
 void mx_find_flags(t_settings *settings, char **flags);
 void mx_find_flags_2(t_settings *settings, char flag);
 void mx_find_flags_3(t_settings *settings, char flag);
@@ -183,7 +188,7 @@ void mx_clear_list(t_list **list);
 // Utils
 char **mx_store_flags(int argc, char **argv);
 char **mx_store_files(int argc, char **argv);
-char *mx_check_flags(char **flags);
+char *mx_check_flag(char **flags);
 void mx_print_spaces(int count);
 char mx_get_file_type(mode_t mode);
 bool mx_search_strarr(char **strarr, char *str);

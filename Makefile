@@ -23,6 +23,8 @@ core/mx_process_l.c \
 core/mx_read_data.c \
 core/mx_settings.c \
 core/mx_sort_data_list.c \
+core/mx_process_flags.c \
+core/mx_process_files.c \
 getters/mx_get_columns_info.c \
 getters/mx_get_file_type.c \
 getters/mx_get_full_filename.c \
@@ -91,6 +93,8 @@ mx_process_l.o \
 mx_read_data.o \
 mx_settings.o \
 mx_sort_data_list.o \
+mx_process_flags.o \
+mx_process_files.o \
 mx_get_columns_info.o \
 mx_get_file_type.o \
 mx_get_full_filename.o \
