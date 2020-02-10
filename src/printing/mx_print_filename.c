@@ -18,11 +18,15 @@ static void print_type_sign(t_data *data) {
 void mx_print_filename(t_data *data, t_settings *settings) {
     if (settings->colored && settings->is_atty) {
         mx_print_colored(data);
-        mx_printstr(data->filename);
+        mx_print_non_printable_str(data->filename);
         mx_printstr("\033[0m");
     }
-    else
-        mx_printstr(data->filename);
+    else {
+        if (!settings->is_atty)
+            mx_printstr(data->filename);
+        else
+            mx_print_non_printable_str(data->filename);
+    }
     if (settings->append_slash && MX_IS_DIR(data->mode))
         mx_printchar('/');
     else if (settings->append_type_sign)

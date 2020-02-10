@@ -49,6 +49,7 @@ printing/mx_print_filename.c \
 printing/mx_print_force.c \
 printing/mx_print_inode.c \
 printing/mx_print_long.c \
+printing/mx_print_non_printable_str.c \
 printing/mx_print_owner_group.c \
 printing/mx_print_size.c \
 printing/mx_print_spaces.c \
@@ -118,6 +119,7 @@ mx_print_filename.o \
 mx_print_force.o \
 mx_print_inode.o \
 mx_print_long.o \
+mx_print_non_printable_str.o \
 mx_print_owner_group.o \
 mx_print_size.o \
 mx_print_spaces.o \

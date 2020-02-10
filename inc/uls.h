@@ -17,7 +17,7 @@
 #include <uuid/uuid.h>
 
 // Constants
-#define ALLOWED_FLAGS "ACFGRSTU@acfghilmnoprtux1"
+#define ALLOWED_FLAGS "ACFGRSTU@acfghilmnoprtuwx1"
 #define MODE_FLAGS "Clgonmx1"
 #define SORTING_FLAGS "Stlf"
 #define FILES "f_I_l_E_s"
@@ -136,6 +136,7 @@ typedef struct s_settings {
     bool a; // -a
     bool A; // -A
     bool R; // -R
+    bool w; // -w
 } t_settings;
 
 typedef struct s_max_len {
@@ -261,6 +262,7 @@ void mx_print_owner_group(t_settings *settings, t_data *data, t_max_len *len);
 void mx_print_tabs(t_settings *settings, t_columns_info *info, t_data *prev);
 void mx_print_columns_colored_spaces(t_settings *settings, t_data *prev,
                                      t_columns_info *info);
+void mx_print_non_printable_str(const char *s);
 
 // Printing modes
 // -l -g -o -n
