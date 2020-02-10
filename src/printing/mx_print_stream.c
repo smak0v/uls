@@ -5,11 +5,34 @@ static void print_new_line_and_reset(int *len) {
     *len = 0;
 }
 
+static int get_value(t_settings *settings, t_list *node) {
+    t_data *data = (t_data *)node->data;
+    int value = settings->print_inode ? 3 : 2;
+
+    if (settings->append_slash && MX_IS_DIR(data->mode))
+        ++value;
+    else if (settings->append_type_sign) {
+        if (MX_IS_DIR(data->mode))
+            ++value;
+        else if (MX_IS_REG(data->mode) && MX_IS_EXEC(data->mode))
+            ++value;
+        else if (MX_IS_LNK(data->mode))
+            ++value;
+        else if (MX_IS_SOCK(data->mode))
+            ++value;
+        else if (MX_IS_WHT(data->mode))
+            ++value;
+        else if (MX_IS_FIFO(data->mode))
+            ++value;
+    }
+    return value;
+}
+
 static void print(t_list *node, int *len, t_max_len *max_len,
                   t_settings *settings) {
-    char *file = ((t_data *)(node->data))->filename;
+    char *file = ((t_data *)node->data)->filename;
     ushort width = mx_get_terminal_width(settings);
-    int value = settings->print_inode ? 3 : 2;
+    int value = get_value(settings, node);
 
     if (!node->next) {
         if (*len + mx_strlen(file) >= width)

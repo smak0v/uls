@@ -76,7 +76,6 @@ utils/mx_free_data.c \
 utils/mx_has_acl.c \
 utils/mx_has_output_format_flag.c \
 utils/mx_round_number.c \
-utils/mx_search_strarr.c \
 utils/mx_store_files.c \
 utils/mx_store_flags.c \
 utils/mx_uls_h_get_pow.c \
@@ -146,7 +145,6 @@ mx_free_data.o \
 mx_has_acl.o \
 mx_has_output_format_flag.o \
 mx_round_number.o \
-mx_search_strarr.o \
 mx_store_files.o \
 mx_store_flags.o \
 mx_uls_h_get_pow.o \

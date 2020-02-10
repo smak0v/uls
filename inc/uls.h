@@ -178,6 +178,8 @@ void mx_check_R(t_list *data, t_settings *s);
 void mx_find_flags(t_settings *settings, char **flags);
 void mx_find_flags_2(t_settings *settings, char flag);
 void mx_find_flags_3(t_settings *settings, char flag);
+void mx_find_sorting_combination_flags(t_sorting_enum *sorting_mode,
+                                       char **flags);
 
 // Errors
 void mx_create_error(t_list **errlist, char *fname);
@@ -191,7 +193,6 @@ char **mx_store_files(int argc, char **argv);
 char *mx_check_flag(char **flags);
 void mx_print_spaces(int count);
 char mx_get_file_type(mode_t mode);
-bool mx_search_strarr(char **strarr, char *str);
 bool mx_check_chr_or_blk_device(t_list **list);
 char *mx_convert_size(off_t st_size);
 bool mx_has_output_format_flag(char **flags);

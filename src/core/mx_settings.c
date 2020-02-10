@@ -20,16 +20,8 @@ static void setup_sorting(char **flags, t_sorting_enum *sorting_mode) {
         }
         else if (flags[len][0] == 'S')
             *sorting_mode = size;
-        else if ((flags[len][0] == 't') && (*sorting_mode != size)) {
-            if (mx_search_strarr(flags, "c"))
-                *sorting_mode = chg_time;
-            else if (mx_search_strarr(flags, "u"))
-                *sorting_mode = acc_time;
-            else if (mx_search_strarr(flags, "U"))
-                *sorting_mode = crt_time;
-            else
-                *sorting_mode = mod_time;
-        }
+        else if ((flags[len][0] == 't') && (*sorting_mode != size))
+            mx_find_sorting_combination_flags(sorting_mode, flags);
     }
 }
 

@@ -52,3 +52,23 @@ void mx_find_flags_3(t_settings *settings, char flag) {
     else if (flag == 'c')
         settings->time = chg;
 }
+
+void mx_find_sorting_combination_flags(t_sorting_enum *sorting_mode,
+                                       char **flags) {
+    for (int i = mx_get_arr_length(flags) - 1; i >= 0; --i) {
+        if (flags[i][0] == 'c') {
+            *sorting_mode = chg_time;
+            break ;
+        }
+        else if (flags[i][0] == 'u') {
+            *sorting_mode = acc_time;
+            break ;
+        }
+        else if (flags[i][0] == 'U') {
+            *sorting_mode = crt_time;
+            break ;
+        }
+        else
+            *sorting_mode = mod_time;
+    }
+}
