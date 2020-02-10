@@ -6,7 +6,7 @@
 
 ## Description
 
-Implementation of the famous Unix command ```ls```, using the C programming 
+Implementation of the famous Unix command ```ls```, using the C programming
 language.
 
 For each operand that names a file of a type other than directory, ```uls```
