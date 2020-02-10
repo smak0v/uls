@@ -36,8 +36,10 @@ static void setup_sorting(char **flags, t_sorting_enum *sorting_mode) {
 static t_mode_enum process_mode(char flag) {
     t_mode_enum mode = columns;
 
-    if (flag == 'C' || flag == 'x')
+    if (flag == 'C')
         mode = columns;
+    else if (flag == 'x')
+        mode = x_columns;
     else if (flag == 'l' || flag == 'g' || flag == 'o' || flag == 'n')
         mode = table;
     else if (flag == 'm')

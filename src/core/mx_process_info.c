@@ -31,18 +31,6 @@ static void process_major_minor(t_data *data) {
 }
 
 static void proccess_extras(t_settings *settings, t_st st, t_data *data) {
-    if (settings->mode == table || settings->colored)
-        data->permissions = mx_get_permissions(st.st_mode);
-    if (settings->append_slash
-        || settings->append_type_sign
-        || settings->mode == table
-        || settings->colored)
-        data->mode = st.st_mode;
-    if (settings->print_inode)
-        data->inode = st.st_ino;
-}
-
-void mx_process_l(t_st st, t_data *data, t_settings *settings) {
     char *full_name = data->full_filename;
 
     if (settings->mode == table) {
@@ -53,11 +41,24 @@ void mx_process_l(t_st st, t_data *data, t_settings *settings) {
         data->links_count = st.st_nlink;
         data->owner = mx_get_owner(st.st_uid, settings);
         data->group = mx_get_group(st.st_gid, settings);
-        data->file_size = st.st_size;
         data->symlink = mx_get_symlink(data);
         data->st_rdev = st.st_rdev;
         process_major_minor(data);
     }
+    if (settings->sorting == size || settings->mode == table)
+        data->file_size = st.st_size;
     proccess_time(settings, st, data);
+}
+
+void mx_process_info(t_st st, t_data *data, t_settings *settings) {
+    if (settings->append_slash
+        || settings->append_type_sign
+        || settings->mode == table
+        || settings->colored)
+        data->mode = st.st_mode;
+    if (settings->mode == table || settings->colored)
+        data->permissions = mx_get_permissions(st.st_mode);
+    if (settings->print_inode)
+        data->inode = st.st_ino;
     proccess_extras(settings, st, data);
 }

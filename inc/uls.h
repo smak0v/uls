@@ -46,6 +46,7 @@ typedef struct s_lists {
 
 typedef enum e_modes {
     columns,
+    x_columns,
     table,
     commas,
     line_break
@@ -124,7 +125,6 @@ typedef struct s_settings {
     bool reverse; // -r
     bool format_size; // -h
     bool print_xattr; // -@
-    bool print_xcols; // -x
     bool full_time; // -T
     bool omit_group; // -o
     bool colored; // -G
@@ -168,7 +168,7 @@ typedef struct s_error {
 t_settings *mx_setup(char **flags);
 void mx_read_data(t_settings *setup, char **files, char *f);
 void mx_read_dir(t_settings *setup, char *dname);
-void mx_process_l(t_st st, t_data *data, t_settings *settings);
+void mx_process_info(t_st st, t_data *data, t_settings *settings);
 void mx_sort_data_list(t_list **data, t_settings *settings);
 void mx_proccess_output(t_list **list, t_settings *settings);
 void mx_process_files(t_settings *setup, char **files);

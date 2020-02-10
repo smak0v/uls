@@ -6,15 +6,17 @@ t_data *mx_write_data(t_settings *s, t_st st, char *full_fnm, char *fnm) {
     info->filename = mx_strdup(fnm);
     info->full_filename = mx_strdup(full_fnm);
     info->is_dir = MX_IS_DIR(st.st_mode);
-    mx_process_l(st, info, s);
+    mx_process_info(st, info, s);
     return info;
 }
 
 static void kostyl(t_list **data, char *dnm, t_settings *s) {
     t_st st;
 
-    if ((!mx_strcmp(dnm, "/dev/fd") || !mx_strcmp(dnm, "/dev/fd/")) && !(*data)->data) {
-        lstat("/dev/fd", &st);
+    if ((!mx_strcmp(dnm, "/dev/fd")
+        || !mx_strcmp(dnm, "/dev/fd/"))
+        && !(*data)->data) {
+        lstat(dnm, &st);
         (*data)->data = mx_write_data(s, st, mx_strdup(dnm), mx_strdup(dnm));
     }
 }

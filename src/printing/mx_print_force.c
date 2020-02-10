@@ -17,5 +17,5 @@ void mx_print_force(t_list **list, t_settings *settings) {
         next = next->next;
     }
     free(max_len);
-    max_len = NULL; 
+    max_len = NULL;
 }

@@ -9,7 +9,7 @@ static void process_dirlist(t_list **dirlist, t_settings *s, int fls_bool) {
         if (break_line || fls_bool)
             mx_printchar('\n');
         else
-            break_line = 1;   
+            break_line = 1;
         mx_read_dir(s, ((t_data *)node->data)->filename);
         node = node->next;
     }
@@ -24,17 +24,16 @@ static void process_errors(t_list **errors) {
 
 static t_list *dir_loop(t_settings *s, char **f, t_list **dls, t_list **fls) {
     t_list *errors = NULL;
-    DIR *dir;
+    DIR *dir = NULL;
     t_st st;
 
-    for (int i = 0; f && f[i]; i++) {
+    for (int i = 0; f && f[i]; ++i) {
         dir = opendir(f[i]);
         if (!lstat(f[i], &st) && dir)
             mx_push_back(dls, mx_write_data(s, st, f[i], f[i]));
         else {
-            if (errno == 20) {
+            if (errno == 20)
                 mx_push_back(fls, mx_write_data(s, st, f[i], f[i]));
-            }
             else if (errno == 2) {
                 mx_create_error(&errors, f[i]);
                 s->not_found = 1;

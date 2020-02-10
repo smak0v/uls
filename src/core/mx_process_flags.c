@@ -21,12 +21,12 @@ void mx_check_R(t_list *data, t_settings *s) {
         while (node) {
             t_data *info = node->data;
 
-            if (info->is_dir && mx_strcmp(info->filename, ".") 
+            if (info->is_dir && mx_strcmp(info->filename, ".")
                 && mx_strcmp(info->filename, "..")) {
                     mx_printchar('\n');
                     mx_read_data(s, NULL, info->full_filename);
                 }
-                
+
             node = node->next;
         }
     }

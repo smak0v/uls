@@ -10,8 +10,6 @@ void mx_find_flags(t_settings *settings, char **flags) {
             settings->format_size = true;
         else if (flags[i][0] == '@')
             settings->print_xattr = true;
-        else if (flags[i][0] == 'x')
-            settings->print_xcols = true;
         else if (flags[i][0] == 'T')
             settings->full_time = true;
         else if (flags[i][0] == 'p') {
