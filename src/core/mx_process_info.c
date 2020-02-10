@@ -33,6 +33,8 @@ static void process_major_minor(t_data *data) {
 static void proccess_extras(t_settings *settings, t_st st, t_data *data) {
     char *full_name = data->full_filename;
 
+    if (settings->sorting == size || settings->mode == table)
+        data->file_size = st.st_size;
     if (settings->mode == table) {
         data->xattr_value_length = -1;
         data->blocks_count = st.st_blocks;
@@ -45,8 +47,6 @@ static void proccess_extras(t_settings *settings, t_st st, t_data *data) {
         data->st_rdev = st.st_rdev;
         process_major_minor(data);
     }
-    if (settings->sorting == size || settings->mode == table)
-        data->file_size = st.st_size;
     proccess_time(settings, st, data);
 }
 

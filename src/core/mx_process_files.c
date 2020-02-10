@@ -30,7 +30,12 @@ static t_list *dir_loop(t_settings *s, char **f, t_list **dls, t_list **fls) {
     for (int i = 0; f && f[i]; ++i) {
         dir = opendir(f[i]);
         if (!lstat(f[i], &st) && dir)
-            mx_push_back(dls, mx_write_data(s, st, f[i], f[i]));
+            if (MX_IS_LNK(st.st_mode)
+                && f[i][mx_strlen(f[i])] != '/'
+                && s->mode == table)
+                mx_push_back(fls, mx_write_data(s, st, f[i], f[i]));
+            else
+                mx_push_back(dls, mx_write_data(s, st, f[i], f[i]));
         else {
             if (errno == 20)
                 mx_push_back(fls, mx_write_data(s, st, f[i], f[i]));
