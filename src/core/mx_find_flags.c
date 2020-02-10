@@ -4,6 +4,8 @@ void mx_find_flags(t_settings *settings, char **flags) {
     for (int i = 0; flags[i]; ++i) {
         if (flags[i][0] == 'r')
             settings->reverse = true;
+        else if (flags[i][0] == 'w')
+            settings->w = true;
         else if (flags[i][0] == 'n')
             settings->n = true;
         else if (flags[i][0] == 'h')
