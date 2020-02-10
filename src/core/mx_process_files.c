@@ -4,7 +4,10 @@ static void process_dirlist(t_list **dirlist, t_settings *s, int fls_bool) {
     t_list *node = (*dirlist)->next;
     int break_line = 0;
 
+    node = (*dirlist)->next;
     mx_sort_data_list(dirlist, s);
+    node = (*dirlist)->next;
+
     while (node) {
         if (break_line || fls_bool)
             mx_printchar('\n');
