@@ -41,7 +41,6 @@ static int gather_data(t_list **data, t_dnt *dir, t_settings *s, char *dnm) {
     info = mx_write_data(s, st, full_filename, dir->d_name);
     mx_push_back(data, (void *)info);
     mx_strdel(&full_filename);
-
     return 0;
 }
 

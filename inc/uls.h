@@ -187,6 +187,7 @@ void mx_create_error(t_list **errlist, char *fname);
 void mx_check_usage_error(char **flags, char **files);
 void mx_print_uls_error(t_list *err_list);
 void mx_clear_list(t_list **list);
+void mx_clear_err_list(t_list **list);
 
 // Utils
 char **mx_store_flags(int argc, char **argv);
