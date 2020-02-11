@@ -57,7 +57,6 @@ void mx_read_dir(t_settings *setup, char *dname) {
         mx_push_front(&data, NULL);
         while ((dirnt = readdir(dir)) != NULL) {
             errnum = gather_data(&data, dirnt, setup, dname);
-            errnum ? mx_create_error(&errors, dname) : (void)0;
         }
         closedir(dir);
         mx_sort_data_list(&data, setup);
