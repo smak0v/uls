@@ -21,7 +21,7 @@ static void process_dirlist(t_list **dirlist, t_settings *s, int fls_bool) {
 static void process_errors(t_list **errors) {
     mx_sort_errors(errors);
     mx_print_uls_error(*errors);
-    mx_clear_list(errors);
+    mx_clear_err_list(errors);
 }
 
 static bool save_file_or_error(t_settings *s, char *f, t_list **err) {
@@ -64,7 +64,6 @@ void mx_process_files(t_settings *setup, char **files) {
 
     ((t_data *)dirlist->data)->filename = mx_strdup("DIRS");
     ((t_data *)filelist->data)->filename = mx_strdup(FILES);
-
     errors = dir_loop(setup, files, &dirlist, &filelist);
     process_errors(&errors);
 
