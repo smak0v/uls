@@ -7,7 +7,8 @@ static void print_data(t_data *data, t_max_len *max_len, bool is_device_met,
     mx_print_acl_xattr_or_nothing(data);
     mx_print_spaces(max_len->links - mx_numlen(data->links_count));
     mx_printint(data->links_count);
-    mx_print_spaces(1);
+    if (!settings->omit_owner || !settings->omit_group)
+        mx_print_spaces(1);
     mx_print_owner_group(settings, data, max_len);
     settings->format_size ? mx_print_spaces(3) : mx_print_spaces(2);
     mx_print_size(data, max_len, is_device_met, settings);

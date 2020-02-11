@@ -34,20 +34,17 @@ static t_list *dir_loop(t_settings *s, char **f, t_list **dls, t_list **fls) {
         dir = opendir(f[i]);
         if (!lstat(f[i], &st) && dir)
             if (MX_IS_LNK(st.st_mode)
-                && f[i][mx_strlen(f[i])] != '/'
-                && s->mode == table)
+                && f[i][mx_strlen(f[i])] != '/' && s->mode == table)
                 mx_push_back(fls, mx_write_data(s, st, f[i], f[i]));
             else
                 mx_push_back(dls, mx_write_data(s, st, f[i], f[i]));
         else {
-            if (errno == 20)
+            if (errno == 20 && f[i][mx_strlen(f[i]) - 1] != '/')
                 mx_push_back(fls, mx_write_data(s, st, f[i], f[i]));
-            else if (errno == 2) {
+            else {
                 mx_create_error(&errors, f[i]);
                 s->not_found = 1;
             }
-            else
-                mx_create_error(&errors, f[i]);
         }
     }
     return errors;

@@ -1,7 +1,7 @@
 #include "uls.h"
 
 t_data *mx_write_data(t_settings *s, t_st st, char *full_fnm, char *fnm) {
-    t_data *info = malloc(sizeof(t_data));
+    t_data *info = mx_memalloc(sizeof(t_data));
 
     info->filename = mx_strdup(fnm);
     info->full_filename = mx_strdup(full_fnm);
@@ -57,8 +57,7 @@ void mx_read_dir(t_settings *setup, char *dname) {
         mx_push_front(&data, NULL);
         while ((dirnt = readdir(dir)) != NULL) {
             errnum = gather_data(&data, dirnt, setup, dname);
-            if (errnum)
-                mx_create_error(&errors, dname);
+            errnum ? mx_create_error(&errors, dname) : (void)0;
         }
         closedir(dir);
         mx_sort_data_list(&data, setup);
