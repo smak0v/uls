@@ -17,7 +17,7 @@ static void kostyl(t_list **data, char *dnm, t_settings *s) {
         || !mx_strcmp(dnm, "/dev/fd/"))
         && !(*data)->data) {
         lstat(dnm, &st);
-        (*data)->data = mx_write_data(s, st, mx_strdup(dnm), mx_strdup(dnm));
+        (*data)->data = mx_write_data(s, st, dnm, dnm);
     }
 }
 

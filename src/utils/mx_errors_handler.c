@@ -35,8 +35,9 @@ void mx_print_uls_error(t_list *err_list) {
 
     while (node) {
         t_error *error = node->data;
+
         if (error->error == 13) {
-            mx_push_back(&tmp, error->filename);
+            mx_push_back(&tmp, mx_strdup(error->filename));
             node = node->next;
             continue ;
         }
@@ -48,4 +49,5 @@ void mx_print_uls_error(t_list *err_list) {
     }
     if (tmp)
         permission_denied(&tmp);
+    mx_clear_err_list(&err_list);
 }

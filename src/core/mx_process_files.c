@@ -21,7 +21,6 @@ static void process_dirlist(t_list **dirlist, t_settings *s, int fls_bool) {
 static void process_errors(t_list **errors) {
     mx_sort_errors(errors);
     mx_print_uls_error(*errors);
-    mx_clear_err_list(errors);
 }
 
 static bool save_file_or_error(t_settings *s, char *f, t_list **err) {
@@ -40,7 +39,7 @@ static t_list *dir_loop(t_settings *s, char **f, t_list **dls, t_list **fls) {
 
     for (int i = 0; f && f[i]; ++i) {
         dir = opendir(f[i]);
-        if (!lstat(f[i], &st) && dir)
+        if ((!lstat(f[i], &st) && dir) || errno == 13)
             if (MX_IS_LNK(st.st_mode)
                 && f[i][mx_strlen(f[i])] != '/' && s->mode == table)
                 mx_push_back(fls, mx_write_data(s, st, f[i], f[i]));

@@ -12,6 +12,6 @@ int main(int argc, char *argv[]) {
         exit_code = 1;
     mx_free_data(flags, settings);
     mx_del_strarr(&files);
-    system("leaks uls");
+    // system("leaks uls");
     return exit_code;
 }
