@@ -31,6 +31,7 @@ void mx_clear_tdata_list(t_list **list) {
 void mx_clear_err_list(t_list **list) {
     while (list && *list) {
         t_error *err = (*list)->data;
+
         mx_strdel(&(err->filename));
         free(err);
         mx_pop_front(list);
