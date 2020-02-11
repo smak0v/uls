@@ -14,10 +14,8 @@ static void free_t_data(t_data *tdata) {
     free(tdata->owner);
     free(tdata->group);
     free(tdata->symlink);
-    if (tdata->major)
-        free(tdata->major);
-    if (tdata->minor)
-        free(tdata->minor);
+    free(tdata->major);
+    free(tdata->minor);
     free(tdata);
     tdata = NULL;
 }

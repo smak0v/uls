@@ -16,13 +16,21 @@ static void process_dirlist(t_list **dirlist, t_settings *s, int fls_bool) {
         mx_read_dir(s, ((t_data *)node->data)->filename);
         node = node->next;
     }
-    mx_clear_list(dirlist);
 }
 
 static void process_errors(t_list **errors) {
     mx_sort_errors(errors);
     mx_print_uls_error(*errors);
     mx_clear_list(errors);
+}
+
+static bool save_file_or_error(t_settings *s, char *f, t_list **err) {
+    if (errno != 20 || f[mx_strlen(f) - 1] == '/') {
+        mx_create_error(err, f);
+        s->not_found = 1;
+        return false;
+    }
+    return true;
 }
 
 static t_list *dir_loop(t_settings *s, char **f, t_list **dls, t_list **fls) {
@@ -39,25 +47,23 @@ static t_list *dir_loop(t_settings *s, char **f, t_list **dls, t_list **fls) {
             else
                 mx_push_back(dls, mx_write_data(s, st, f[i], f[i]));
         else {
-            if (errno == 20 && f[i][mx_strlen(f[i]) - 1] != '/')
+            if (save_file_or_error(s, f[i], &errors))
                 mx_push_back(fls, mx_write_data(s, st, f[i], f[i]));
-            else {
-                mx_create_error(&errors, f[i]);
-                s->not_found = 1;
-            }
         }
+        if (dir)
+            closedir(dir);
     }
     return errors;
 }
 
 void mx_process_files(t_settings *setup, char **files) {
     t_list *errors = NULL;
-    t_list *dirlist = mx_create_node(malloc(sizeof(t_data)));
-    t_list *filelist = mx_create_node(malloc(sizeof(t_data)));
+    t_list *dirlist = mx_create_node(mx_memalloc(sizeof(t_data)));
+    t_list *filelist = mx_create_node(mx_memalloc(sizeof(t_data)));
     int files_bool = 0;
 
-    ((t_data *)dirlist->data)->filename = "DIRS";
-    ((t_data *)filelist->data)->filename = FILES;
+    ((t_data *)dirlist->data)->filename = mx_strdup("DIRS");
+    ((t_data *)filelist->data)->filename = mx_strdup(FILES);
 
     errors = dir_loop(setup, files, &dirlist, &filelist);
     process_errors(&errors);
@@ -65,10 +71,11 @@ void mx_process_files(t_settings *setup, char **files) {
     if (filelist->next) {
         mx_sort_data_list(&filelist, setup);
         mx_proccess_output(&filelist, setup);
-        // mx_clear_tdata_list(&filelist);
         files_bool = 1;
     }
+    mx_clear_tdata_list(&filelist);
 
     if (dirlist->next)
         process_dirlist(&dirlist, setup, files_bool);
+    mx_clear_tdata_list(&dirlist);
 }

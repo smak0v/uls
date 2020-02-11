@@ -32,7 +32,7 @@ static int gather_data(t_list **data, t_dnt *dir, t_settings *s, char *dnm) {
         return -1;
     }
     if (!mx_strcmp(dir->d_name, ".") && !(*data)->data) {
-        (*data)->data = mx_write_data(s, st, mx_strdup(dnm), mx_strdup(dnm));
+        (*data)->data = mx_write_data(s, st, dnm, dnm);
     }
     if (mx_check_flags(s, dir)) {
         mx_strdel(&full_filename);
@@ -40,6 +40,7 @@ static int gather_data(t_list **data, t_dnt *dir, t_settings *s, char *dnm) {
     }
     info = mx_write_data(s, st, full_filename, dir->d_name);
     mx_push_back(data, (void *)info);
+    mx_strdel(&full_filename);
 
     return 0;
 }
@@ -65,6 +66,7 @@ void mx_read_dir(t_settings *setup, char *dname) {
     }
     mx_print_uls_error(errors);
     mx_check_R(data, setup);
+    mx_clear_tdata_list(&data);
 }
 
 void mx_read_data(t_settings *setup, char **files, char *f) {
