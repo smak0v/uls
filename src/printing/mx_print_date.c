@@ -43,7 +43,7 @@ static void print(time_t date, int print_full_time) {
     str_date = ctime(&date);
     if (print_full_time) {
         print_full_date(str_date);
-        return ;
+        return;
     }
     now = time(NULL);
     diff = now - date;

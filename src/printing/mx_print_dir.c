@@ -8,7 +8,7 @@ void mx_print_dir(char *dirname, t_settings *settings) {
             mx_printstr(dirname);
             mx_printstr(":\n");
         }
-        return ;
+        return;
     }
     mx_printstr(dirname);
     mx_printstr(":\n");

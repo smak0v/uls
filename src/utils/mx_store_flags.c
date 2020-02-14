@@ -5,12 +5,14 @@ static int count_separated_flags(int argc, char **argv) {
 
     for (int i = 1; i < argc; ++i) {
         if (argv[i][0] == '-') {
+            if (mx_strlen(argv[i]) == 1)
+                break;
             if ((argv[i][1] == '-') && (mx_strlen(argv[i]) == 2))
-                break ;
+                break;
             ++separated_flags_count;
-            continue ;
+            continue;
         }
-        break ;
+        break;
     }
     return separated_flags_count;
 }

@@ -39,7 +39,7 @@ void mx_print_uls_error(t_list *err_list) {
         if (error->error == 13) {
             mx_push_back(&tmp, mx_strdup(error->filename));
             node = node->next;
-            continue ;
+            continue;
         }
         mx_print_error("uls: ");
         mx_print_error(error->filename);

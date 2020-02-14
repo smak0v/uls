@@ -31,14 +31,16 @@ static int count_flags_with_stop_flag(int argc, char **argv) {
 
     for (int i = 1; i < argc; ++i) {
         if (argv[i][0] == '-') {
+            if (mx_strlen(argv[i]) == 1)
+                break;
             if ((argv[i][1] == '-') && (mx_strlen(argv[i]) == 2)) {
                 ++count;
-                break ;
+                break;
             }
             ++count;
-            continue ;
+            continue;
         }
-        break ;
+        break;
     }
     return count;
 }

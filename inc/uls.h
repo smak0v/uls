@@ -42,7 +42,7 @@ typedef struct stat t_st;
 typedef struct s_lists {
     t_list **list;
     t_list *node;
-} t_lists;
+}              t_lists;
 
 typedef enum e_modes {
     columns,
@@ -50,7 +50,7 @@ typedef enum e_modes {
     table,
     commas,
     line_break
-} t_mode_enum;
+}            t_mode_enum;
 
 typedef enum e_sorting {
     unsorted,
@@ -60,14 +60,14 @@ typedef enum e_sorting {
     acc_time,
     crt_time,
     names
-} t_sorting_enum;
+}            t_sorting_enum;
 
 typedef enum e_timetype {
     mod,
     chg,
     acc,
     crt
-} t_time_enum;
+}            t_time_enum;
 
 typedef struct s_data {
     char *filename;
@@ -109,7 +109,7 @@ typedef struct s_data {
     long last_changed_nsec;
 
     ino_t inode;
-} t_data;
+}              t_data;
 
 typedef struct s_settings {
     t_mode_enum mode;
@@ -137,7 +137,7 @@ typedef struct s_settings {
     bool A; // -A
     bool R; // -R
     bool w; // -w
-} t_settings;
+}              t_settings;
 
 typedef struct s_max_len {
     int filenames;
@@ -147,7 +147,7 @@ typedef struct s_max_len {
     int sizes;
     int xattrs_sizes;
     int inodes;
-} t_max_len;
+}              t_max_len;
 
 typedef struct s_colunms_info {
     t_max_len *max;
@@ -162,7 +162,7 @@ typedef struct s_colunms_info {
 typedef struct s_error {
     char *filename;
     int error;
-} t_error;
+}              t_error;
 
 // Functions
 // Core

@@ -18,19 +18,19 @@ static void add_preffix(char *size, int pow) {
     switch (pow) {
         case 10:
             size[3] = 'K';
-            break ;
+            break;
         case 20:
             size[3] = 'M';
-            break ;
+            break;
         case 30:
             size[3] = 'G';
-            break ;
+            break;
         case 40:
             size[3] = 'T';
-            break ;
+            break;
         case 50:
             size[3] = 'P';
-            break ;
+            break;
     }
 }
 

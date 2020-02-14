@@ -37,7 +37,7 @@ t_max_len *max) {
         if ((mx_list_size(node1) % info->cols))
             mx_printchar('\n');
         if (info->i % info->cols)
-            break ;
+            break;
     }
     free(info);
     info = NULL;

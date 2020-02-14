@@ -13,7 +13,7 @@ void mx_check_R(t_list *data, t_settings *s) {
     t_list *node = NULL;
 
     if (!data) {
-        return ;
+        return;
     }
     node = data->next;
 

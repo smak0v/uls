@@ -16,7 +16,7 @@ static void setup_sorting(char **flags, t_sorting_enum *sorting_mode) {
     for (; len >= 0; --len) {
         if (flags[len][0] == 'f') {
             *sorting_mode = unsorted;
-            break ;
+            break;
         }
         else if (flags[len][0] == 'S')
             *sorting_mode = size;
@@ -53,11 +53,11 @@ static void setup_mode(char **flags, t_mode_enum *output_mode) {
                     && find_flag(flags, 'm', len, mx_strarr_len(flags) - 1))
                     *output_mode = commas;
                 fish = 1;
-                break ;
+                break;
             }
         }
         if (fish)
-            break ;
+            break;
     }
 }
 

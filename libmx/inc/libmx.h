@@ -11,7 +11,7 @@
 typedef struct s_list {
     void *data;
     struct s_list *next;
-} t_list;
+}              t_list;
 
 // Utils pack
 void mx_printchar(char c);

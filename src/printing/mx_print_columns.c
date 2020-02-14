@@ -34,7 +34,7 @@ static void print_columns(t_list **list, t_settings *settings,
         if ((mx_list_size(node1) % info->rows + 1))
             mx_printchar('\n');
         if (!(info->i % info->rows))
-            break ;
+            break;
     }
     free(info);
     info = NULL;
