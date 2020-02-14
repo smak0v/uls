@@ -41,7 +41,7 @@ void mx_print_long(t_list **list, t_settings *settings) {
 
     mx_print_dir(tmp, settings);
     settings->is_first = false;
-    if (mx_strcmp(tmp, FILES))
+    if (mx_strcmp(tmp, FILES) && mx_list_size(node) > 1)
         mx_print_total(node->next);
     long_output(list, settings);
 }
