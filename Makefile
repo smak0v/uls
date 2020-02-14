@@ -158,9 +158,9 @@ CFLAGS = -std=c11 -Wall -Wextra -Werror -Wpedantic
 
 all : install
 
-install : libmx.a uls
+install : libmx/libmx.a uls
 
-libmx.a:
+libmx/libmx.a:
 	@make -C $(LIBMXF)
 
 uls : $(SRC) inc/uls.h libmx/libmx.a
